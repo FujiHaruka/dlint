@@ -1,8 +1,22 @@
 {
   "name": "dlint",
   "description": "Inter-module dependencies lint",
-  "repository": "https://github.com/FujiHaruka/dlint",
   "author": "FujiHaruka",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "repository": "https://github.com/FujiHaruka/dlint",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^12.12.8",
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.6.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.2"
+  }
 }

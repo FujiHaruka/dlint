@@ -1,0 +1,10 @@
+{
+  "name": "@dlint/deps",
+  "version": "0.0.1",
+  "description": "Dependencies graph nodes for dlint",
+  "repository": "https://github.com/FujiHaruka/dlint",
+  "author": "FujiHaruka",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {}
+}
