@@ -1,0 +1,8 @@
+{
+  "name": "dlint",
+  "description": "Inter-module dependencies lint",
+  "repository": "https://github.com/FujiHaruka/dlint",
+  "author": "FujiHaruka",
+  "license": "MIT",
+  "private": true
+}
