@@ -1,10 +1,10 @@
 import assert from 'assert'
 import Module from 'module'
 
-import { DlintModule, DlintModuleTypes } from './DlintModule'
+import { ModuleBase, ModuleTypes } from './ModuleBase'
 
 export class BuiltinModule {
-  type = DlintModuleTypes.BUILTIN
+  type = ModuleTypes.BUILTIN
   name: string
 
   constructor(name: string) {
@@ -15,7 +15,7 @@ export class BuiltinModule {
     this.name = name
   }
 
-  static is(mod: DlintModule): boolean {
-    return mod.type === DlintModuleTypes.BUILTIN
+  static is(mod: ModuleBase): boolean {
+    return mod.type === ModuleTypes.BUILTIN
   }
 }

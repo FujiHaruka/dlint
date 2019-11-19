@@ -1,10 +1,10 @@
 import assert from 'assert'
 import path from 'path'
 
-import { DlintModuleTypes, DlintModule } from './DlintModule'
+import { ModuleTypes, ModuleBase } from './ModuleBase'
 
 export class PackageModule {
-  type = DlintModuleTypes.PACKAGE
+  type = ModuleTypes.PACKAGE
   name: string
 
   constructor(name: string) {
@@ -15,7 +15,7 @@ export class PackageModule {
     this.name = name
   }
 
-  static is(mod: DlintModule): boolean {
-    return mod.type === DlintModuleTypes.PACKAGE
+  static is(mod: ModuleBase): boolean {
+    return mod.type === ModuleTypes.PACKAGE
   }
 }

@@ -1,10 +1,10 @@
 import path from 'path'
 import { strict as assert } from 'assert'
 
-import { DlintModule, DlintModuleTypes } from './DlintModule'
+import { ModuleBase, ModuleTypes } from './ModuleBase'
 
 export class LocalModule {
-  type = DlintModuleTypes.LOCAL
+  type = ModuleTypes.LOCAL
   name: string
   path: string
 
@@ -17,7 +17,7 @@ export class LocalModule {
     this.path = filepath
   }
 
-  static is(mod: DlintModule): boolean {
-    return mod.type === DlintModuleTypes.LOCAL
+  static is(mod: ModuleBase): boolean {
+    return mod.type === ModuleTypes.LOCAL
   }
 }
