@@ -2,15 +2,6 @@
   "name": "dlint",
   "description": "Inter-module dependencies lint",
   "author": "FujiHaruka",
-  "license": "MIT",
-  "private": true,
-  "repository": "https://github.com/FujiHaruka/dlint",
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
-    "test": "jest --silent false --coverage"
-  },
   "devDependencies": {
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.8",
@@ -24,5 +15,15 @@
     "prettier": "^1.19.1",
     "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
-  }
+  },
+  "license": "MIT",
+  "private": true,
+  "repository": "https://github.com/FujiHaruka/dlint",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --silent false --coverage"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
