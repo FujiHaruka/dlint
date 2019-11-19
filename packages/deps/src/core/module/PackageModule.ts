@@ -1,7 +1,7 @@
 import assert from 'assert'
 import path from 'path'
 
-import { ModuleTypes, ModuleBase } from './ModuleBase'
+import { ModuleTypes, AbstractModule } from './AbstractModule'
 
 export class PackageModule {
   type = ModuleTypes.PACKAGE
@@ -15,7 +15,7 @@ export class PackageModule {
     this.name = name
   }
 
-  static is(mod: ModuleBase): boolean {
+  static is(mod: AbstractModule): mod is PackageModule {
     return mod.type === ModuleTypes.PACKAGE
   }
 }

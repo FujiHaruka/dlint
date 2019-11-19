@@ -1,7 +1,7 @@
 import path from 'path'
 import { strict as assert } from 'assert'
 
-import { ModuleBase, ModuleTypes } from './ModuleBase'
+import { AbstractModule, ModuleTypes } from './AbstractModule'
 
 export class LocalModule {
   type = ModuleTypes.LOCAL
@@ -17,7 +17,7 @@ export class LocalModule {
     this.path = filepath
   }
 
-  static is(mod: ModuleBase): boolean {
+  static is(mod: AbstractModule): mod is LocalModule {
     return mod.type === ModuleTypes.LOCAL
   }
 }

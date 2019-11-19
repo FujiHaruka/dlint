@@ -1,4 +1,4 @@
-export interface ModuleBase {
+export interface AbstractModule {
   type: 'builtin' | 'package' | 'local'
   name: string
 }

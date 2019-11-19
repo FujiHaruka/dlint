@@ -1,7 +1,7 @@
 import assert from 'assert'
 import Module from 'module'
 
-import { ModuleBase, ModuleTypes } from './ModuleBase'
+import { AbstractModule, ModuleTypes } from './AbstractModule'
 
 export class BuiltinModule {
   type = ModuleTypes.BUILTIN
@@ -15,7 +15,7 @@ export class BuiltinModule {
     this.name = name
   }
 
-  static is(mod: ModuleBase): boolean {
+  static is(mod: AbstractModule): mod is BuiltinModule {
     return mod.type === ModuleTypes.BUILTIN
   }
 }
