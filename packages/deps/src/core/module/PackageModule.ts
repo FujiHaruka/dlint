@@ -1,3 +1,6 @@
+import assert from 'assert'
+import path from 'path'
+
 import { DlintModuleTypes, DlintModule } from './DlintModule'
 
 export class PackageModule {
@@ -5,7 +8,10 @@ export class PackageModule {
   name: string
 
   constructor(name: string) {
-    // TODO: Assertion
+    assert.ok(
+      !path.isAbsolute(name),
+      `PackageModule must not be absolute path: ${name}`,
+    )
     this.name = name
   }
 
