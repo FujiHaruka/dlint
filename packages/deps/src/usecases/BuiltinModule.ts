@@ -4,20 +4,13 @@ import {
   DlintBuiltinModule,
 } from '../entities/DlintModule'
 
-export const isBuiltinModule = (mod: DlintModule): boolean =>
-  mod.type === DlintModuleTypes.BUILTIN
-
 export class BuiltinModule implements DlintBuiltinModule {
   type = DlintModuleTypes.BUILTIN
   name: string
 
-  private constructor(name: string) {
-    this.name = name
-  }
-
-  static create(name: string): BuiltinModule {
+  constructor(name: string) {
     // TODO: Assertion
-    return new BuiltinModule(name)
+    this.name = name
   }
 
   static is(mod: DlintModule): boolean {

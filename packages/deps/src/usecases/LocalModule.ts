@@ -12,17 +12,13 @@ export class LocalModule implements DlintLocalModule {
   name: string
   path: string
 
-  private constructor(path: string) {
-    this.name = path
-    this.path = path
-  }
-
-  static create(filepath: string): LocalModule {
+  constructor(filepath: string) {
     assert.ok(
       path.isAbsolute(filepath),
       `LocalModule path must be absolute path: "${filepath}"`,
     )
-    return new LocalModule(filepath)
+    this.name = filepath
+    this.path = filepath
   }
 
   static is(mod: DlintModule): boolean {

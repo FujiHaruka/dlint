@@ -1,6 +1,6 @@
 import { PackageModule } from '../../src/usecases/PackageModule'
 
 it('works', () => {
-  const mod = PackageModule.create('awesome-package')
+  const mod = new PackageModule('awesome-package')
   expect(PackageModule.is(mod)).toBeTruthy()
 })

@@ -8,13 +8,9 @@ export class PackageModule implements DlintPackageModule {
   type = DlintModuleTypes.PACKAGE
   name: string
 
-  private constructor(name: string) {
-    this.name = name
-  }
-
-  static create(name: string): PackageModule {
+  constructor(name: string) {
     // TODO: Assertion
-    return new PackageModule(name)
+    this.name = name
   }
 
   static is(mod: DlintModule): boolean {
