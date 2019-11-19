@@ -23,3 +23,5 @@ rules:
   "import/order": ["error", {"newlines-between": "always"}]
   # disabled rules
   "@typescript-eslint/explicit-member-accessibility": off
+  # other rules
+  "@typescript-eslint/unbound-method": ["error", { "ignoreStatic": true }]
