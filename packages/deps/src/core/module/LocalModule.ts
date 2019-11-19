@@ -1,13 +1,9 @@
 import path from 'path'
 import { strict as assert } from 'assert'
 
-import {
-  DlintModule,
-  DlintModuleTypes,
-  DlintLocalModule,
-} from '../entities/DlintModule'
+import { DlintModule, DlintModuleTypes } from './DlintModule'
 
-export class LocalModule implements DlintLocalModule {
+export class LocalModule {
   type = DlintModuleTypes.LOCAL
   name: string
   path: string

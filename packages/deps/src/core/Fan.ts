@@ -2,7 +2,7 @@ import {
   DlintLocalModule,
   DlintPackageModule,
   DlintBuiltinModule,
-} from './DlintModule'
+} from './module/DlintModule'
 
 export interface Fanin {
   locals: DlintLocalModule[]

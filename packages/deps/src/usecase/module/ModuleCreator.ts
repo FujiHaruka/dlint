@@ -1,9 +1,9 @@
 import path from 'path'
 import Module from 'module'
 
-import { LocalModule } from './LocalModule'
-import { PackageModule } from './PackageModule'
-import { BuiltinModule } from './BuiltinModule'
+import { LocalModule } from '../../core/module/LocalModule'
+import { BuiltinModule } from '../../core/module/BuiltinModule'
+import { PackageModule } from '../../core/module/PackageModule'
 
 const isPath = (str: string): boolean =>
   path.isAbsolute(str) || str.startsWith('./')

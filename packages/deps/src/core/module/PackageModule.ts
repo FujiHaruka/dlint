@@ -1,10 +1,6 @@
-import {
-  DlintPackageModule,
-  DlintModuleTypes,
-  DlintModule,
-} from '../entities/DlintModule'
+import { DlintModuleTypes, DlintModule } from './DlintModule'
 
-export class PackageModule implements DlintPackageModule {
+export class PackageModule {
   type = DlintModuleTypes.PACKAGE
   name: string
 

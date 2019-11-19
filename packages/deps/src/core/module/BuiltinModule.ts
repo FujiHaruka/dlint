@@ -1,10 +1,6 @@
-import {
-  DlintModule,
-  DlintModuleTypes,
-  DlintBuiltinModule,
-} from '../entities/DlintModule'
+import { DlintModule, DlintModuleTypes } from './DlintModule'
 
-export class BuiltinModule implements DlintBuiltinModule {
+export class BuiltinModule {
   type = DlintModuleTypes.BUILTIN
   name: string
 
