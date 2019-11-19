@@ -21,7 +21,9 @@
   "repository": "https://github.com/FujiHaruka/dlint",
   "scripts": {
     "build": "tsc",
-    "test": "jest --silent false --coverage"
+    "eslint": "eslint packages/**/*.ts",
+    "test": "jest --silent false",
+    "test:all": "jest --coverage"
   },
   "workspaces": [
     "packages/*"
