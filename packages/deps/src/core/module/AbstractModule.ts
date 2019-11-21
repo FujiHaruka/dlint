@@ -1,10 +1,10 @@
 export interface AbstractModule {
-  type: 'builtin' | 'package' | 'local'
+  type: 'module:builtin' | 'module:package' | 'module:local'
   name: string
 }
 
 export const ModuleTypes = {
-  BUILTIN: 'builtin',
-  PACKAGE: 'package',
-  LOCAL: 'local',
+  BUILTIN: 'module:builtin',
+  PACKAGE: 'module:package',
+  LOCAL: 'module:local',
 } as const

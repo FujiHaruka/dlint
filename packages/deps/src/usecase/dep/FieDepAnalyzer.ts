@@ -8,7 +8,7 @@ import { PackageModule } from '../../core/module/PackageModule'
 import { BuiltinModule } from '../../core/module/BuiltinModule'
 
 export interface FileDepParser {
-  parse: (source: string) => string[]
+  parse: (code: string) => string[]
 }
 
 export class FileDepAnalyzer {
