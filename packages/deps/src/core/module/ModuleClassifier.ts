@@ -1,8 +1,8 @@
 import path from 'path'
 
-import { LocalModule } from '../../core/module/LocalModule'
-import { BuiltinModule } from '../../core/module/BuiltinModule'
-import { PackageModule } from '../../core/module/PackageModule'
+import { LocalModule } from './LocalModule'
+import { BuiltinModule } from './BuiltinModule'
+import { PackageModule } from './PackageModule'
 
 const isInNodeModules = (filepath: string): boolean =>
   filepath.includes('/node_modules/')

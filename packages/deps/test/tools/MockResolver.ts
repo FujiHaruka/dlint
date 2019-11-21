@@ -1,7 +1,7 @@
 import Module from 'module'
 import { resolve } from 'path'
 
-import { ModuleResolver } from '../../src/usecase/module/ModuleClassifier'
+import { ModuleResolver } from '../../src/core/module/ModuleClassifier'
 
 export class MockModuleResolver implements ModuleResolver {
   projectRoot: string

@@ -1,7 +1,8 @@
-import { FileDep } from '../../core/dep/FileDep'
-import { DepNode } from '../../core/dep/DepNode'
-import { Fanin } from '../../core/dep/Fan'
-import { LocalModule } from '../../core/module/LocalModule'
+import { LocalModule } from '../module/LocalModule'
+
+import { FileDep } from './FileDep'
+import { DepNode } from './DepNode'
+import { Fanin } from './Fan'
 
 const FaninResolver = (fileDeps: FileDep[]): ((filePath: string) => Fanin) => {
   const faninMap: { [path: string]: Set<LocalModule> } = {}

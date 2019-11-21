@@ -1,11 +1,12 @@
 import path from 'path'
 import { promises as fs } from 'fs'
 
-import { FileDep } from '../../core/dep/FileDep'
 import { ModuleClassifier } from '../module/ModuleClassifier'
-import { LocalModule } from '../../core/module/LocalModule'
-import { PackageModule } from '../../core/module/PackageModule'
-import { BuiltinModule } from '../../core/module/BuiltinModule'
+import { LocalModule } from '../module/LocalModule'
+import { PackageModule } from '../module/PackageModule'
+import { BuiltinModule } from '../module/BuiltinModule'
+
+import { FileDep } from './FileDep'
 
 export interface FileDepParser {
   parse: (code: string) => string[]

@@ -1,8 +1,8 @@
 import { parse } from '@typescript-eslint/typescript-estree'
 
 import { ParserAdapter } from '../../../src/adapter/ParserAdapter'
-import { FileDepAnalyzer } from '../../../src/usecase/dep/FieDepAnalyzer'
-import { ModuleClassifier } from '../../../src/usecase/module/ModuleClassifier'
+import { FileDepAnalyzer } from '../../../src/core/dep/FieDepAnalyzer'
+import { ModuleClassifier } from '../../../src/core/module/ModuleClassifier'
 import { MockModuleResolver } from '../../tools/MockResolver'
 import { ModuleTypes } from '../../../src/core/module/AbstractModule'
 

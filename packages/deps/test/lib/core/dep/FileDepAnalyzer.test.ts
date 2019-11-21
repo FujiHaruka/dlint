@@ -1,8 +1,8 @@
 import {
   FileDepAnalyzer,
   FileDepParser,
-} from '../../../../src/usecase/dep/FieDepAnalyzer'
-import { ModuleClassifier } from '../../../../src/usecase/module/ModuleClassifier'
+} from '../../../../src/core/dep/FieDepAnalyzer'
+import { ModuleClassifier } from '../../../../src/core/module/ModuleClassifier'
 
 it('works', () => {
   const mockParser: FileDepParser = {

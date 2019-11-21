@@ -1,4 +1,4 @@
-import { FileDepParser } from '../usecase/dep/FieDepAnalyzer'
+import { FileDepParser } from '../core/dep/FieDepAnalyzer'
 
 export const ParserAdapter = {
   adapt(parse: (code: string) => any): FileDepParser {
