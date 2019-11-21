@@ -12,11 +12,11 @@ const FaninResolver = (fileDeps: FileDep[]): ((filePath: string) => Fanin) => {
       if (!faninMap[path]) {
         faninMap[path] = new Set<LocalModule>()
       }
-      faninMap[path].add(new LocalModule(path))
+      faninMap[path].add(new LocalModule(dep.file))
     }
   }
   const resolveFanin = (filePath: string): Fanin => ({
-    locals: Array.from(faninMap[filePath]),
+    locals: Array.from(faninMap[filePath] || []),
   })
   return resolveFanin
 }
