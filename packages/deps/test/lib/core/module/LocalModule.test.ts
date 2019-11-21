@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { LocalModule } from '../../../src/core/module/LocalModule'
+import { LocalModule } from '../../../../src/core/module/LocalModule'
 
 it('works', () => {
   const mod = new LocalModule(path.resolve('./awesome'))
