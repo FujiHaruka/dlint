@@ -30,7 +30,7 @@ it('works', () => {
     parser: mockParser,
     classifier,
   })
-  const fileDep = analyzer.fromSource('module.js', '')
+  const fileDep = analyzer.fromSource('/project/module.js', '')
   expect(fileDep.fanout.locals).toHaveLength(1)
   expect(fileDep.fanout.packages).toHaveLength(1)
   expect(fileDep.fanout.builtins).toHaveLength(1)

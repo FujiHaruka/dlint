@@ -26,9 +26,9 @@ export const FOO = 1
     }),
   })
 
-  const dep = analyzer.fromSource('file.ts', code)
+  const dep = analyzer.fromSource('/project/file.ts', code)
   expect(dep).toEqual({
-    file: 'file.ts',
+    file: '/project/file.ts',
     fanout: {
       locals: [
         {
