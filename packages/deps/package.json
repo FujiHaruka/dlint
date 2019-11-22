@@ -6,5 +6,7 @@
   "author": "FujiHaruka",
   "license": "MIT",
   "private": false,
-  "dependencies": {}
+  "dependencies": {
+    "acorn": "^7.1.0"
+  }
 }
