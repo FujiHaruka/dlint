@@ -19,14 +19,12 @@ export const FOO = 1
 `
   const parsers: Parser[] = [
     {
-      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       parse: (code: string) =>
         acornParse(code, {
           sourceType: 'module',
         }),
     },
     {
-      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       parse: (code: string) => tsParse(code),
     },
   ]
