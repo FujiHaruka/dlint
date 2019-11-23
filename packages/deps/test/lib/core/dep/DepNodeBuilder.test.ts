@@ -1,6 +1,6 @@
 import { DepNodeBuilder } from '../../../../src/core/dep/DepNodeBuilder'
 import { FileDep } from '../../../../src/core/dep/FileDep'
-import { LocalModule } from '../../../../src/core/module/LocalModule'
+import { ModuleTypes } from '../../../../src/core/module/DLintModule'
 
 it('works', () => {
   const fileDeps = Object.entries({
@@ -11,7 +11,10 @@ it('works', () => {
   }).map(
     ([file, locals]) =>
       new FileDep(file, {
-        locals: locals.map((file) => new LocalModule(file)),
+        locals: locals.map((file) => ({
+          type: ModuleTypes.LOCAL,
+          path: file,
+        })),
         packages: [],
         builtins: [],
       }),

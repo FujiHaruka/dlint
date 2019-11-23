@@ -2,7 +2,6 @@ import {
   FileDepAnalyzer,
   FileDepParser,
 } from '../../../../src/core/dep/FieDepAnalyzer'
-import { ModuleClassifier } from '../../../../src/core/module/ModuleClassifier'
 import { MockModuleResolver } from '../../../tools/MockModuleResolver'
 
 it('works', async () => {
@@ -11,12 +10,9 @@ it('works', async () => {
       return ['./baz', 'xxx', 'fs']
     },
   }
-  const classifier = new ModuleClassifier({
-    resolver: new MockModuleResolver({ rootFile: '/project/root.js' }),
-  })
   const analyzer = new FileDepAnalyzer({
     parser: mockParser,
-    classifier,
+    resolver: new MockModuleResolver(),
   })
   const fileDep = await analyzer.fromSource('/project/module.js', '')
   expect(fileDep.fanout.locals).toHaveLength(1)

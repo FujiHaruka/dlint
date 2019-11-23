@@ -1,19 +1,19 @@
 import { join } from 'path'
 
 import { ModuleResolver } from '../../../src/resolver/ModuleResolver'
-import { ModuleTypes } from '../../../src/core/module/AbstractModule'
+import { ModuleTypes } from '../../../src/core/module/DLintModule'
 
 it('works', async () => {
   const projectRoot = join(__dirname, '../../fixtures/resolver-project')
-  const resolver = new ModuleResolver({
-    rootFile: join(projectRoot, 'root.js'),
-  })
+  const rootFile = join(projectRoot, 'root.js')
+  const resolver = new ModuleResolver()
+  const resolve = (name: string) => resolver.resolve(rootFile, name)
 
-  await expect(resolver.resolve('fs')).resolves.toEqual({
+  await expect(resolve('fs')).resolves.toEqual({
     type: ModuleTypes.BUILTIN,
     name: 'fs',
   })
-  await expect(resolver.resolve('some-package')).resolves.toEqual({
+  await expect(resolve('some-package')).resolves.toEqual({
     type: ModuleTypes.PACKAGE,
     name: 'some-package',
   })
@@ -34,14 +34,14 @@ it('works', async () => {
     ['./baz-package', './baz-package/index.js'],
   ]
   for (const [name, expected] of locals) {
-    await expect(resolver.resolve(name)).resolves.toEqual({
+    await expect(resolve(name)).resolves.toEqual({
       type: ModuleTypes.LOCAL,
-      name: join(projectRoot, expected),
+      path: join(projectRoot, expected),
     })
   }
   const localFailings = ['./x', './a.json']
   for (const name of localFailings) {
-    await expect(resolver.resolve(name)).rejects.toMatchObject({
+    await expect(resolve(name)).rejects.toMatchObject({
       code: 'MODULE_NOT_FOUND',
     })
   }

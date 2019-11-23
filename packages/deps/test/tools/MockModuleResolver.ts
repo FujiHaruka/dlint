@@ -1,20 +1,12 @@
 import Module from 'module'
 import { join, dirname } from 'path'
 
-import { DLintModuleResolver } from '../../src/core/module/ModuleClassifier'
-import {
-  AbstractModule,
-  ModuleTypes,
-} from '../../src/core/module/AbstractModule'
+import { DLintModuleResolver } from '../../src/core/module/DLintModuleResolver'
+import { DLintModule, ModuleTypes } from '../../src/core/module/DLintModule'
 
 export class MockModuleResolver implements DLintModuleResolver {
-  root: string
-
-  constructor({ rootFile }: { rootFile: string }) {
-    this.root = dirname(rootFile)
-  }
-
-  async resolve(name: string): Promise<AbstractModule> {
+  async resolve(from: string, name: string): Promise<DLintModule> {
+    const root = dirname(from)
     if (Module.builtinModules.includes(name)) {
       return Promise.resolve({
         type: ModuleTypes.BUILTIN,
@@ -24,7 +16,7 @@ export class MockModuleResolver implements DLintModuleResolver {
     if (name.startsWith('.')) {
       return Promise.resolve({
         type: ModuleTypes.LOCAL,
-        name: join(this.root, name),
+        path: join(root, name),
       })
     } else {
       return Promise.resolve({
