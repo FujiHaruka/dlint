@@ -1,4 +1,4 @@
-import { LocalModule } from '../module/LocalModule'
+import { LocalModule, ModuleTypes } from '../module/DLintModule'
 
 import { FileDep } from './FileDep'
 import { DepNode } from './DepNode'
@@ -12,7 +12,10 @@ const FaninResolver = (fileDeps: FileDep[]): ((filePath: string) => Fanin) => {
       if (!faninMap[path]) {
         faninMap[path] = new Set<LocalModule>()
       }
-      faninMap[path].add(new LocalModule(dep.file))
+      faninMap[path].add({
+        type: ModuleTypes.LOCAL,
+        path: dep.file,
+      })
     }
   }
   const resolveFanin = (filePath: string): Fanin => ({

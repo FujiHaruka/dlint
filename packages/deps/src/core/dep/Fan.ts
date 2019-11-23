@@ -1,6 +1,8 @@
-import { LocalModule } from '../module/LocalModule'
-import { PackageModule } from '../module/PackageModule'
-import { BuiltinModule } from '../module/BuiltinModule'
+import {
+  LocalModule,
+  PackageModule,
+  BuiltinModule,
+} from '../module/DLintModule'
 
 export interface Fanin {
   locals: LocalModule[]
