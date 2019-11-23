@@ -84,7 +84,9 @@ it('works with CJS', () => {
   const code = `
 const fs = require('fs')
 require('core-js/stable')
-const { MockModuleResolver } = require('../../tools/MockResolver')
+const { MockModuleResolver } = require('./tools/MockResolver')
+const name = 'foo'
+require(name) // should be skipped
 
 module.exports = 1
 `
@@ -100,6 +102,15 @@ module.exports = 1
     }),
   })
   const dep = analyzer.fromSource('/project/file.ts', code)
-  console.log(dep)
-  // TODO: EMS と CJS は全く違うので ParserAdapter の実装が必要
+  expect(dep.fanout).toEqual({
+    locals: [
+      {
+        type: 'module:local',
+        name: '/project/tools/MockResolver',
+        path: '/project/tools/MockResolver',
+      },
+    ],
+    packages: [{ type: 'module:package', name: 'core-js/stable' }],
+    builtins: [{ type: 'module:builtin', name: 'fs' }],
+  })
 })
