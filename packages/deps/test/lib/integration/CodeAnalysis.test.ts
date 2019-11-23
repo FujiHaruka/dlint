@@ -1,7 +1,7 @@
 import { parse as tsParse } from '@typescript-eslint/typescript-estree'
 import { parse as acornParse } from 'acorn'
 
-import { ParserAdapter } from '../../../src/adapter/ParserAdapter'
+import { ParserAdapter, Parser } from '../../../src/adapter/ParserAdapter'
 import { FileDepAnalyzer } from '../../../src/core/dep/FieDepAnalyzer'
 import { ModuleClassifier } from '../../../src/core/module/ModuleClassifier'
 import { MockModuleResolver } from '../../tools/MockResolver'
@@ -18,23 +18,24 @@ import { MockModuleResolver } from '../../tools/MockResolver'
 
 export const FOO = 1
 `
-  const parsers = [
-    ParserAdapter.adapt({
+  const parsers: Parser[] = [
+    {
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       parse: (code: string) =>
         acornParse(code, {
           sourceType: 'module',
-          ranges: false,
         }),
-    }),
-    ParserAdapter.adapt({
+    },
+    {
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       parse: (code: string) => tsParse(code),
-    }),
+    },
   ]
 
   const analyzers = parsers.map(
     (parser) =>
       new FileDepAnalyzer({
-        parser,
+        parser: ParserAdapter.adapt(parser),
         classifier: new ModuleClassifier({
           resolver: new MockModuleResolver('/project'),
         }),
