@@ -4,10 +4,10 @@ import { parse as acornParse } from 'acorn'
 import { ParserAdapter, Parser } from '../../../src/adapter/ParserAdapter'
 import { FileDepAnalyzer } from '../../../src/core/dep/FieDepAnalyzer'
 import { ModuleClassifier } from '../../../src/core/module/ModuleClassifier'
-import { MockModuleResolver } from '../../tools/MockResolver'
+import { MockModuleResolver } from '../../tools/MockModuleResolver'
 import { ModuleTypes } from '../../../src/core/module/AbstractModule'
 
-it('works with ESM with some parsers', () => {
+it('works with ESM with some parsers', async () => {
   const code = `
 import fs from 'fs'
 import color from 'color'
@@ -37,13 +37,13 @@ export const FOO = 1
       new FileDepAnalyzer({
         parser: ParserAdapter.adapt(parser),
         classifier: new ModuleClassifier({
-          resolver: new MockModuleResolver('/project'),
+          resolver: new MockModuleResolver({ rootFile: '/project/root.js' }),
         }),
       }),
   )
 
   for (const analyzer of analyzers) {
-    const dep = analyzer.fromSource('/project/file.ts', code)
+    const dep = await analyzer.fromSource('/project/file.ts', code)
     expect(dep).toEqual({
       file: '/project/file.ts',
       fanout: {
@@ -80,7 +80,7 @@ export const FOO = 1
   }
 })
 
-it('works with CJS', () => {
+it('works with CJS', async () => {
   const code = `
 const fs = require('fs')
 require('core-js/stable')
@@ -98,10 +98,10 @@ module.exports = 1
         }),
     }),
     classifier: new ModuleClassifier({
-      resolver: new MockModuleResolver('/project'),
+      resolver: new MockModuleResolver({ rootFile: '/project/root.js' }),
     }),
   })
-  const dep = analyzer.fromSource('/project/file.ts', code)
+  const dep = await analyzer.fromSource('/project/root.js', code)
   expect(dep.fanout).toEqual({
     locals: [
       {

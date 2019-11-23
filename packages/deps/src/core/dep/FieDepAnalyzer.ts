@@ -33,9 +33,11 @@ export class FileDepAnalyzer {
     return this.fromSource(file, source)
   }
 
-  fromSource(file: string, source: string): FileDep {
+  async fromSource(file: string, source: string): Promise<FileDep> {
     const names = this.parser.parse(source)
-    const modules = names.map((name) => this.classifier.classify(name))
+    const modules = await Promise.all(
+      names.map((name) => this.classifier.classify(name)),
+    )
     return new FileDep(file, {
       locals: modules.filter(LocalModule.is),
       packages: modules.filter(PackageModule.is),

@@ -3,34 +3,22 @@ import {
   FileDepParser,
 } from '../../../../src/core/dep/FieDepAnalyzer'
 import { ModuleClassifier } from '../../../../src/core/module/ModuleClassifier'
+import { MockModuleResolver } from '../../../tools/MockModuleResolver'
 
-it('works', () => {
+it('works', async () => {
   const mockParser: FileDepParser = {
     parse(): string[] {
       return ['./baz', 'xxx', 'fs']
     },
   }
   const classifier = new ModuleClassifier({
-    resolver: {
-      resolve(id: string): string {
-        switch (id) {
-          case './baz':
-            return '/foo/bar/baz'
-          case 'xxx':
-            return '/foo/bar/node_modules/xxx'
-          case 'fs':
-            return 'fs'
-          default:
-            throw new Error()
-        }
-      },
-    },
+    resolver: new MockModuleResolver({ rootFile: '/project/root.js' }),
   })
   const analyzer = new FileDepAnalyzer({
     parser: mockParser,
     classifier,
   })
-  const fileDep = analyzer.fromSource('/project/module.js', '')
+  const fileDep = await analyzer.fromSource('/project/module.js', '')
   expect(fileDep.fanout.locals).toHaveLength(1)
   expect(fileDep.fanout.packages).toHaveLength(1)
   expect(fileDep.fanout.builtins).toHaveLength(1)

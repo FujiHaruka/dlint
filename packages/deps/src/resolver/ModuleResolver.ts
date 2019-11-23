@@ -3,6 +3,7 @@ import { promises as fs } from 'fs'
 import { join, dirname } from 'path'
 
 import { AbstractModule, ModuleTypes } from '../core/module/AbstractModule'
+import { DLintModuleResolver } from '../core/module/ModuleClassifier'
 
 const ModulePrefixes = {
   ABSOLUTE: '/',
@@ -38,7 +39,7 @@ const isDirectory = (filepath: string): Promise<boolean> =>
     .then((stat) => stat.isDirectory())
     .catch(() => false)
 
-export class ModuleResolver {
+export class ModuleResolver implements DLintModuleResolver {
   static DEFAULT_EXTENSIONS = [
     '',
     '.js',

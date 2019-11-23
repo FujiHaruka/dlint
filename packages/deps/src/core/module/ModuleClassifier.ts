@@ -1,33 +1,30 @@
-import path from 'path'
-
 import { LocalModule } from './LocalModule'
 import { BuiltinModule } from './BuiltinModule'
 import { PackageModule } from './PackageModule'
+import { AbstractModule, ModuleTypes } from './AbstractModule'
 
-const isInNodeModules = (filepath: string): boolean =>
-  filepath.includes('/node_modules/')
-
-export interface ModuleResolver {
-  resolve: (name: string) => string
+export interface DLintModuleResolver {
+  resolve: (name: string) => Promise<AbstractModule>
 }
 
 export class ModuleClassifier {
-  resolver: ModuleResolver
+  resolver: DLintModuleResolver
 
-  constructor({ resolver }: { resolver: ModuleResolver }) {
+  constructor({ resolver }: { resolver: DLintModuleResolver }) {
     this.resolver = resolver
   }
 
-  classify(name: string): LocalModule | PackageModule | BuiltinModule {
-    const modulePath = this.resolver.resolve(name)
-    const isBuiltin = !path.isAbsolute(modulePath)
-    if (isBuiltin) {
-      return new BuiltinModule(name)
-    }
-    if (isInNodeModules(modulePath)) {
-      return new PackageModule(name)
-    } else {
-      return new LocalModule(modulePath)
+  async classify(
+    name: string,
+  ): Promise<LocalModule | PackageModule | BuiltinModule> {
+    const mod = await this.resolver.resolve(name)
+    switch (mod.type) {
+      case ModuleTypes.BUILTIN:
+        return new BuiltinModule(mod.name)
+      case ModuleTypes.PACKAGE:
+        return new PackageModule(mod.name)
+      case ModuleTypes.LOCAL:
+        return new LocalModule(mod.name)
     }
   }
 }
