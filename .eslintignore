@@ -1,2 +1,3 @@
 /packages/**/build/
 *.js
+/packages/**/fixtures/
