@@ -19,15 +19,34 @@ export interface Parser {
 
 const ImportDeclarationType = 'ImportDeclaration'
 
+const collectModuleNames = {
+  inESM(ast: any): string[] {
+    return ast.body
+      .filter((statement: any) => statement.type === ImportDeclarationType)
+      .map((statement: any): string => statement.source.value)
+  },
+  inCJS(ast: any): string[] {
+    // TODO
+    return []
+  },
+}
+
 export const ParserAdapter = {
   adapt(parser: Parser): FileDepParser {
     return {
       parse(code: string): string[] {
         const ast = parser.parse(code) as AcceptableAST
-
-        return ast.body
-          .filter((statement: any) => statement.type === ImportDeclarationType)
-          .map((statement: any): string => statement.source.value)
+        const moduleNames = [
+          ...collectModuleNames.inESM(ast),
+          ...collectModuleNames.inCJS(ast),
+        ]
+        // TODO: Improve error handling
+        if (!Array.isArray(moduleNames)) {
+          throw new Error(
+            `Invalid parser: moduleNames = ${JSON.stringify(moduleNames)}`,
+          )
+        }
+        return moduleNames
       },
     }
   },

@@ -7,7 +7,7 @@ import { ModuleClassifier } from '../../../src/core/module/ModuleClassifier'
 import { MockModuleResolver } from '../../tools/MockResolver'
 import { ModuleTypes } from '../../../src/core/module/AbstractModule'
 
-it('should work with typescript-estree', () => {
+it('works with ESM with some parsers', () => {
   const code = `
 import fs from 'fs'
 import color from 'color'
@@ -78,4 +78,28 @@ export const FOO = 1
       },
     })
   }
+})
+
+it('works with CJS', () => {
+  const code = `
+const fs = require('fs')
+require('core-js/stable')
+const { MockModuleResolver } = require('../../tools/MockResolver')
+
+module.exports = 1
+`
+  const analyzer = new FileDepAnalyzer({
+    parser: ParserAdapter.adapt({
+      parse: (code: string) =>
+        acornParse(code, {
+          sourceType: 'module',
+        }),
+    }),
+    classifier: new ModuleClassifier({
+      resolver: new MockModuleResolver('/project'),
+    }),
+  })
+  const dep = analyzer.fromSource('/project/file.ts', code)
+  console.log(dep)
+  // TODO: EMS と CJS は全く違うので ParserAdapter の実装が必要
 })

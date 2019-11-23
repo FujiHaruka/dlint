@@ -1,13 +1,16 @@
 {
   "name": "@dlint/deps",
-  "version": "0.0.1",
   "description": "Dependencies graph nodes for dlint",
-  "repository": "https://github.com/FujiHaruka/dlint",
+  "version": "0.0.1",
   "author": "FujiHaruka",
-  "license": "MIT",
-  "private": false,
   "dependencies": {
     "acorn": "^7.1.0",
     "fast-glob": "^3.1.0"
+  },
+  "license": "MIT",
+  "private": false,
+  "repository": "https://github.com/FujiHaruka/dlint",
+  "scripts": {
+    "test": "jest --silent false --config ../../jest.config.js"
   }
 }
