@@ -2,8 +2,8 @@ import Module from 'module'
 import { promises as fs } from 'fs'
 import { join, dirname } from 'path'
 
-import { AbstractModule, ModuleTypes } from '../core/module/AbstractModule'
-import { DLintModuleResolver } from '../core/module/ModuleClassifier'
+import { DLintModule, ModuleTypes } from '../core/module/DLintModule'
+import { DLintModuleResolver } from '../core/module/DLintModuleResolver'
 
 const ModulePrefixes = {
   ABSOLUTE: '/',
@@ -24,7 +24,6 @@ const ModuleNotFoundError = (name: string): Error => {
 }
 
 export interface ModuleResolveOptions {
-  rootFile: string
   ext?: string[]
 }
 
@@ -53,11 +52,9 @@ export class ModuleResolver implements DLintModuleResolver {
   static INDEX_BASENAME = 'index'
   static PACKAGE_JSON = 'package.json'
 
-  root: string
   extensions: string[]
 
-  constructor(options: ModuleResolveOptions) {
-    this.root = dirname(options.rootFile)
+  constructor(options: ModuleResolveOptions = {}) {
     this.extensions = options.ext || ModuleResolver.DEFAULT_EXTENSIONS
   }
 
@@ -104,7 +101,7 @@ export class ModuleResolver implements DLintModuleResolver {
     return this.resolveIndex(name)
   }
 
-  private resolveModuleType(name: string): AbstractModule['type'] {
+  private resolveModuleType(name: string): ModuleTypes {
     const isAbsolute = name.startsWith(ModulePrefixes.ABSOLUTE)
     if (isAbsolute) {
       return ModuleTypes.PACKAGE
@@ -125,16 +122,17 @@ export class ModuleResolver implements DLintModuleResolver {
     return ModuleTypes.PACKAGE
   }
 
-  async resolve(name: string): Promise<AbstractModule> {
+  async resolve(from: string, name: string): Promise<DLintModule> {
+    const root = dirname(from)
     const type = this.resolveModuleType(name)
     if (type === ModuleTypes.LOCAL) {
-      const absPath = join(this.root, name)
+      const absPath = join(root, name)
       {
         const resolved = await this.resolveAsFile(absPath)
         if (resolved) {
           return {
             type,
-            name: resolved,
+            path: resolved,
           }
         }
       }
@@ -143,7 +141,7 @@ export class ModuleResolver implements DLintModuleResolver {
         if (resolved) {
           return {
             type,
-            name: resolved,
+            path: resolved,
           }
         }
       }
