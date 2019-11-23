@@ -3,7 +3,7 @@ import { relative } from 'path'
 import { LocalModule, ModuleTypes } from '../module/DLintModule'
 
 import { FileDep } from './FileDep'
-import { DepNode } from './DepNode'
+import { DepNode, SlimDepNode } from './DepNode'
 import { Fanin } from './Fan'
 
 const FaninResolver = (fileDeps: FileDep[]): ((filePath: string) => Fanin) => {
@@ -49,12 +49,13 @@ export const DepNodeBuilder = {
   fromFileDeps(
     fileDeps: FileDep[],
     options: { relativeFrom?: string } = {},
-  ): DepNode[] {
+  ): SlimDepNode[] {
     const { relativeFrom } = options
     const resolveFanin = FaninResolver(fileDeps)
     const depNodes = fileDeps
       .map((dep) => DepNode.fromFileDep(dep, resolveFanin(dep.file)))
       .map((node) => (relativeFrom ? toRelative(relativeFrom, node) : node))
+      .map((node) => node.slim())
     return depNodes
   },
 }
