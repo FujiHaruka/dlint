@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FileDepParser } from '../core/dep/FieDepAnalyzer'
 
 // For AST spec, see ESTree https://github.com/estree/estree/blob/master/es2015.md#importdeclaration
