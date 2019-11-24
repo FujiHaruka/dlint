@@ -29,9 +29,6 @@ const isPrimitive = (value: unknown): boolean => {
 
 // require を呼び出している CallExpression を再帰的に探索
 const findCallExpressionRecursively = (node: any): string[] => {
-  if (!node) {
-    return []
-  }
   if (Array.isArray(node)) {
     return node.flatMap((item) => findCallExpressionRecursively(item))
   }
