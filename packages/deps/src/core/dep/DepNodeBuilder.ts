@@ -2,11 +2,12 @@ import { relative } from 'path'
 
 import { LocalModule, ModuleTypes } from '../module/DLintModule'
 
-import { FileDep } from './FileDep'
+import { FileDepFanin, FileDep } from './FileDep'
 import { DepNode } from './DepNode'
-import { Fanin } from './Fan'
 
-const FaninResolver = (fileDeps: FileDep[]): ((filePath: string) => Fanin) => {
+const FaninResolver = (
+  fileDeps: FileDep[],
+): ((filePath: string) => FileDepFanin) => {
   const faninMap: { [path: string]: Set<LocalModule> } = {}
   for (const dep of fileDeps) {
     for (const localModule of dep.fanout.locals) {
@@ -20,7 +21,7 @@ const FaninResolver = (fileDeps: FileDep[]): ((filePath: string) => Fanin) => {
       })
     }
   }
-  const resolveFanin = (filePath: string): Fanin => ({
+  const resolveFanin = (filePath: string): FileDepFanin => ({
     locals: Array.from(faninMap[filePath] || []),
   })
   return resolveFanin

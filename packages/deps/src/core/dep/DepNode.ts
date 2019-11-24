@@ -1,5 +1,4 @@
-import { Fanin } from './Fan'
-import { FileDep } from './FileDep'
+import { FileDepFanin, FileDep } from './FileDep'
 
 interface DepNodeFanin {
   locals: string[]
@@ -30,7 +29,7 @@ export class DepNode {
     this.fanout = fanout
   }
 
-  static fromFileDep(dep: FileDep, fanin: Fanin): DepNode {
+  static fromFileDep(dep: FileDep, fanin: FileDepFanin): DepNode {
     const { file, fanout } = dep
     return new DepNode({
       file,
