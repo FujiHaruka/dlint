@@ -20,8 +20,8 @@ it('works', () => {
       }),
   )
   const nodes = DepNodeBuilder.fromFileDeps(fileDeps)
-  expect(nodes[0].fanin.locals.map((local) => local.path)).toEqual([])
-  expect(nodes[1].fanin.locals.map((local) => local.path)).toEqual(['/1'])
-  expect(nodes[2].fanin.locals.map((local) => local.path)).toEqual(['/1', '/2'])
-  expect(nodes[3].fanin.locals.map((local) => local.path)).toEqual(['/2', '/3'])
+  expect(nodes[0].fanin.locals).toEqual([])
+  expect(nodes[1].fanin.locals).toEqual(['/1'])
+  expect(nodes[2].fanin.locals).toEqual(['/1', '/2'])
+  expect(nodes[3].fanin.locals).toEqual(['/2', '/3'])
 })
