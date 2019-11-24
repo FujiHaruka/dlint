@@ -1,16 +1,33 @@
 {
   "name": "@dlint/deps",
-  "description": "Dependencies graph nodes for dlint",
+  "description": "Dependencies graph for dlint",
   "version": "0.0.1",
   "author": "FujiHaruka",
+  "bugs": {
+    "url": "https://github.com/FujiHaruka/dlint/issues"
+  },
   "dependencies": {
     "acorn": "^7.1.0",
     "fast-glob": "^3.1.0"
   },
+  "engines": {
+    "node": ">=10"
+  },
+  "files": [
+    "build"
+  ],
+  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/deps",
+  "keywords": [
+    "dependency",
+    "dlint",
+    "graph"
+  ],
   "license": "MIT",
+  "main": "build/Deps.js",
   "private": false,
-  "repository": "https://github.com/FujiHaruka/dlint",
+  "repository": "FujiHaruka/dlint",
   "scripts": {
+    "build": "tsc",
     "test": "jest --silent false --config ../../jest.config.js"
   }
 }
