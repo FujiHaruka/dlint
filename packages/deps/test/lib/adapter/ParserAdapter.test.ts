@@ -9,7 +9,7 @@ it('works', () => {
       }),
   })
 
-  expect(parser.parse('')).toEqual([])
-  expect(parser.parse('import "foo"')).toEqual(['foo'])
-  expect(parser.parse('require("foo")')).toEqual(['foo'])
+  expect(parser.parseImports('')).toEqual([])
+  expect(parser.parseImports('import "foo"')).toEqual(['foo'])
+  expect(parser.parseImports('require("foo")')).toEqual(['foo'])
 })

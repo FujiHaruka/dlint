@@ -7,7 +7,7 @@ import { is } from '../module/DLintModule'
 import { FileDep } from './FileDep'
 
 export interface FileDepParser {
-  parse: (code: string) => string[]
+  parseImports: (code: string) => string[]
 }
 
 export class FileDepAnalyzer {
@@ -32,7 +32,7 @@ export class FileDepAnalyzer {
   }
 
   async fromSource(file: string, source: string): Promise<FileDep> {
-    const names = this.parser.parse(source)
+    const names = this.parser.parseImports(source)
     const modules = await Promise.all(
       names.map((name) => this.resolver.resolve(file, name)),
     )

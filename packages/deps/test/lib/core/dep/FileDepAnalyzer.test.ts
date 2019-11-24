@@ -6,7 +6,7 @@ import { MockModuleResolver } from '../../../tools/MockModuleResolver'
 
 it('works', async () => {
   const mockParser: FileDepParser = {
-    parse(): string[] {
+    parseImports(): string[] {
       return ['./baz', 'xxx', 'fs']
     },
   }

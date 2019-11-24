@@ -70,7 +70,7 @@ const uniq = (arr: string[]): string[] => Array.from(new Set(arr))
 export const ParserAdapter = {
   adapt(parser: Parser): FileDepParser {
     return {
-      parse(code: string): string[] {
+      parseImports(code: string): string[] {
         const ast = parser.parse(code) as AcceptableAST
         const moduleNames = uniq([
           ...collectModuleNames.inESM(ast),
