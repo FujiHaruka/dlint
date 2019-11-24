@@ -1,5 +1,7 @@
 # dlint
 
+THIS PROJECT IS IN DEVELOPMENT.
+
 ## Scripts
 
 Build package
