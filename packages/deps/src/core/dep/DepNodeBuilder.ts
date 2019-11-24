@@ -3,7 +3,7 @@ import { relative } from 'path'
 import { LocalModule, ModuleTypes } from '../module/DLintModule'
 
 import { FileDep } from './FileDep'
-import { DepNode, SlimDepNode } from './DepNode'
+import { DepNode } from './DepNode'
 import { Fanin } from './Fan'
 
 const FaninResolver = (fileDeps: FileDep[]): ((filePath: string) => Fanin) => {
@@ -30,17 +30,11 @@ const toRelative = (from: string, node: DepNode): DepNode => {
   const { file, fanin, fanout } = node
   node.file = relative(from, file)
   node.fanin = {
-    locals: fanin.locals.map(({ path }) => ({
-      type: ModuleTypes.LOCAL,
-      path: relative(from, path),
-    })),
+    locals: fanin.locals.map((path) => relative(from, path)),
   }
   node.fanout = {
     ...node.fanout,
-    locals: fanout.locals.map(({ path }) => ({
-      type: ModuleTypes.LOCAL,
-      path: relative(from, path),
-    })),
+    locals: fanout.locals.map((path) => relative(from, path)),
   }
   return node
 }
@@ -49,13 +43,12 @@ export const DepNodeBuilder = {
   fromFileDeps(
     fileDeps: FileDep[],
     options: { relativeFrom?: string } = {},
-  ): SlimDepNode[] {
+  ): DepNode[] {
     const { relativeFrom } = options
     const resolveFanin = FaninResolver(fileDeps)
     const depNodes = fileDeps
       .map((dep) => DepNode.fromFileDep(dep, resolveFanin(dep.file)))
       .map((node) => (relativeFrom ? toRelative(relativeFrom, node) : node))
-      .map((node) => node.slim())
     return depNodes
   },
 }

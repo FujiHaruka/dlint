@@ -1,36 +1,38 @@
-import { Fanin, Fanout } from './Fan'
+import { Fanin } from './Fan'
 import { FileDep } from './FileDep'
 
-export interface SlimDepNode {
-  file: string
-  fanin: {
-    locals: string[]
-  }
-  fanout: {
-    locals: string[]
-    packages: string[]
-    builtins: string[]
-  }
+interface DepNodeFanin {
+  locals: string[]
+}
+
+interface DepNodeFanout {
+  locals: string[]
+  packages: string[]
+  builtins: string[]
 }
 
 export class DepNode {
   file: string
-  fanin: Fanin
-  fanout: Fanout
+  fanin: DepNodeFanin
+  fanout: DepNodeFanout
 
-  private constructor(file: string, fanin: Fanin, fanout: Fanout) {
+  private constructor({
+    file,
+    fanin,
+    fanout,
+  }: {
+    file: string
+    fanin: DepNodeFanin
+    fanout: DepNodeFanout
+  }) {
     this.file = file
     this.fanin = fanin
     this.fanout = fanout
   }
 
   static fromFileDep(dep: FileDep, fanin: Fanin): DepNode {
-    return new DepNode(dep.file, fanin, dep.fanout)
-  }
-
-  slim(): SlimDepNode {
-    const { file, fanout, fanin } = this
-    return {
+    const { file, fanout } = dep
+    return new DepNode({
       file,
       fanin: {
         locals: fanin.locals.map(({ path }) => path),
@@ -40,6 +42,6 @@ export class DepNode {
         packages: fanout.packages.map(({ name }) => name),
         builtins: fanout.builtins.map(({ name }) => name),
       },
-    }
+    })
   }
 }

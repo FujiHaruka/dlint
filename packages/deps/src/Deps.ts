@@ -1,7 +1,7 @@
 import { parse as acornParse } from 'acorn'
 import glob from 'fast-glob'
 
-import { SlimDepNode } from './core/dep/DepNode'
+import { DepNode } from './core/dep/DepNode'
 import { Parser, ParserAdapter } from './adapter/ParserAdapter'
 import { FileDepAnalyzer } from './core/dep/FieDepAnalyzer'
 import { DepNodeBuilder } from './core/dep/DepNodeBuilder'
@@ -22,7 +22,7 @@ const defaultParser: Parser = {
 export const gatherDeps = async (
   patterns: string[],
   options: GatherDepsOptions = {},
-): Promise<SlimDepNode[]> => {
+): Promise<DepNode[]> => {
   const { parser = defaultParser, rootDir = process.cwd() } = options
   const analizer = new FileDepAnalyzer({
     parser: ParserAdapter.adapt(parser),
