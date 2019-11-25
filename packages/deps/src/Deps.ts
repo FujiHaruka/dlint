@@ -10,6 +10,7 @@ import { ModuleResolver } from './resolver/ModuleResolver'
 export interface GatherDepsOptions {
   rootDir?: string
   parser?: Parser
+  ignore?: string[]
 }
 
 export interface GatheredDepNodes {
@@ -31,7 +32,11 @@ export const gatherDeps = async (
   patterns: string[],
   options: GatherDepsOptions = {},
 ): Promise<GatheredDepNodes> => {
-  const { parser = defaultParser, rootDir = process.cwd() } = options
+  const {
+    parser = defaultParser,
+    rootDir = process.cwd(),
+    ignore = [],
+  } = options
   const analizer = new FileDepAnalyzer({
     parser: ParserAdapter.adapt(parser),
     resolver: new ModuleResolver(),
@@ -39,6 +44,7 @@ export const gatherDeps = async (
   const files = await glob(patterns, {
     cwd: rootDir,
     absolute: true,
+    ignore,
   })
   if (files.length === 0) {
     console.warn(
