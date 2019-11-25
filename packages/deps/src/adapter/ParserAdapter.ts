@@ -80,6 +80,7 @@ export const ParserAdapter = {
   adapt(parser: Parser): FileDepParser {
     return {
       parseImports(code: string): string[] {
+        // TODO: Improve error handling
         const ast = parser.parse(code) as AcceptableAST
         const moduleNames = uniq([
           ...collectModuleNames.inESM(ast),
