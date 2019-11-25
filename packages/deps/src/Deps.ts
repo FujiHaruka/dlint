@@ -36,11 +36,17 @@ export const gatherDeps = async (
     parser: ParserAdapter.adapt(parser),
     resolver: new ModuleResolver(),
   })
-  // TODO: ファイルが一つも無ければ警告出す
   const files = await glob(patterns, {
     cwd: rootDir,
     absolute: true,
   })
+  if (files.length === 0) {
+    console.warn(
+      `[@dlint/deps][WARNING] Could not find any files matching patterns ${JSON.stringify(
+        patterns,
+      )}`,
+    )
+  }
   const fileDeps = await Promise.all(
     files.map((file) => analizer.fromFile(file)),
   )
