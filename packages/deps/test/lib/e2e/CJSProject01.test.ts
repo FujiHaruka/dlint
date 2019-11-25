@@ -15,10 +15,11 @@ it('works', async () => {
   //     ├── moduleB1.js     - ../a/moduleA
   //     └── moduleB2.js     - fs ./moduleB1 ../a/moduleA
 
-  const deps = await gatherDeps(['**/*.js'], {
+  const gathered = await gatherDeps(['**/*.js'], {
     rootDir: resolve(__dirname, '../../fixtures/cjs-project01'),
   })
-  const findDep = (file: string) => deps.find((dep) => dep.file === file)
+  const findDep = (file: string) =>
+    gathered.nodes.find((node) => node.file === file)
   expect(findDep('a/moduleA.js')).toMatchObject({
     fanin: {
       locals: ['b/moduleB1.js', 'b/moduleB2.js'],

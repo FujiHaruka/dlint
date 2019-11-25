@@ -12,6 +12,14 @@ export interface GatherDepsOptions {
   parser?: Parser
 }
 
+export interface GatheredDepNodes {
+  meta: {
+    rootDir: string
+    patterns: string[]
+  }
+  nodes: DepNode[]
+}
+
 const defaultParser: Parser = {
   parse: (code: string) =>
     acornParse(code, {
@@ -22,7 +30,7 @@ const defaultParser: Parser = {
 export const gatherDeps = async (
   patterns: string[],
   options: GatherDepsOptions = {},
-): Promise<DepNode[]> => {
+): Promise<GatheredDepNodes> => {
   const { parser = defaultParser, rootDir = process.cwd() } = options
   const analizer = new FileDepAnalyzer({
     parser: ParserAdapter.adapt(parser),
@@ -39,5 +47,11 @@ export const gatherDeps = async (
   const depNodes = DepNodeBuilder.fromFileDeps(fileDeps, {
     relativeFrom: rootDir,
   })
-  return depNodes
+  return {
+    meta: {
+      rootDir,
+      patterns,
+    },
+    nodes: depNodes,
+  }
 }
