@@ -18,7 +18,12 @@ export interface Parser {
   parse(code: string): any
 }
 
-const ImportDeclarationType = 'ImportDeclaration'
+const ESMImportTypes = new Set([
+  'ImportDeclaration',
+  'ExportAllDeclaration',
+  'ExportNamedDeclaration',
+])
+
 const CallExpressionType = 'CallExpression'
 const LiteralType = 'Literal'
 
@@ -56,9 +61,13 @@ const findCallExpressionRecursively = (node: any): string[] => {
 
 const collectModuleNames = {
   inESM(ast: any): string[] {
+    // console.log(require('util').inspect(ast, { depth: null }))
     return ast.body
-      .filter((statement: any) => statement.type === ImportDeclarationType)
-      .map((statement: any): string => statement.source.value)
+      .filter((statement: any) => ESMImportTypes.has(statement.type))
+      .map(
+        (statement: any): string => statement.source && statement.source.value,
+      )
+      .filter(Boolean)
   },
   inCJS(ast: any): string[] {
     return findCallExpressionRecursively(ast)
