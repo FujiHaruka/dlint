@@ -13,7 +13,7 @@ extends:
   - plugin:import/typescript
 parser: "@typescript-eslint/parser"
 parserOptions:
-  project: ./packages/**/tsconfig.json
+  project: ./tsconfig.json
 plugins:
   - "@typescript-eslint"
   - import
