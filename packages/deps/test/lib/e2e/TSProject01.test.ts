@@ -1,4 +1,5 @@
 import { resolve } from 'path'
+
 import { parse } from '@typescript-eslint/typescript-estree'
 
 import { gatherDeps } from '../../../src/Deps'
@@ -20,7 +21,7 @@ it('works', async () => {
     rootDir: resolve(__dirname, '../../fixtures/ts-project01'),
     parser: {
       parse,
-    }
+    },
   })
   const findDep = (file: string) =>
     gathered.nodes.find((node) => node.file === file)
