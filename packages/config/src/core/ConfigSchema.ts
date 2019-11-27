@@ -1,3 +1,5 @@
+type Field = string | string[]
+
 export enum ConfigFieldTypes {
   STRING,
   STRING_LIST,
@@ -6,11 +8,11 @@ export enum ConfigFieldTypes {
 export interface ConfigField {
   type: ConfigFieldTypes
   required?: boolean
-  default?: string | string[]
+  default?: Field
 }
 
-export interface ConfigSchema<T> {
-  [name: string]: ConfigField
+export type SchemaDefinition<T extends {}> = {
+  [P in keyof T]: ConfigField
 }
 
 const isTypeof = (value: unknown, type: ConfigFieldTypes) => {
@@ -30,26 +32,22 @@ const InvalidConfigError = (message: string) => {
   return err
 }
 
-type ValidateConfig<T extends {}> = (config: {
-  [name: string]: unknown
-}) => asserts config is T
+export class ConfigSchema<T extends {}> {
+  readonly definition: SchemaDefinition<T>
 
-export class ConfigValidator<T extends {}> {
-  schema: ConfigSchema<T>
-
-  constructor(schema: ConfigSchema<T>) {
-    this.schema = schema
+  constructor(schema: SchemaDefinition<T>) {
+    this.definition = schema
   }
 
   validate(config: { [name: string]: unknown }): asserts config is T {
-    const { schema } = this
+    const { definition } = this
     if (typeof config !== 'object' || config === null) {
       throw InvalidConfigError(
         `Config is expected to be object, but is "${typeof config}"`,
       )
     }
-    for (const name of Object.keys(schema)) {
-      const { required, type } = schema[name]
+    for (const name in definition) {
+      const { required, type } = definition[name]
       const value = config[name]
       if (required && value === undefined) {
         throw InvalidConfigError(`"${name}" field is required.`)
@@ -60,10 +58,26 @@ export class ConfigValidator<T extends {}> {
         )
       }
     }
-    for (const name of Object.keys(config)) {
-      if (!schema[name]) {
+    for (const name in config) {
+      if (!(name in definition)) {
         throw InvalidConfigError(`"${name}" field is invalid`)
       }
     }
+  }
+
+  fillDefaults(config: Partial<T>): T {
+    const { definition } = this
+    const filled = { ...config } as T
+    for (const name in definition) {
+      if (
+        typeof config[name] === 'undefined' &&
+        typeof definition[name] !== 'undefined'
+      ) {
+        Object.assign(filled, {
+          [name]: definition[name].default,
+        })
+      }
+    }
+    return filled
   }
 }

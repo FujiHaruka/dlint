@@ -1,16 +1,13 @@
-import {
-  ConfigValidator,
-  ConfigFieldTypes,
-} from '../../../src/core/ConfigValidator'
+import { ConfigSchema, ConfigFieldTypes } from '../../../src/core/ConfigSchema'
 
-it('works', () => {
+it('validate', () => {
   interface TestConfig {
     str: string
     strs: string[]
     requiredStr: string
   }
 
-  const validator: ConfigValidator<TestConfig> = new ConfigValidator({
+  const validator: ConfigSchema<TestConfig> = new ConfigSchema<TestConfig>({
     str: {
       type: ConfigFieldTypes.STRING,
     },
@@ -42,4 +39,27 @@ it('works', () => {
   expect(() =>
     validator.validate({ requiredStr: 'a', additional: 1 }),
   ).toThrow()
+})
+
+it('fill defaults', () => {
+  interface TestConfig {
+    foo: string
+    bar: string[]
+  }
+
+  const validator: ConfigSchema<TestConfig> = new ConfigSchema<TestConfig>({
+    foo: {
+      type: ConfigFieldTypes.STRING,
+      default: 'foo',
+    },
+    bar: {
+      type: ConfigFieldTypes.STRING_LIST,
+      default: ['bar'],
+    },
+  })
+
+  expect(validator.fillDefaults({})).toEqual({
+    foo: 'foo',
+    bar: ['bar'],
+  })
 })
