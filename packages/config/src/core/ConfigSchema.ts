@@ -39,8 +39,9 @@ export class ConfigSchema<T extends {}> {
     this.definition = schema
   }
 
-  validate(config: { [name: string]: unknown }): asserts config is T {
+  validate(config: {}): config is T {
     const { definition } = this
+    const configMap = new Map(Object.entries(config))
     if (typeof config !== 'object' || config === null) {
       throw InvalidConfigError(
         `Config is expected to be object, but is "${typeof config}"`,
@@ -48,7 +49,7 @@ export class ConfigSchema<T extends {}> {
     }
     for (const name in definition) {
       const { required, type } = definition[name]
-      const value = config[name]
+      const value = configMap.get(name)
       if (required && value === undefined) {
         throw InvalidConfigError(`"${name}" field is required.`)
       }
@@ -63,6 +64,7 @@ export class ConfigSchema<T extends {}> {
         throw InvalidConfigError(`"${name}" field is invalid`)
       }
     }
+    return true
   }
 
   fillDefaults(config: Partial<T>): T {
