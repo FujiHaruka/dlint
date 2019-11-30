@@ -4,7 +4,7 @@ import {
   ConfigSchema,
 } from './ConfigSchema'
 
-export interface DLintConfig {
+export interface DLintConfigFields {
   rootDir: string
   include: string[]
   exclude: string[]
@@ -12,7 +12,7 @@ export interface DLintConfig {
   parser: string
 }
 
-const SchemaDefinition: SchemaDefinition<DLintConfig> = {
+const SchemaDefinition: SchemaDefinition<DLintConfigFields> = {
   rootDir: {
     type: ConfigFieldTypes.STRING,
   },
@@ -33,12 +33,12 @@ const SchemaDefinition: SchemaDefinition<DLintConfig> = {
   },
 }
 
-export class DLintConfigSchema extends ConfigSchema<DLintConfig> {
+export class DLintConfigSchema extends ConfigSchema<DLintConfigFields> {
   constructor() {
     super(SchemaDefinition)
   }
 
-  validate(config: {}): config is DLintConfig {
+  validate(config: {}): config is DLintConfigFields {
     super.validate(config)
     // TODO: domain specific validation
     return true

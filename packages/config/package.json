@@ -20,7 +20,7 @@
     "graph"
   ],
   "license": "MIT",
-  "main": "build/Config.js",
+  "main": "build/DLintConfig.js",
   "private": false,
   "repository": "FujiHaruka/dlint",
   "scripts": {

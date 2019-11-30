@@ -1,10 +1,14 @@
 import { join } from 'path'
 
-import { DLintConfig } from '../../../src/core/DLintConfigSchema'
-import { DLintConfigBuilder } from '../../../src/Config'
+import {
+  DLintConfigFields,
+  DLintConfigSchema,
+} from '../../../src/core/DLintConfigSchema'
+import { ConfigFileIO } from '../../../src/io/ConfigFileIO'
 
 it('fromJSON', () => {
-  const config = DLintConfigBuilder.fromJSON({
+  const io = new ConfigFileIO(DLintConfigSchema)
+  const config = io.fromObject({
     rootDir: '/foo/project',
     include: ['src/**/*.ts'],
     rules: [],
@@ -16,10 +20,10 @@ it('fromJSON', () => {
     exclude: [],
     rules: [],
     parser: '',
-  } as DLintConfig)
+  } as DLintConfigFields)
 
   expect(() =>
-    DLintConfigBuilder.fromJSON({
+    io.fromObject({
       rootDir: '/foo/project',
       rules: [],
       parser: '',
@@ -28,7 +32,8 @@ it('fromJSON', () => {
 })
 
 it('fromJsonFile', async () => {
-  const config = await DLintConfigBuilder.fromJsonFile(
+  const io = new ConfigFileIO(DLintConfigSchema)
+  const config = await io.fromJsonFile(
     join(__dirname, '../../fixtures/dlintrc.1.json'),
   )
   expect(config).toEqual({
