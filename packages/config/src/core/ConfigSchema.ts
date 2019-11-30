@@ -51,7 +51,7 @@ export class ConfigSchema<T extends {}> {
       const { required, type } = definition[name]
       const value = configMap.get(name)
       if (required && value === undefined) {
-        throw InvalidConfigError(`"${name}" field is required.`)
+        throw InvalidConfigError(`"${name}" field is required`)
       }
       if (!isTypeof(value, type) && value !== undefined) {
         throw InvalidConfigError(
@@ -61,7 +61,7 @@ export class ConfigSchema<T extends {}> {
     }
     for (const name in config) {
       if (!(name in definition)) {
-        throw InvalidConfigError(`"${name}" field is invalid`)
+        throw InvalidConfigError(`"${name}" field is unknown`)
       }
     }
     return true

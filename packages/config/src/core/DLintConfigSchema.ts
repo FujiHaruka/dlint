@@ -5,7 +5,7 @@ import {
 } from './ConfigSchema'
 
 export interface DLintConfig {
-  root: string
+  rootDir: string
   include: string[]
   exclude: string[]
   rules: string[]
@@ -13,7 +13,7 @@ export interface DLintConfig {
 }
 
 const SchemaDefinition: SchemaDefinition<DLintConfig> = {
-  root: {
+  rootDir: {
     type: ConfigFieldTypes.STRING,
   },
   include: {
@@ -40,9 +40,7 @@ export class DLintConfigSchema extends ConfigSchema<DLintConfig> {
 
   validate(config: {}): config is DLintConfig {
     super.validate(config)
-
-    // TODO: domain specific
-
+    // TODO: domain specific validation
     return true
   }
 }
