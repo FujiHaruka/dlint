@@ -26,5 +26,6 @@
   "scripts": {
     "build": "tsc",
     "test": "jest --silent false --config ../../jest.config.js packages/config"
-  }
+  },
+  "types": "build/DLintConfig.d.ts"
 }
