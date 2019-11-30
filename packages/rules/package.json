@@ -6,7 +6,9 @@
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@dlint/deps": "0.0.1"
+  },
   "engines": {
     "node": ">=10"
   },
@@ -25,5 +27,6 @@
   "scripts": {
     "build": "tsc",
     "test": "jest --silent false --config ../../jest.config.js packages/rules"
-  }
+  },
+  "types": "build/DLintRules.d.ts"
 }
