@@ -28,6 +28,6 @@
   "repository": "FujiHaruka/dlint",
   "scripts": {
     "build": "tsc",
-    "test": "jest --silent false --config ../../jest.config.js"
+    "test": "jest --silent false --config ../../jest.config.js packages/deps"
   }
 }
