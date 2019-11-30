@@ -1,0 +1,29 @@
+{
+  "name": "@dlint/rules",
+  "description": "Rules for dlint",
+  "version": "0.0.1",
+  "author": "FujiHaruka",
+  "bugs": {
+    "url": "https://github.com/FujiHaruka/dlint/issues"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=10"
+  },
+  "files": [
+    "build"
+  ],
+  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/rules",
+  "keywords": [
+    "dependency",
+    "dlint"
+  ],
+  "license": "MIT",
+  "main": "build/DLintRules.js",
+  "private": false,
+  "repository": "FujiHaruka/dlint",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --silent false --config ../../jest.config.js packages/rules"
+  }
+}
