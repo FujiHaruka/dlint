@@ -1,6 +1,13 @@
 import { resolve } from 'path'
 
 import { gatherDeps } from '../../../src/Deps'
+import { FilePath } from '../../../src/core/module/FilePath'
+import {
+  ModuleTypes,
+  LocalModule,
+  PackageModule,
+  BuiltinModule,
+} from '../../../src/core/module/DLintModule'
 
 it('works', async () => {
   // cjs-project01/            require
@@ -15,25 +22,38 @@ it('works', async () => {
   //     ├── moduleB1.js     - ../a/moduleA
   //     └── moduleB2.js     - fs ./moduleB1 ../a/moduleA
 
+  const rootDir = resolve(__dirname, '../../fixtures/cjs-project01')
   const gathered = await gatherDeps(['**/*.js'], {
-    rootDir: resolve(__dirname, '../../fixtures/cjs-project01'),
+    rootDir,
+  })
+  const Local = (file: string): LocalModule => ({
+    type: ModuleTypes.LOCAL,
+    path: new FilePath(rootDir, file),
+  })
+  const Package = (name: string): PackageModule => ({
+    type: ModuleTypes.PACKAGE,
+    name,
+  })
+  const Builtin = (name: string): BuiltinModule => ({
+    type: ModuleTypes.BUILTIN,
+    name,
   })
   const findDep = (file: string) =>
-    gathered.nodes.find((node) => node.file === file)
+    gathered.nodes.find((node) => node.file.relativePath === file)
   expect(findDep('a/moduleA.js')).toMatchObject({
     fanin: {
-      locals: ['b/moduleB1.js', 'b/moduleB2.js'],
+      locals: [Local('b/moduleB1.js'), Local('b/moduleB2.js')],
     },
     fanout: {
-      locals: ['a/x/moduleAX.js', 'a/y/index.js'],
+      locals: [Local('a/x/moduleAX.js'), Local('a/y/index.js')],
     },
   })
   expect(findDep('b/moduleB1.js')).toMatchObject({
     fanin: {
-      locals: ['b/moduleB2.js'],
+      locals: [Local('b/moduleB2.js')],
     },
     fanout: {
-      locals: ['a/moduleA.js'],
+      locals: [Local('a/moduleA.js')],
     },
   })
   expect(findDep('b/moduleB2.js')).toMatchObject({
@@ -41,33 +61,33 @@ it('works', async () => {
       locals: [],
     },
     fanout: {
-      locals: ['b/moduleB1.js', 'a/moduleA.js'],
-      builtins: ['fs'],
+      locals: [Local('b/moduleB1.js'), Local('a/moduleA.js')],
+      builtins: [Builtin('fs')],
     },
   })
   expect(findDep('a/x/moduleAX.js')).toMatchObject({
     fanin: {
-      locals: ['a/moduleA.js'],
+      locals: [Local('a/moduleA.js')],
     },
     fanout: {
-      builtins: ['fs'],
+      builtins: [Builtin('fs')],
     },
   })
   expect(findDep('a/y/index.js')).toMatchObject({
     fanin: {
-      locals: ['a/moduleA.js'],
+      locals: [Local('a/moduleA.js')],
     },
     fanout: {
-      locals: ['a/y/moduleAY.js'],
+      locals: [Local('a/y/moduleAY.js')],
     },
   })
   expect(findDep('a/y/moduleAY.js')).toMatchObject({
     fanin: {
-      locals: ['a/y/index.js'],
+      locals: [Local('a/y/index.js')],
     },
     fanout: {
-      packages: ['@types/node'],
-      builtins: ['path'],
+      packages: [Package('@types/node')],
+      builtins: [Builtin('path')],
     },
   })
 })

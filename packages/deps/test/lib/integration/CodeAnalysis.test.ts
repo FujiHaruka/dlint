@@ -2,9 +2,10 @@ import { parse as tsParse } from '@typescript-eslint/typescript-estree'
 import { parse as acornParse } from 'acorn'
 
 import { ParserAdapter, Parser } from '../../../src/adapter/ParserAdapter'
-import { FileDepAnalyzer } from '../../../src/core/dep/FieDepAnalyzer'
+import { DepAnalyzer } from '../../../src/core/dep/DepAnalyzer'
 import { MockModuleResolver } from '../../tools/MockModuleResolver'
 import { ModuleTypes } from '../../../src/core/module/DLintModule'
+import { FilePath } from '../../../src/core/module/FilePath'
 
 it('works with ESM with some parsers', async () => {
   const code = `
@@ -31,25 +32,28 @@ export const FOO = 1
 
   const analyzers = parsers.map(
     (parser) =>
-      new FileDepAnalyzer({
+      new DepAnalyzer({
         parser: ParserAdapter.adapt(parser),
-        resolver: new MockModuleResolver(),
+        resolver: new MockModuleResolver('/'),
       }),
   )
 
   for (const analyzer of analyzers) {
-    const dep = await analyzer.fromSource('/project/file.ts', code)
+    const dep = await analyzer.fromSource(
+      new FilePath('/', '/project/file.ts'),
+      code,
+    )
     expect(dep).toEqual({
-      file: '/project/file.ts',
+      file: new FilePath('/', '/project/file.ts'),
       fanout: {
         locals: [
           {
             type: ModuleTypes.LOCAL,
-            path: '/foo',
+            path: new FilePath('/', '/foo'),
           },
           {
             type: ModuleTypes.LOCAL,
-            path: '/tools/MockResolver',
+            path: new FilePath('/', '/tools/MockResolver'),
           },
         ],
         packages: [
@@ -83,21 +87,24 @@ require(name) // should be skipped
 
 module.exports = 1
 `
-  const analyzer = new FileDepAnalyzer({
+  const analyzer = new DepAnalyzer({
     parser: ParserAdapter.adapt({
       parse: (code: string) =>
         acornParse(code, {
           sourceType: 'module',
         }),
     }),
-    resolver: new MockModuleResolver(),
+    resolver: new MockModuleResolver('/'),
   })
-  const dep = await analyzer.fromSource('/project/root.js', code)
+  const dep = await analyzer.fromSource(
+    new FilePath('/', '/project/root.js'),
+    code,
+  )
   expect(dep.fanout).toEqual({
     locals: [
       {
-        type: 'module:local',
-        path: '/project/tools/MockResolver',
+        type: ModuleTypes.LOCAL,
+        path: new FilePath('/', '/project/tools/MockResolver'),
       },
     ],
     packages: [{ type: 'module:package', name: 'core-js/stable' }],

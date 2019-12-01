@@ -2,11 +2,12 @@ import { join } from 'path'
 
 import { ModuleResolver } from '../../../src/resolver/ModuleResolver'
 import { ModuleTypes } from '../../../src/core/module/DLintModule'
+import { FilePath } from '../../../src/core/module/FilePath'
 
 it('works', async () => {
   const projectRoot = join(__dirname, '../../fixtures/resolver-project')
   const rootFile = join(projectRoot, 'root.js')
-  const resolver = new ModuleResolver()
+  const resolver = new ModuleResolver('/')
   const resolve = (name: string) => resolver.resolve(rootFile, name)
 
   await expect(resolve('fs')).resolves.toEqual({
@@ -36,7 +37,7 @@ it('works', async () => {
   for (const [name, expected] of locals) {
     await expect(resolve(name)).resolves.toEqual({
       type: ModuleTypes.LOCAL,
-      path: join(projectRoot, expected),
+      path: new FilePath('/', join(projectRoot, expected)),
     })
   }
   const localFailings = ['./x', './a.json']
