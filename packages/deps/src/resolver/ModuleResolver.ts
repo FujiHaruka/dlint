@@ -4,6 +4,7 @@ import { join, dirname } from 'path'
 
 import { DLintModule, ModuleTypes } from '../core/module/DLintModule'
 import { DLintModuleResolver } from '../core/module/DLintModuleResolver'
+import { FilePath } from '../core/module/FilePath'
 
 const ModulePrefixes = {
   ABSOLUTE: '/',
@@ -52,9 +53,11 @@ export class ModuleResolver implements DLintModuleResolver {
   static INDEX_BASENAME = 'index'
   static PACKAGE_JSON = 'package.json'
 
+  rootDir: string
   extensions: string[]
 
-  constructor(options: ModuleResolveOptions = {}) {
+  constructor(rootDir: string, options: ModuleResolveOptions = {}) {
+    this.rootDir = rootDir
     this.extensions = options.ext || ModuleResolver.DEFAULT_EXTENSIONS
   }
 
@@ -132,7 +135,7 @@ export class ModuleResolver implements DLintModuleResolver {
         if (resolved) {
           return {
             type,
-            path: resolved,
+            path: new FilePath(this.rootDir, resolved),
           }
         }
       }
@@ -141,7 +144,7 @@ export class ModuleResolver implements DLintModuleResolver {
         if (resolved) {
           return {
             type,
-            path: resolved,
+            path: new FilePath(this.rootDir, resolved),
           }
         }
       }

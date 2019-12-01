@@ -3,9 +3,10 @@ import glob from 'fast-glob'
 
 import { DepNode } from './core/dep/DepNode'
 import { Parser, ParserAdapter } from './adapter/ParserAdapter'
-import { FileDepAnalyzer } from './core/dep/FieDepAnalyzer'
-import { DepNodeBuilder } from './core/dep/DepNodeBuilder'
+import { DepAnalyzer } from './core/dep/DepAnalyzer'
+import { DepNodeCombiner } from './core/dep/DepNodeCombiner'
 import { ModuleResolver } from './resolver/ModuleResolver'
+import { FilePath } from './core/module/FilePath'
 
 export interface GatherDepsOptions {
   rootDir?: string
@@ -37,9 +38,9 @@ export const gatherDeps = async (
     rootDir = process.cwd(),
     ignore = [],
   } = options
-  const analizer = new FileDepAnalyzer({
+  const analizer = new DepAnalyzer({
     parser: ParserAdapter.adapt(parser),
-    resolver: new ModuleResolver(),
+    resolver: new ModuleResolver(rootDir),
   })
   const files = await glob(patterns, {
     cwd: rootDir,
@@ -53,12 +54,13 @@ export const gatherDeps = async (
       )}`,
     )
   }
-  const fileDeps = await Promise.all(
-    files.map((file) => analizer.fromFile(file)),
+  const filePaths = files.map(
+    (absolutePath) => new FilePath(rootDir, absolutePath),
   )
-  const depNodes = DepNodeBuilder.fromFileDeps(fileDeps, {
-    relativeFrom: rootDir,
-  })
+  const fileDeps = await Promise.all(
+    filePaths.map((filePath) => analizer.fromFile(filePath)),
+  )
+  const depNodes = DepNodeCombiner.combine(fileDeps)
   return {
     meta: {
       rootDir,

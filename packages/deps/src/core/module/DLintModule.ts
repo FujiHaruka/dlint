@@ -1,3 +1,5 @@
+import { FilePath } from './FilePath'
+
 export enum ModuleTypes {
   BUILTIN = 'module:builtin',
   PACKAGE = 'module:package',
@@ -6,7 +8,7 @@ export enum ModuleTypes {
 
 export interface LocalModule {
   type: ModuleTypes.LOCAL
-  path: string
+  path: FilePath
 }
 
 export interface PackageModule {

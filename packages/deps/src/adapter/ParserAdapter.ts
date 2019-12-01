@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FileDepParser } from '../core/dep/FieDepAnalyzer'
+import { DepParser } from '../core/dep/DepAnalyzer'
 
 // For AST spec, see ESTree https://github.com/estree/estree/blob/master/es2015.md#importdeclaration
 
@@ -77,7 +77,7 @@ const collectModuleNames = {
 const uniq = (arr: string[]): string[] => Array.from(new Set(arr))
 
 export const ParserAdapter = {
-  adapt(parser: Parser): FileDepParser {
+  adapt(parser: Parser): DepParser {
     return {
       parseImports(code: string): string[] {
         // TODO: Improve error handling
