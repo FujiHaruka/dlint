@@ -23,7 +23,8 @@ function sortYaml(patterns) {
     const content = fs.readFileSync(file, 'utf-8')
     const obj = yaml.safeLoad(content)
     const sorted = yaml.safeDump(obj, {
-      'styles': {
+      noCompatMode: true,
+      styles: {
         '!!null': 'canonical' // dump null as ~
       },
       sortKeys: true,
