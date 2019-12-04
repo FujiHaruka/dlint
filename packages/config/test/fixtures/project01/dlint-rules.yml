@@ -1,6 +1,6 @@
 defaultRules:
-  - disallowAllPackages: ~
-  - disallowAllLayers: ~
+  - disallow: allLayers
+  - disallow: allPackages
 ignorePatterns:
   - /node_modules/
   - /ignore/
@@ -17,20 +17,22 @@ parser: '@typescript-eslint/typescript-estree'
 rootDir: ./src
 rules:
   controller:
-    - allowLayers:
+    - allow: layers
+      on:
         - core
         - util
-    - allowAllPackages: ~
+    - allow: allNodejs
+    - allow: packages
+      on:
+        - controller-helper
   core: ~
-  io:
-    - allowAllNodejs: ~
-    - allowPackages:
-        - io-helper
-    - allowLayers:
-        - controller
   main:
-    - allowAllLayers: ~
+    - allow: layers
+      on: all
   util:
-    - allowPackages:
+    - allow: packages
+      on:
+        - os
+        - path
         - lodash
         - util-helper
