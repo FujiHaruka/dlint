@@ -2,6 +2,7 @@ import { promises as fs } from 'fs'
 
 import { ConfigSchema } from '../core/ConfigSchema'
 
+// FIXME
 export class ConfigFileIO<T> {
   Schema: new () => ConfigSchema<T>
 

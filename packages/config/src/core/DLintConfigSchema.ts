@@ -1,46 +1,123 @@
-import {
-  SchemaDefinition,
-  ConfigFieldTypes,
-  ConfigSchema,
-} from './ConfigSchema'
+import Ajv from 'ajv'
+
+enum RuleTargets {
+  ALL_LAYERS = 'allLayers',
+  ALL_PACKAGES = 'allPackages',
+  ALL_NODEJS = 'allNodejs',
+  LAYERS = 'layers',
+  PACKAGES = 'packages',
+}
+
+type Rule =
+  | {
+      allow: RuleTargets
+      on?: string[]
+    }
+  | {
+      disallow: RuleTargets
+      on?: string[]
+    }
+
+type PathPattern = string
 
 export interface DLintConfigFields {
-  rootDir: string
-  include: string[]
-  exclude: string[]
-  rules: string[]
+  defaultRules: Rule[]
+  ignorePatterns: PathPattern[]
+  layers: {
+    [layerName: string]: PathPattern[]
+  }
   parser: string
-}
-
-const SchemaDefinition: SchemaDefinition<DLintConfigFields> = {
-  rootDir: {
-    type: ConfigFieldTypes.STRING,
-  },
-  include: {
-    type: ConfigFieldTypes.STRING_LIST,
-    required: true,
-  },
-  exclude: {
-    type: ConfigFieldTypes.STRING_LIST,
-    default: [],
-  },
+  rootDir: string
   rules: {
-    type: ConfigFieldTypes.STRING_LIST,
-    required: true,
+    [layerName: string]: Rule[]
+  }
+}
+
+const JsonSchema = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  additionalProperties: false,
+  properties: {
+    defaultRules: {
+      type: 'array',
+      items: {
+        $ref: '#/definitions/rule',
+      },
+    },
+    ignorePatterns: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+    layers: {
+      type: 'object',
+      additionalProperties: false,
+      patternProperties: {
+        '^[a-zA-Z0-9_-]+$': {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    parser: {
+      type: 'string',
+    },
+    rootDir: {
+      type: 'string',
+    },
+    rules: {
+      type: 'object',
+      additionalProperties: false,
+      patternProperties: {
+        '^[a-zA-Z0-9_-]+$': {
+          type: 'array',
+          items: {
+            $ref: '#/definitions/rule',
+          },
+        },
+      },
+    },
   },
-  parser: {
-    type: ConfigFieldTypes.STRING,
+  required: ['layers', 'rules'],
+  title: 'DLintConfig',
+  type: 'object',
+  definitions: {
+    rule: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        allow: {
+          type: 'string',
+        },
+        disallow: {
+          type: 'string',
+        },
+        on: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+        },
+      },
+    },
   },
 }
 
-export class DLintConfigSchema extends ConfigSchema<DLintConfigFields> {
+export class DLintConfigSchema {
+  validateUsingAjv: Ajv.ValidateFunction
+
   constructor() {
-    super(SchemaDefinition)
+    this.validateUsingAjv = new Ajv({ allErrors: true }).compile(JsonSchema)
   }
 
-  validate(config: {}): config is DLintConfigFields {
-    super.validate(config)
-    // TODO: domain specific validation
-    return true
+  validate(schema: object) {
+    const valid = this.validateUsingAjv(schema)
+    return valid
+  }
+
+  get errors() {
+    return this.validateUsingAjv.errors
   }
 }

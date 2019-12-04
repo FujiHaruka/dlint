@@ -6,7 +6,9 @@
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ajv": "^6.10.2"
+  },
   "engines": {
     "node": ">=10"
   },

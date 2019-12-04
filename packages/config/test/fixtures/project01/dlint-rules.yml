@@ -25,10 +25,9 @@ rules:
     - allow: packages
       on:
         - controller-helper
-  core: ~
+  core: []
   main:
-    - allow: layers
-      on: all
+    - allow: allLayers
   util:
     - allow: packages
       on:

@@ -1,39 +1,19 @@
-import {
-  DLintConfigFields,
-  DLintConfigSchema,
-} from '../../../src/core/DLintConfigSchema'
+import { promises as fs } from 'fs'
+import { join } from 'path'
 
-it('works', () => {
+import yaml from 'js-yaml'
+
+import { DLintConfigSchema } from '../../../src/core/DLintConfigSchema'
+
+it('works', async () => {
+  const config = yaml.safeLoad(
+    await fs.readFile(
+      join(__dirname, '../../fixtures/project01/dlint-rules.yml'),
+      'utf-8',
+    ),
+  )
   const schema = new DLintConfigSchema()
-
-  expect(
-    schema.validate({
-      rootDir: '/foo/project',
-      include: ['src/**/*.ts'],
-      rules: [],
-      parser: '',
-    }),
-  ).toBeTruthy()
-  expect(
-    schema.fillDefaults({
-      rootDir: '/foo/project',
-      include: ['src/**/*.ts'],
-      rules: [],
-      parser: '',
-    }),
-  ).toEqual({
-    rootDir: '/foo/project',
-    include: ['src/**/*.ts'],
-    exclude: [],
-    rules: [],
-    parser: '',
-  } as DLintConfigFields)
-
-  expect(() =>
-    schema.validate({
-      rootDir: '/foo/project',
-      rules: [],
-      parser: '',
-    }),
-  ).toThrow('"include" field is required')
+  const valid = schema.validate(config)
+  expect(valid).toBeTruthy()
+  expect(schema.errors).toBeNull()
 })
