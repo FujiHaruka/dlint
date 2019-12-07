@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import { extname, join } from 'path'
+import { extname, join, resolve } from 'path'
 
 import YAML from 'js-yaml'
 
@@ -23,7 +23,7 @@ export class ConfigFileReader {
     this.defaultFileNames = options.defaultFileNames || []
   }
 
-  async fromPath(path: string): Promise<object> {
+  async resolveConfigPath(path: string): Promise<string> {
     const stats = await fs.stat(path)
     if (stats.isDirectory()) {
       const { defaultFileNames } = this
@@ -31,7 +31,7 @@ export class ConfigFileReader {
         const filePath = join(path, fileName)
         const exists = await fileExists(filePath)
         if (exists) {
-          return this.fromPath(filePath)
+          return filePath
         }
       }
       throw new Error(
@@ -40,12 +40,20 @@ export class ConfigFileReader {
     }
     if (stats.isFile()) {
       const ext = extname(path)
-      if (ext === '.yaml' || ext === '.yml' || ext) {
-        return this.fromYamlFile(path)
+      if (ext === '.yaml' || ext === '.yml' || ext === '.json') {
+        return resolve(path)
       }
-      if (ext === '.json') {
-        return this.fromJsonFile(path)
-      }
+    }
+    throw new Error(`Config file extension must .yml, .yaml, or .json: ${path}`)
+  }
+
+  async fromPath(path: string): Promise<object> {
+    const ext = extname(path)
+    if (ext === '.yaml' || ext === '.yml' || ext) {
+      return this.fromYamlFile(path)
+    }
+    if (ext === '.json') {
+      return this.fromJsonFile(path)
     }
     throw new Error(`Config file must be JSON or YAML: ${path}`)
   }

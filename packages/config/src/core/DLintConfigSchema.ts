@@ -107,7 +107,7 @@ const JsonSchema = {
 
 export class DLintConfigSchema {
   static Defaults = {
-    PARSER: 'default',
+    PARSER: 'acorn',
   }
 
   validateUsingAjv: Ajv.ValidateFunction

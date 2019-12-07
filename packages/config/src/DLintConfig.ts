@@ -1,12 +1,16 @@
-import { resolve, basename } from 'path'
+import { resolve, dirname } from 'path'
 
 import { DLintConfigSchema, DLintConfigFields } from './core/DLintConfigSchema'
 import { ConfigFileReader } from './io/ConfigFileReader'
 
 export class DLintConfig {
-  static async read(path: string) {
-    const config = new this(resolve(path))
-    await config.init()
+  /**
+   * Load DLint rules config file
+   * @param path - project directory or config file path
+   */
+  static async load(path: string) {
+    const config = new this()
+    await config.init(path)
     return config
   }
 
@@ -14,13 +18,13 @@ export class DLintConfig {
     DEFAULT_CONFIG_FILES: ['dlint-rules.yaml', 'dlint-rules.yml'],
   }
 
-  filePath: string
-  reader: ConfigFileReader
-  schema: DLintConfigSchema
+  configPath: string
   fields: DLintConfigFields
+  private reader: ConfigFileReader
+  private schema: DLintConfigSchema
 
-  private constructor(filePath: string) {
-    this.filePath = filePath
+  private constructor() {
+    this.configPath = '' // late init
     this.reader = new ConfigFileReader({
       defaultFileNames: DLintConfig.Defaults.DEFAULT_CONFIG_FILES,
     })
@@ -28,12 +32,15 @@ export class DLintConfig {
     this.fields = {} as DLintConfigFields // late init
   }
 
-  private async init() {
-    const { filePath, reader, schema } = this
-    const partial = await reader.fromPath(filePath)
+  private async init(path: string) {
+    const { reader, schema } = this
+    const configPath = await reader.resolveConfigPath(resolve(path))
+    this.configPath = configPath
+
+    const partial = await reader.fromPath(configPath)
     if (schema.validate(partial)) {
       const fields = schema.fillDefaults(partial, {
-        configDir: basename(filePath),
+        configDir: dirname(configPath),
       })
       this.fields = fields
     } else {
