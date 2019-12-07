@@ -1,6 +1,6 @@
 {
-  "name": "@dlint/deps",
-  "description": "Dependencies graph for dlint",
+  "name": "@dlint/layer",
+  "description": "Directory layer for dlint",
   "version": "0.0.1",
   "author": "FujiHaruka",
   "bugs": {
@@ -16,20 +16,20 @@
   "files": [
     "build"
   ],
-  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/deps",
+  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/layer",
   "keywords": [
     "dependency",
     "dlint",
     "graph"
   ],
   "license": "MIT",
-  "main": "build/Deps.js",
+  "main": "build/DLintLayer.js",
   "private": false,
   "repository": "FujiHaruka/dlint",
   "scripts": {
     "prepare": "yarn build",
     "build": "rm -rf build/ && tsc",
-    "test": "jest --silent false --config ../../jest.config.js packages/deps"
+    "test": "jest --silent false --config ../../jest.config.js packages/layer"
   },
-  "types": "build/Deps.d.ts"
+  "types": "build/DLintLayer.d.ts"
 }

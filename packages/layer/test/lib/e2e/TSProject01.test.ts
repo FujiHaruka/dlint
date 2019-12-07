@@ -2,7 +2,7 @@ import { resolve } from 'path'
 
 import { parse } from '@typescript-eslint/typescript-estree'
 
-import { gatherDeps } from '../../../src/Deps'
+import { DLintLayer } from '../../../src/DLintLayer'
 import {
   ModuleTypes,
   LocalModule,
@@ -25,7 +25,7 @@ it('works', async () => {
   //     └── moduleB2.ts     - fs ./moduleB1 ../a/moduleA
 
   const rootDir = resolve(__dirname, '../../fixtures/ts-project01')
-  const gathered = await gatherDeps(['**/*.ts'], {
+  const layer = await DLintLayer.gatherDeps(['**/*.ts'], {
     rootDir,
     parser: {
       parse,
@@ -44,7 +44,7 @@ it('works', async () => {
     name,
   })
   const findDep = (file: string) =>
-    gathered.nodes.find((node) => node.file.relativePath === file)
+    layer.nodes.find((node) => node.file.relativePath === file)
   expect(findDep('a/moduleA.ts')).toMatchObject({
     fanin: {
       locals: [Local('b/moduleB1.ts'), Local('b/moduleB2.ts')],

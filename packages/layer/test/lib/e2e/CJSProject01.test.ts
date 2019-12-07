@@ -1,16 +1,16 @@
 import { resolve } from 'path'
 
-import { gatherDeps } from '../../../src/Deps'
+import { DLintLayer } from '../../../src/DLintLayer'
+import { FilePath } from '../../../src/core/module/FilePath'
 import {
   ModuleTypes,
   LocalModule,
   PackageModule,
   BuiltinModule,
 } from '../../../src/core/module/DLintModule'
-import { FilePath } from '../../../src/core/module/FilePath'
 
 it('works', async () => {
-  // ems-project01/            import
+  // cjs-project01/            require
   // ├── a
   // │   ├── moduleA.js      - ./x/moduleAX ./y
   // │   ├── x
@@ -22,8 +22,8 @@ it('works', async () => {
   //     ├── moduleB1.js     - ../a/moduleA
   //     └── moduleB2.js     - fs ./moduleB1 ../a/moduleA
 
-  const rootDir = resolve(__dirname, '../../fixtures/esm-project01')
-  const gathered = await gatherDeps(['**/*.js'], {
+  const rootDir = resolve(__dirname, '../../fixtures/cjs-project01')
+  const layer = await DLintLayer.gatherDeps(['**/*.js'], {
     rootDir,
   })
   const Local = (file: string): LocalModule => ({
@@ -39,7 +39,7 @@ it('works', async () => {
     name,
   })
   const findDep = (file: string) =>
-    gathered.nodes.find((node) => node.file.relativePath === file)
+    layer.nodes.find((node) => node.file.relativePath === file)
   expect(findDep('a/moduleA.js')).toMatchObject({
     fanin: {
       locals: [Local('b/moduleB1.js'), Local('b/moduleB2.js')],
