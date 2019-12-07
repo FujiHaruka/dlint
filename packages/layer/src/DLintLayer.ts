@@ -9,6 +9,9 @@ import { ModuleResolver } from './resolver/ModuleResolver'
 import { FilePath } from './core/module/FilePath'
 import { LocalModule } from './core/module/DLintModule'
 
+export * from './core/dep/DepNode'
+export * from './core/module/DLintModule'
+
 export interface GatherDepsOptions {
   rootDir?: string
   parser?: Parser
