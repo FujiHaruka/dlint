@@ -3,7 +3,10 @@ import { join } from 'path'
 
 import yaml from 'js-yaml'
 
-import { DLintConfigSchema } from '../../../src/core/DLintConfigSchema'
+import {
+  DLintConfigSchema,
+  DLintConfigFields,
+} from '../../../src/core/DLintConfigSchema'
 
 it('works', async () => {
   const config = yaml.safeLoad(
@@ -16,4 +19,34 @@ it('works', async () => {
   const valid = schema.validate(config)
   expect(valid).toBeTruthy()
   expect(schema.errors).toBeNull()
+
+  expect(schema.fillDefaults(config, { configDir: __dirname })).toEqual(config)
+})
+
+it('fills default fields', () => {
+  const config: Partial<DLintConfigFields> = {
+    layers: {},
+    rules: {},
+  }
+  const schema = new DLintConfigSchema()
+  const valid = schema.validate(config)
+  expect(valid).toBeTruthy()
+  expect(schema.errors).toBeNull()
+
+  const filled: DLintConfigFields = {
+    layers: {},
+    rules: {},
+    defaultRules: [],
+    ignorePatterns: [],
+    parser: DLintConfigSchema.Defaults.PARSER,
+    rootDir: __dirname,
+  }
+  expect(schema.fillDefaults(config, { configDir: __dirname })).toEqual(filled)
+})
+
+it('errors', () => {
+  const schema = new DLintConfigSchema()
+  const valid = schema.validate({})
+  expect(valid).toBeFalsy()
+  expect(schema.errors).toBeTruthy()
 })
