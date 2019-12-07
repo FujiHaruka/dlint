@@ -8,6 +8,10 @@ import { DepNodeCombiner } from './core/dep/DepNodeCombiner'
 import { ModuleResolver } from './resolver/ModuleResolver'
 import { FilePath } from './core/module/FilePath'
 import { LocalModule } from './core/module/DLintModule'
+import {
+  DLintLayer as IDLintLayer,
+  DLintLayerMeta,
+} from './core/layer/DLintLayer'
 
 export * from './core/dep/DepNode'
 export * from './core/module/DLintModule'
@@ -25,16 +29,17 @@ const defaultParser: Parser = {
     }),
 }
 
-interface Meta {
-  rootDir: string
-  patterns: string[]
-}
-
-export class DLintLayer {
-  meta: Meta
+export class DLintLayer implements IDLintLayer {
+  meta: DLintLayerMeta
   nodes: DepNode[]
 
-  private constructor({ meta, nodes }: { meta: Meta; nodes: DepNode[] }) {
+  private constructor({
+    meta,
+    nodes,
+  }: {
+    meta: DLintLayerMeta
+    nodes: DepNode[]
+  }) {
     this.meta = meta
     this.nodes = nodes
   }
