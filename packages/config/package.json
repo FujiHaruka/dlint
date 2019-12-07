@@ -7,7 +7,8 @@
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
-    "ajv": "^6.10.2"
+    "ajv": "^6.10.2",
+    "js-yaml": "^3.13.1"
   },
   "engines": {
     "node": ">=10"

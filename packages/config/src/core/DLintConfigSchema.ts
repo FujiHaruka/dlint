@@ -1,5 +1,7 @@
 import Ajv from 'ajv'
 
+import { ConfigSchema } from './ConfigSchema'
+
 enum RuleTargets {
   ALL_LAYERS = 'allLayers',
   ALL_PACKAGES = 'allPackages',
@@ -105,16 +107,21 @@ const JsonSchema = {
   },
 }
 
-export class DLintConfigSchema {
+export class DLintConfigSchema implements ConfigSchema<DLintConfigFields> {
   validateUsingAjv: Ajv.ValidateFunction
 
   constructor() {
     this.validateUsingAjv = new Ajv({ allErrors: true }).compile(JsonSchema)
   }
 
-  validate(schema: object) {
-    const valid = this.validateUsingAjv(schema)
+  validate(fields: object): fields is DLintConfigFields {
+    const valid = this.validateUsingAjv(fields) as boolean
+    // TODO: domain specific logic
     return valid
+  }
+
+  fillDefaults(fields: DLintConfigFields): DLintConfigFields {
+    return fields
   }
 
   get errors() {
