@@ -27,6 +27,7 @@
   "private": false,
   "repository": "FujiHaruka/dlint",
   "scripts": {
+    "prepare": "yarn build",
     "build": "rm -rf build/ && tsc",
     "test": "jest --silent false --config ../../jest.config.js packages/deps"
   },
