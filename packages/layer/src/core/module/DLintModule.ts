@@ -31,3 +31,22 @@ export const is = {
   BuiltinModule: (module: DLintModule): module is BuiltinModule =>
     module.type === ModuleTypes.BUILTIN,
 }
+
+export const equals = (moduleA: DLintModule, moduleB: DLintModule) => {
+  if (moduleA.type !== moduleB.type) {
+    return false
+  }
+  switch (moduleA.type) {
+    case ModuleTypes.BUILTIN:
+      return moduleA.name === (moduleB as BuiltinModule).name
+    case ModuleTypes.PACKAGE:
+      return moduleA.name === (moduleB as PackageModule).name
+    case ModuleTypes.LOCAL:
+      return (
+        moduleA.path.absolutePath === (moduleB as LocalModule).path.absolutePath
+      )
+    default:
+      // never
+      throw new Error(`Unknown module type: ${(moduleA as DLintModule).type}`)
+  }
+}
