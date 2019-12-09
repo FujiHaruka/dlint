@@ -32,21 +32,20 @@ export const is = {
     module.type === ModuleTypes.BUILTIN,
 }
 
-export const equals = (moduleA: DLintModule, moduleB: DLintModule) => {
-  if (moduleA.type !== moduleB.type) {
-    return false
-  }
-  switch (moduleA.type) {
+export const toKeyString = (mod: DLintModule): string => {
+  switch (mod.type) {
     case ModuleTypes.BUILTIN:
-      return moduleA.name === (moduleB as BuiltinModule).name
+      return `${mod.type}#${mod.name}`
     case ModuleTypes.PACKAGE:
-      return moduleA.name === (moduleB as PackageModule).name
+      return `${mod.type}#${mod.name}`
     case ModuleTypes.LOCAL:
-      return (
-        moduleA.path.absolutePath === (moduleB as LocalModule).path.absolutePath
-      )
+      return `${mod.type}#${mod.path.absolutePath}`
     default:
       // never
-      throw new Error(`Unknown module type: ${(moduleA as DLintModule).type}`)
+      throw new Error(`Unknown module type: ${(mod as DLintModule).type}`)
   }
+}
+
+export const equals = (moduleA: DLintModule, moduleB: DLintModule) => {
+  return toKeyString(moduleA) === toKeyString(moduleB)
 }
