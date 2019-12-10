@@ -18,7 +18,7 @@ export const RuleUnitNames = {
 
 export class AllowAll extends RuleUnitBase {
   name = RuleUnitNames.AllowAll
-  positive = true
+  protected positive = true
 
   protected target(fanout: Fanout) {
     return [...fanout.locals, ...fanout.builtins, ...fanout.packages]
@@ -33,8 +33,8 @@ export class AllowAll extends RuleUnitBase {
 
 export class AllowLayers extends RuleUnitBase {
   name = RuleUnitNames.AllowLayers
-  positive = true
   layers: DLintLayer[]
+  protected positive = true
 
   constructor(layers: DLintLayer[]) {
     super()
@@ -52,8 +52,8 @@ export class AllowLayers extends RuleUnitBase {
 
 export class AllowPackages extends RuleUnitBase {
   name = RuleUnitNames.AllowPackages
-  positive = true
   packages: string[]
+  protected positive = true
 
   constructor(packages: string[]) {
     super()
@@ -73,15 +73,15 @@ export class AllowPackages extends RuleUnitBase {
 
 export class DisallowAll extends AllowAll {
   name = RuleUnitNames.DisallowAll
-  positive = false
+  protected positive = false
 }
 
 export class DisallowLayers extends AllowLayers {
   name = RuleUnitNames.DisallowLayers
-  positive = false
+  protected positive = false
 }
 
 export class DisallowPackages extends AllowPackages {
   name = RuleUnitNames.DisallowPackages
-  positive = false
+  protected positive = false
 }

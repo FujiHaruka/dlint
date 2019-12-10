@@ -10,7 +10,7 @@ export interface RuleUnit {
 
 export class RuleUnitBase implements RuleUnit {
   name = 'Base'
-  positive = true
+  protected positive = true
 
   apply(node: DepNode) {
     const result = new NodeAppliedResult(node, this.name)
