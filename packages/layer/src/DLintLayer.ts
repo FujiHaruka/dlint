@@ -85,7 +85,7 @@ export class DLintLayer implements IDLintLayer {
     })
   }
 
-  isMember(localModule: LocalModule): boolean {
+  has(localModule: LocalModule): boolean {
     return this.nodes.some(
       (node) => node.file.absolutePath === localModule.path.absolutePath,
     )

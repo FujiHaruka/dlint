@@ -9,5 +9,5 @@ export interface DLintLayerMeta {
 export interface DLintLayer {
   meta: DLintLayerMeta
   nodes: DepNode[]
-  isMember(localModule: LocalModule): boolean
+  has(localModule: LocalModule): boolean
 }
