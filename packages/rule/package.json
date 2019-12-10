@@ -25,7 +25,7 @@
   "private": false,
   "repository": "FujiHaruka/dlint",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf build/ && tsc",
     "test": "jest --silent false --config ../../jest.config.js packages/rule"
   },
   "types": "build/DLintRule.d.ts"
