@@ -1,5 +1,7 @@
 # dlint
 
+![](https://github.com/fujiharuka/dlint/workflows/all%20packages/badge.svg)
+
 THIS PROJECT IS IN DEVELOPMENT.
 
 ## Scripts
