@@ -61,7 +61,7 @@ export const MockLayer = {
         rootDir: '/project',
         patterns: [],
       },
-      // nodes may be empty
+      // nodes can be empty
       nodes: [],
       has: () => true,
     }
@@ -73,7 +73,7 @@ export const MockLayer = {
         rootDir: '/project',
         patterns: [pattern],
       },
-      // nodes may be empty
+      // nodes can be empty
       nodes: [],
       has(local: LocalModule) {
         return minimatch(local.path.relativePath, pattern)

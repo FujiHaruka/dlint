@@ -9,7 +9,6 @@ import { ObjectKeyMap } from '../core-util/ObjectKeyMap'
 export enum RuleAllowanceStatus {
   ALLOWED = 'allowed',
   DISALLOWED = 'disallowed',
-  UNCONCERN = 'unconcern',
 }
 
 /**
@@ -53,53 +52,37 @@ export class NodeAppliedResult {
     })
   }
 
-  unconcern(module: DLintModule) {
-    this.moduleStatusMap.set(module, {
-      status: RuleAllowanceStatus.UNCONCERN,
-      ruleUnitName: this.ruleUnitName,
-      module,
-    })
-  }
-
   statuses() {
     return this.moduleStatusMap.values()
   }
+}
 
-  override(another: NodeAppliedResult): NodeAppliedResult {
-    // TODO: このクラスにあるべきではない
-    const { node } = this
-    if (node.file.absolutePath !== another.node.file.absolutePath) {
-      throw new Error(
-        `Different node: ${node.file.absolutePath} != ${another.node.file.absolutePath}`,
-      )
+/**
+ * Reduce NodeAppliedResult array to single result
+ */
+export const reduceDisallowedResults = (results: NodeAppliedResult[]) => {
+  if (results.length === 0) {
+    return null
+  }
+  const { node } = results[0]
+  const invalidResult = results.find(
+    (result) => result.node.file.absolutePath !== node.file.absolutePath,
+  )
+  if (invalidResult) {
+    throw new Error(
+      `Different node: ${results[0].node.file.absolutePath} != ${invalidResult.node.file.absolutePath}`,
+    )
+  }
+  const map = new ObjectKeyMap<DLintModule, ModuleAppliedStatus>(toKeyString)
+  for (const result of results) {
+    for (const status of result.statuses()) {
+      map.set(status.module, status)
     }
-    const result = new NodeAppliedResult(node, 'special')
-    for (const { status, module } of this.statuses()) {
-      switch (status) {
-        case RuleAllowanceStatus.ALLOWED:
-          result.allow(module)
-          continue
-        case RuleAllowanceStatus.DISALLOWED:
-          result.disallow(module)
-          continue
-        case RuleAllowanceStatus.UNCONCERN:
-          result.unconcern(module)
-          continue
-      }
-    }
-    for (const { status, module } of another.statuses()) {
-      switch (status) {
-        case RuleAllowanceStatus.ALLOWED:
-          result.allow(module)
-          continue
-        case RuleAllowanceStatus.DISALLOWED:
-          result.disallow(module)
-          continue
-        case RuleAllowanceStatus.UNCONCERN:
-          // do nothing
-          continue
-      }
-    }
-    return result
+  }
+  return {
+    node,
+    moduleStatuses: map
+      .values()
+      .filter((module) => module.status === RuleAllowanceStatus.DISALLOWED),
   }
 }
