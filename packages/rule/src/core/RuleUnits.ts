@@ -9,12 +9,20 @@ import { RuleUnitBase } from './RuleUnitBase'
 
 export const RuleUnitNames = {
   AllowAll: 'AllowAll',
+  AllowAllLayers: 'AllowAllLayers',
+  AllowAllPackages: 'AllowAllPackages',
+  AllowAllNodejs: 'AllowAllNodejs',
   AllowLayers: 'AllowLayers',
   AllowPackages: 'AllowPackages',
   DisallowAll: 'DisallowAll',
+  DisallowAllLayers: 'DisallowAllLayers',
+  DisallowAllPackages: 'DisallowAllPackages',
+  DisallowAllNodejs: 'DisallowAllNodejs',
   DisallowLayers: 'DisallowLayers',
   DisallowPackages: 'DisallowPackages',
 }
+
+// --- allowing rule units
 
 export class AllowAll extends RuleUnitBase {
   name = RuleUnitNames.AllowAll
@@ -29,7 +37,46 @@ export class AllowAll extends RuleUnitBase {
   }
 }
 
-// --- allowing rule units
+export class AllowAllLayers extends RuleUnitBase {
+  name = RuleUnitNames.AllowAllLayers
+
+  protected positive = true
+
+  protected target(fanout: Fanout) {
+    // FIXME: Is self layer exception?
+    return [...fanout.locals]
+  }
+
+  protected judge() {
+    return true
+  }
+}
+
+export class AllowAllPackages extends RuleUnitBase {
+  name = RuleUnitNames.AllowAllPackages
+  protected positive = true
+
+  protected target(fanout: Fanout) {
+    return [...fanout.builtins, ...fanout.packages]
+  }
+
+  protected judge() {
+    return true
+  }
+}
+
+export class AllowAllNodejs extends RuleUnitBase {
+  name = RuleUnitNames.AllowAllNodejs
+  protected positive = true
+
+  protected target(fanout: Fanout) {
+    return [...fanout.builtins]
+  }
+
+  protected judge() {
+    return true
+  }
+}
 
 export class AllowLayers extends RuleUnitBase {
   name = RuleUnitNames.AllowLayers
@@ -83,5 +130,20 @@ export class DisallowLayers extends AllowLayers {
 
 export class DisallowPackages extends AllowPackages {
   name = RuleUnitNames.DisallowPackages
+  protected positive = false
+}
+
+export class DisallowAllLayers extends AllowAllLayers {
+  name = RuleUnitNames.DisallowAllLayers
+  protected positive = false
+}
+
+export class DisallowAllPackages extends AllowAllPackages {
+  name = RuleUnitNames.DisallowAllPackages
+  protected positive = false
+}
+
+export class DisallowAllNodejs extends AllowAllNodejs {
+  name = RuleUnitNames.DisallowAllNodejs
   protected positive = false
 }

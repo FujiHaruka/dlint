@@ -2,11 +2,15 @@ import { DLintLayer } from '@dlint/layer/build/core/layer/DLintLayer'
 
 import {
   AllowAll,
-  AllowPackages,
+  AllowAllLayers,
+  AllowAllPackages,
   AllowLayers,
+  AllowPackages,
   DisallowAll,
-  DisallowPackages,
+  DisallowAllLayers,
+  DisallowAllPackages,
   DisallowLayers,
+  DisallowPackages,
 } from '../core/RuleUnits'
 
 export enum RuleAction {
@@ -16,11 +20,11 @@ export enum RuleAction {
 
 export enum RuleTarget {
   ALL = 'all',
-  ALL_PACKAGES = 'allPackages',
   ALL_LAYERS = 'allLayers',
+  ALL_PACKAGES = 'allPackages',
   ALL_NODEJS = 'allNodejs',
-  PACKAGES = 'packages',
   LAYERS = 'layers',
+  PACKAGES = 'packages',
 }
 
 const RuleTargets = new Set(Object.values(RuleTarget))
@@ -50,22 +54,35 @@ export class RuleResolver {
       case RuleTarget.ALL: {
         return positive ? new AllowAll() : new DisallowAll()
       }
-      case RuleTarget.ALL_PACKAGES: {
-        return positive ? new AllowAllPackages() : new DisallowAllPackages()
-      }
       case RuleTarget.ALL_LAYERS: {
         return positive ? new AllowAllLayers() : new DisallowAllLayers()
+      }
+      case RuleTarget.ALL_PACKAGES: {
+        return positive ? new AllowAllPackages() : new DisallowAllPackages()
       }
       case RuleTarget.ALL_NODEJS: {
         // TODO:
         // return positive ? new AllowAllNodejs() : new DisallowAllNodejs()
         return
       }
-      case RuleTarget.PACKAGES: {
-        return positive ? new AllowPackages(args) : new DisallowPackages(args)
-      }
       case RuleTarget.LAYERS: {
-        return positive ? new AllowLayers(args) : new DisallowLayers(args)
+        if (!args) {
+          throw new Error(`"on" is required for "layers" rule`)
+        }
+        const invalidLayerName = args.find((name) => !this.layers.has(name))
+        if (invalidLayerName) {
+          throw new Error(`Layer name "${invalidLayerName}" is invalid`)
+        }
+        const layers = args
+          .map((name) => this.layers.get(name))
+          .filter((layer): layer is DLintLayer => Boolean(layer))
+        return positive ? new AllowLayers(layers) : new DisallowLayers(layers)
+      }
+      case RuleTarget.PACKAGES: {
+        if (!args) {
+          throw new Error(`"on" is required for "packages" rule`)
+        }
+        return positive ? new AllowPackages(args) : new DisallowPackages(args)
       }
       default:
         throw new Error('never')
