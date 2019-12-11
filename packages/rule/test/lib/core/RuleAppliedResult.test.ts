@@ -16,7 +16,11 @@ import {
 } from '../../../src/core/RuleUnits'
 
 it('works with empty array', () => {
-  expect(reduceDisallowedResults([])).toBeNull()
+  const node = MockNode.simple()
+  expect(reduceDisallowedResults(node, [])).toEqual({
+    node,
+    statuses: [],
+  })
 })
 
 it('works disallow -> allow', () => {
@@ -28,9 +32,9 @@ it('works disallow -> allow', () => {
     new AllowLayers([MockLayer.layer1()]),
   ].map((rule) => rule.apply(node))
 
-  const reduced = reduceDisallowedResults(results)
+  const reduced = reduceDisallowedResults(node, results)
   expect(reduced).toEqual({
-    moduleStatuses: [
+    statuses: [
       {
         module: {
           path: new FilePath('/project', 'base/module.js'),
@@ -71,9 +75,9 @@ it('works allow -> disallow', () => {
     new DisallowLayers([MockLayer.layer1()]),
   ].map((rule) => rule.apply(node))
 
-  const reduced = reduceDisallowedResults(results)
+  const reduced = reduceDisallowedResults(node, results)
   expect(reduced).toEqual({
-    moduleStatuses: [
+    statuses: [
       {
         module: {
           path: new FilePath('/project', 'layer1/module.js'),

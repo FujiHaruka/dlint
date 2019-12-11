@@ -20,6 +20,14 @@ interface ModuleAppliedStatus {
   module: DLintModule
 }
 
+export interface DisallowedResult {
+  node: DepNode
+  statuses: {
+    ruleUnitName: string
+    module: DLintModule
+  }[]
+}
+
 /**
  * Result of applying a specific rule unit to a DepNode
  */
@@ -60,11 +68,16 @@ export class NodeAppliedResult {
 /**
  * Reduce NodeAppliedResult array to single result
  */
-export const reduceDisallowedResults = (results: NodeAppliedResult[]) => {
+export const reduceDisallowedResults = (
+  node: DepNode,
+  results: NodeAppliedResult[],
+): DisallowedResult => {
   if (results.length === 0) {
-    return null
+    return {
+      node,
+      statuses: [],
+    }
   }
-  const { node } = results[0]
   const invalidResult = results.find(
     (result) => result.node.file.absolutePath !== node.file.absolutePath,
   )
@@ -81,7 +94,7 @@ export const reduceDisallowedResults = (results: NodeAppliedResult[]) => {
   }
   return {
     node,
-    moduleStatuses: map
+    statuses: map
       .values()
       .filter((module) => module.status === RuleAllowanceStatus.DISALLOWED),
   }
