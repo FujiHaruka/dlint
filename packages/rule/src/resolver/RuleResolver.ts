@@ -4,11 +4,13 @@ import {
   AllowAll,
   AllowAllLayers,
   AllowAllPackages,
+  AllowAllNodejs,
   AllowLayers,
   AllowPackages,
   DisallowAll,
   DisallowAllLayers,
   DisallowAllPackages,
+  DisallowAllNodejs,
   DisallowLayers,
   DisallowPackages,
 } from '../core/RuleUnits'
@@ -41,6 +43,20 @@ interface DisallowingExpression {
 
 export type RuleExpression = AllowingExpression | DisallowingExpression
 
+function assertArgs(
+  target: RuleTarget,
+  args?: string[] | undefined,
+): asserts args {
+  if (!args) {
+    throw new Error(`"on" field is required for "${target}" rule`)
+  }
+}
+function warnIfArgs(target: RuleTarget, args?: string[]) {
+  if (args) {
+    console.warn(`"on" field is meaningless for "${target}" rule`)
+  }
+}
+
 export class RuleResolver {
   layers: Map<string, DLintLayer>
 
@@ -52,23 +68,23 @@ export class RuleResolver {
     const { positive, target, args } = this.validate(expression)
     switch (target) {
       case RuleTarget.ALL: {
+        warnIfArgs(target, args)
         return positive ? new AllowAll() : new DisallowAll()
       }
       case RuleTarget.ALL_LAYERS: {
+        warnIfArgs(target, args)
         return positive ? new AllowAllLayers() : new DisallowAllLayers()
       }
       case RuleTarget.ALL_PACKAGES: {
+        warnIfArgs(target, args)
         return positive ? new AllowAllPackages() : new DisallowAllPackages()
       }
       case RuleTarget.ALL_NODEJS: {
-        // TODO:
-        // return positive ? new AllowAllNodejs() : new DisallowAllNodejs()
-        return
+        warnIfArgs(target, args)
+        return positive ? new AllowAllNodejs() : new DisallowAllNodejs()
       }
       case RuleTarget.LAYERS: {
-        if (!args) {
-          throw new Error(`"on" is required for "layers" rule`)
-        }
+        assertArgs(target, args)
         const invalidLayerName = args.find((name) => !this.layers.has(name))
         if (invalidLayerName) {
           throw new Error(`Layer name "${invalidLayerName}" is invalid`)
@@ -79,9 +95,7 @@ export class RuleResolver {
         return positive ? new AllowLayers(layers) : new DisallowLayers(layers)
       }
       case RuleTarget.PACKAGES: {
-        if (!args) {
-          throw new Error(`"on" is required for "packages" rule`)
-        }
+        assertArgs(target, args)
         return positive ? new AllowPackages(args) : new DisallowPackages(args)
       }
       default:
@@ -99,7 +113,7 @@ export class RuleResolver {
         )}`,
       )
     }
-    if (!isAllowing && !isAllowing) {
+    if (!isAllowing && !isDisallowing) {
       throw new Error(
         `Must use one of "allow" and "disallow": ${JSON.stringify(expression)}`,
       )
