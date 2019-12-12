@@ -57,6 +57,7 @@ export const MockNode = {
 export const MockLayer = {
   simple(): DLintLayer {
     return {
+      name: 'simple',
       meta: {
         rootDir: '/project',
         patterns: [],
@@ -69,6 +70,7 @@ export const MockLayer = {
   layer1(): DLintLayer {
     const pattern = 'layer1/**/*.js'
     return {
+      name: 'layer1',
       meta: {
         rootDir: '/project',
         patterns: [pattern],

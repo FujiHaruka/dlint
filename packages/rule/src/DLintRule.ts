@@ -22,7 +22,7 @@ export class DLintRule {
 
   apply(layer: DLintLayer) {
     const { expressionsMap, layers } = this
-    if (layers.has(layer.name)) {
+    if (!layers.has(layer.name)) {
       throw new Error(`Layer "${layer.name}" not found in DLintRule`)
     }
     const expressions = expressionsMap.get(layer.name) || []
