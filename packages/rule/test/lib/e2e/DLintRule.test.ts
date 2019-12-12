@@ -178,12 +178,30 @@ it('works', () => {
   {
     const layer = layers.get('controller')!
     const disallowed = apply(layer)
+    expect(disallowed).toHaveLength(2)
     expect(disallowed).toContainEqual(Local('other/main.js'))
     expect(disallowed).toContainEqual(Package('will-be-disallowed'))
   }
   {
     const layer = layers.get('core')!
     const disallowed = apply(layer)
-    expect(disallowed).toEqual([Package('will-be-disallowed')])
+    expect(disallowed).toHaveLength(1)
+    expect(disallowed).toContainEqual(Package('will-be-disallowed'))
+  }
+  {
+    const layer = layers.get('main')!
+    const disallowed = apply(layer)
+    expect(disallowed).toHaveLength(2)
+    expect(disallowed).toContainEqual(Builtin('path'))
+    expect(disallowed).toContainEqual(Package('will-be-disallowed'))
+    // in no layer
+    // TODO: この扱いをどうする？
+    // expect(disallowed).toContainEqual(Local('will/disallowed.js'))
+  }
+  {
+    const layer = layers.get('util')!
+    const disallowed = apply(layer)
+    expect(disallowed).toHaveLength(1)
+    expect(disallowed).toContainEqual(Local('will/disallowed.js'))
   }
 })

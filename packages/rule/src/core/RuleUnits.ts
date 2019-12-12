@@ -108,7 +108,7 @@ export class AllowPackages extends RuleUnitBase {
   }
 
   protected target(fanout: Fanout) {
-    return fanout.packages
+    return [...fanout.packages, ...fanout.builtins]
   }
 
   protected judge(module: PackageModule) {
