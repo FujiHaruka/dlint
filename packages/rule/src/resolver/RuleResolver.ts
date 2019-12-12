@@ -14,6 +14,7 @@ import {
   DisallowLayers,
   DisallowPackages,
 } from '../core/RuleUnits'
+import { RuleUnit } from '../core/RuleUnitBase'
 
 export enum RuleAction {
   ALLOW = 'allow',
@@ -64,7 +65,7 @@ export class RuleResolver {
     this.layers = layers
   }
 
-  resolve(expression: RuleExpression) {
+  resolve(expression: RuleExpression): RuleUnit {
     const { positive, target, args } = this.validate(expression)
     switch (target) {
       case RuleTarget.ALL: {
