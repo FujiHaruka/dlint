@@ -30,21 +30,26 @@ const defaultParser: Parser = {
 }
 
 export class DLintLayer implements IDLintLayer {
+  name: string
   meta: DLintLayerMeta
   nodes: DepNode[]
 
   private constructor({
+    name,
     meta,
     nodes,
   }: {
+    name: string
     meta: DLintLayerMeta
     nodes: DepNode[]
   }) {
+    this.name = name
     this.meta = meta
     this.nodes = nodes
   }
 
   static async gatherDeps(
+    name: string,
     patterns: string[],
     options: GatherDepsOptions = {},
   ): Promise<DLintLayer> {
@@ -77,6 +82,7 @@ export class DLintLayer implements IDLintLayer {
     )
     const depNodes = DepNodeCombiner.combine(fileDeps)
     return new this({
+      name,
       meta: {
         rootDir,
         patterns,

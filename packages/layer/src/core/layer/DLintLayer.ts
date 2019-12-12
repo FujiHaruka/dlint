@@ -7,6 +7,7 @@ export interface DLintLayerMeta {
 }
 
 export interface DLintLayer {
+  name: string
   meta: DLintLayerMeta
   nodes: DepNode[]
   has(localModule: LocalModule): boolean

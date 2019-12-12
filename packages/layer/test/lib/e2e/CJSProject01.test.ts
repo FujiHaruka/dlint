@@ -23,7 +23,7 @@ it('works', async () => {
   //     └── moduleB2.js     - fs ./moduleB1 ../a/moduleA
 
   const rootDir = resolve(__dirname, '../../fixtures/cjs-project01')
-  const layer = await DLintLayer.gatherDeps(['**/*.js'], {
+  const layer = await DLintLayer.gatherDeps('layer', ['**/*.js'], {
     rootDir,
   })
   const Local = (file: string): LocalModule => ({

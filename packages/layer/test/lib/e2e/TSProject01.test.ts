@@ -25,7 +25,7 @@ it('works', async () => {
   //     └── moduleB2.ts     - fs ./moduleB1 ../a/moduleA
 
   const rootDir = resolve(__dirname, '../../fixtures/ts-project01')
-  const layer = await DLintLayer.gatherDeps(['**/*.ts'], {
+  const layer = await DLintLayer.gatherDeps('layer', ['**/*.ts'], {
     rootDir,
     parser: {
       parse,
