@@ -24,7 +24,7 @@
   ],
   "license": "MIT",
   "main": "build/DLintLayer.js",
-  "private": true,
+  "private": false,
   "repository": "FujiHaruka/dlint",
   "scripts": {
     "prepare": "yarn build",
