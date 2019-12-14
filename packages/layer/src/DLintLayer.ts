@@ -19,7 +19,7 @@ export * from './core/module/DLintModule'
 export interface GatherDepsOptions {
   rootDir?: string
   parser?: Parser
-  ignore?: string[]
+  ignorePatterns?: string[]
 }
 
 const defaultParser: Parser = {
@@ -56,7 +56,7 @@ export class DLintLayer implements IDLintLayer {
     const {
       parser = defaultParser,
       rootDir = process.cwd(),
-      ignore = [],
+      ignorePatterns = [],
     } = options
     const analizer = new DepAnalyzer({
       parser: ParserAdapter.adapt(parser),
@@ -65,7 +65,7 @@ export class DLintLayer implements IDLintLayer {
     const files = await glob(patterns, {
       cwd: rootDir,
       absolute: true,
-      ignore,
+      ignore: ignorePatterns,
     })
     if (files.length === 0) {
       console.warn(
