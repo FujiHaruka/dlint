@@ -10,7 +10,7 @@ import { FilePath } from '@dlint/layer/build/core/module/FilePath'
 import minimatch from 'minimatch'
 
 import { RuleExpression } from '../../../src/resolver/RuleResolver'
-import { DLintRule } from '../../../src/DLintRule'
+import { DLintRule, LayerExpressions } from '../../../src/DLintRule'
 
 const ROOT_DIR = '/project'
 const FANIN = {
@@ -70,8 +70,8 @@ it('works', () => {
       },
     ],
   })
-  const layers = MapFrom<DLintLayer>({
-    controller: {
+  const layers: DLintLayer[] = [
+    {
       name: 'controller',
       meta: {
         rootDir: ROOT_DIR,
@@ -97,7 +97,7 @@ it('works', () => {
         return minimatch(local.path.relativePath, 'controller/**/*.js')
       },
     },
-    core: {
+    {
       name: 'core',
       meta: {
         rootDir: ROOT_DIR,
@@ -118,7 +118,7 @@ it('works', () => {
         return minimatch(local.path.relativePath, 'core/**/*.js')
       },
     },
-    main: {
+    {
       name: 'main',
       meta: {
         rootDir: ROOT_DIR,
@@ -143,7 +143,7 @@ it('works', () => {
         return local.path.relativePath === 'main.js'
       },
     },
-    util: {
+    {
       name: 'util',
       meta: {
         rootDir: ROOT_DIR,
@@ -164,9 +164,13 @@ it('works', () => {
         return minimatch(local.path.relativePath, 'util/**/*.js')
       },
     },
-  })
+  ]
 
-  const rule = new DLintRule(expressionsMap, layers)
+  const relations: LayerExpressions[] = layers.map((layer) => ({
+    layer,
+    expressions: expressionsMap.get(layer.name) || [],
+  }))
+  const rule = new DLintRule(relations)
 
   const apply = (layer: DLintLayer) =>
     rule
@@ -175,27 +179,27 @@ it('works', () => {
       .map(({ module }) => module)
 
   {
-    const layer = layers.get('controller')!
+    const layer = layers.find(({ name }) => name === 'controller')!
     const disallowed = apply(layer)
     expect(disallowed).toHaveLength(2)
     expect(disallowed).toContainEqual(Local('other/main.js'))
     expect(disallowed).toContainEqual(Package('will-be-disallowed'))
   }
   {
-    const layer = layers.get('core')!
+    const layer = layers.find(({ name }) => name === 'core')!
     const disallowed = apply(layer)
     expect(disallowed).toHaveLength(1)
     expect(disallowed).toContainEqual(Package('will-be-disallowed'))
   }
   {
-    const layer = layers.get('main')!
+    const layer = layers.find(({ name }) => name === 'main')!
     const disallowed = apply(layer)
     expect(disallowed).toHaveLength(2)
     expect(disallowed).toContainEqual(Builtin('path'))
     expect(disallowed).toContainEqual(Package('will-be-disallowed'))
   }
   {
-    const layer = layers.get('util')!
+    const layer = layers.find(({ name }) => name === 'util')!
     const disallowed = apply(layer)
     expect(disallowed).toHaveLength(1)
     expect(disallowed).toContainEqual(Local('will/disallowed.js'))

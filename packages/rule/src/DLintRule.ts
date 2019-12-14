@@ -1,31 +1,28 @@
-import { strict as assert } from 'assert'
-
 import { DLintLayer } from '@dlint/layer/build/core/layer/DLintLayer'
 
-import { RuleExpression, RuleResolver } from './resolver/RuleResolver'
+import { RuleResolver } from './resolver/RuleResolver'
 import { reduceDisallowedResults } from './core/RuleAppliedResult'
+import {
+  LayerExpressionsRelations,
+  LayerExpressions,
+} from './core/LayerExpressions'
 
-type LayerName = string
+export { LayerExpressions } from './core/LayerExpressions'
 
 export class DLintRule {
-  expressionsMap: Map<LayerName, RuleExpression[]>
-  layers: Map<LayerName, DLintLayer>
+  relations: LayerExpressionsRelations
 
-  constructor(
-    expressionsMap: Map<string, RuleExpression[]>,
-    layers: Map<string, DLintLayer>,
-  ) {
-    this.expressionsMap = expressionsMap
-    this.layers = layers
-    this.validateInit()
+  constructor(relations: LayerExpressions[]) {
+    this.relations = new LayerExpressionsRelations(relations)
   }
 
   apply(layer: DLintLayer) {
-    const { expressionsMap, layers } = this
+    const { relations } = this
+    const { layers } = relations
     if (!layers.has(layer.name)) {
       throw new Error(`Layer "${layer.name}" not found in DLintRule`)
     }
-    const expressions = expressionsMap.get(layer.name) || []
+    const expressions = relations.expressionFor(layer)
     const units = expressions.map((exp) =>
       new RuleResolver(layers).resolve(exp),
     )
@@ -34,25 +31,5 @@ export class DLintRule {
       return reduceDisallowedResults(node, results)
     })
     return disallowed
-  }
-
-  private validateInit() {
-    const { layers } = this
-    for (const layerName of layers.keys()) {
-      const layer = layers.get(layerName)
-      assert.equal(
-        layerName,
-        layer?.name,
-        `Key "${layerName}" in layers is not name for layer ${JSON.stringify(
-          layer,
-        )}`,
-      )
-    }
-    for (const layerName of this.expressionsMap.keys()) {
-      assert.ok(
-        layers.has(layerName),
-        `Layer name "${layerName}" in expressionMap is not found in layers`,
-      )
-    }
   }
 }
