@@ -43,7 +43,7 @@ export class AllowAllLayers extends RuleUnitBase {
   protected positive = true
 
   protected target(fanout: Fanout) {
-    // FIXME: Is self layer exception?
+    // includes self
     return [...fanout.locals]
   }
 

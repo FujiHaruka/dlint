@@ -135,7 +135,6 @@ it('works', () => {
               Local('controller/main.js'),
               Local('util/main.js'),
               Local('core/main.js'),
-              Local('will/disallowed.js'),
             ],
           },
         },
@@ -194,9 +193,6 @@ it('works', () => {
     expect(disallowed).toHaveLength(2)
     expect(disallowed).toContainEqual(Builtin('path'))
     expect(disallowed).toContainEqual(Package('will-be-disallowed'))
-    // in no layer
-    // TODO: この扱いをどうする？
-    // expect(disallowed).toContainEqual(Local('will/disallowed.js'))
   }
   {
     const layer = layers.get('util')!
