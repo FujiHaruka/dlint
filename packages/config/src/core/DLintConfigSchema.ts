@@ -1,27 +1,10 @@
 import Ajv from 'ajv'
-
-enum RuleTargets {
-  ALL_LAYERS = 'allLayers',
-  ALL_PACKAGES = 'allPackages',
-  ALL_NODEJS = 'allNodejs',
-  LAYERS = 'layers',
-  PACKAGES = 'packages',
-}
-
-type Rule =
-  | {
-      allow: RuleTargets
-      on?: string[]
-    }
-  | {
-      disallow: RuleTargets
-      on?: string[]
-    }
+import { RuleExpression } from '@dlint/rule'
 
 type PathPattern = string
 
 export interface DLintConfigFields {
-  defaultRules: Rule[]
+  defaultRules: RuleExpression[]
   ignorePatterns: PathPattern[]
   layers: {
     [layerName: string]: PathPattern[]
@@ -29,7 +12,7 @@ export interface DLintConfigFields {
   parser: string
   rootDir: string
   rules: {
-    [layerName: string]: Rule[]
+    [layerName: string]: RuleExpression[]
   }
 }
 
