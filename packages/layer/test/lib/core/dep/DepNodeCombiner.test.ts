@@ -3,6 +3,7 @@ import { ModuleTypes } from '../../../../src/core/module/DLintModule'
 import { FileFanout } from '../../../../src/core/dep/DepNode'
 import { FilePath } from '../../../../src/core/module/FilePath'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const toPlainObject = (obj: any) => JSON.parse(JSON.stringify(obj))
 
 it('works', () => {
