@@ -1,1 +1,0 @@
-# @dlint/config
