@@ -1,7 +1,5 @@
 import { resolve } from 'path'
 
-import { parse } from '@typescript-eslint/typescript-estree'
-
 import { DLintLayer } from '../../../src/DLintLayer'
 import {
   ModuleTypes,
@@ -10,6 +8,7 @@ import {
   BuiltinModule,
 } from '../../../src/core/module/DLintModule'
 import { FilePath } from '../../../src/core/module/FilePath'
+import { ParserNames } from '../../../src/resolver/ParserResolver'
 
 it('works', async () => {
   // ts-project01/            import
@@ -27,9 +26,7 @@ it('works', async () => {
   const rootDir = resolve(__dirname, '../../fixtures/ts-project01')
   const layer = await DLintLayer.gatherDeps('layer', ['**/*.ts'], {
     rootDir,
-    parser: {
-      parse,
-    },
+    parser: ParserNames.TS,
   })
   const Local = (file: string): LocalModule => ({
     type: ModuleTypes.LOCAL,

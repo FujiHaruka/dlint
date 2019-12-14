@@ -1,8 +1,7 @@
-import { parse as acornParse } from 'acorn'
 import glob from 'fast-glob'
 
 import { DepNode } from './core/dep/DepNode'
-import { Parser, ParserAdapter } from './adapter/ParserAdapter'
+import { ParserAdapter } from './adapter/ParserAdapter'
 import { DepAnalyzer } from './core/dep/DepAnalyzer'
 import { DepNodeCombiner } from './core/dep/DepNodeCombiner'
 import { ModuleResolver } from './resolver/ModuleResolver'
@@ -12,21 +11,15 @@ import {
   DLintLayer as IDLintLayer,
   DLintLayerMeta,
 } from './core/layer/DLintLayer'
+import { ParserNames, ParserResolver } from './resolver/ParserResolver'
 
 export * from './core/dep/DepNode'
 export * from './core/module/DLintModule'
 
 export interface GatherDepsOptions {
   rootDir?: string
-  parser?: Parser
+  parser?: ParserNames
   ignorePatterns?: string[]
-}
-
-const defaultParser: Parser = {
-  parse: (code: string) =>
-    acornParse(code, {
-      sourceType: 'module',
-    }),
 }
 
 export class DLintLayer implements IDLintLayer {
@@ -54,10 +47,11 @@ export class DLintLayer implements IDLintLayer {
     options: GatherDepsOptions = {},
   ): Promise<DLintLayer> {
     const {
-      parser = defaultParser,
+      parser: parserName = ParserNames.ACORN,
       rootDir = process.cwd(),
       ignorePatterns = [],
     } = options
+    const parser = ParserResolver.resolve(parserName)
     const analizer = new DepAnalyzer({
       parser: ParserAdapter.adapt(parser),
       resolver: new ModuleResolver(rootDir),
