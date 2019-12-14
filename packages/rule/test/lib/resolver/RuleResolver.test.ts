@@ -1,6 +1,7 @@
 import {
   RuleResolver,
   RuleExpression,
+  RuleTarget,
 } from '../../../src/resolver/RuleResolver'
 import { MockLayer } from '../../tools/Mocks'
 import {
@@ -24,32 +25,33 @@ it('validate()', () => {
 
   expect(
     resolver.validate({
-      allow: 'all',
+      allow: RuleTarget.ALL,
     }),
   ).toEqual({
     positive: true,
-    target: 'all',
+    target: RuleTarget.ALL,
   })
   expect(
     resolver.validate({
-      disallow: 'packages',
+      disallow: RuleTarget.PACKAGES,
       on: ['fs'],
     }),
   ).toEqual({
     args: ['fs'],
     positive: false,
-    target: 'packages',
+    target: RuleTarget.PACKAGES,
   })
   expect(() => resolver.validate({} as RuleExpression)).toThrow()
   expect(() =>
     resolver.validate({
-      allow: 'all',
-      disallow: 'all',
+      allow: RuleTarget.ALL,
+      disallow: RuleTarget.ALL,
     } as RuleExpression),
   ).toThrow()
   expect(() =>
     resolver.resolve({
-      allow: 'no-such-rule',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      allow: 'no-such-rule' as any,
     }),
   ).toThrow()
 })
@@ -58,39 +60,41 @@ it('resolve()', () => {
   const layers = new Map([['layer1', MockLayer.layer1()]])
   const resolver = new RuleResolver(layers)
 
-  expect(resolver.resolve({ allow: 'all' })).toBeInstanceOf(AllowAll)
-  expect(resolver.resolve({ allow: 'allPackages' })).toBeInstanceOf(
+  expect(resolver.resolve({ allow: RuleTarget.ALL })).toBeInstanceOf(AllowAll)
+  expect(resolver.resolve({ allow: RuleTarget.ALL_PACKAGES })).toBeInstanceOf(
     AllowAllPackages,
   )
-  expect(resolver.resolve({ allow: 'allLayers' })).toBeInstanceOf(
+  expect(resolver.resolve({ allow: RuleTarget.ALL_LAYERS })).toBeInstanceOf(
     AllowAllLayers,
   )
-  expect(resolver.resolve({ allow: 'allNodejs' })).toBeInstanceOf(
+  expect(resolver.resolve({ allow: RuleTarget.ALL_NODEJS })).toBeInstanceOf(
     AllowAllNodejs,
   )
-  expect(resolver.resolve({ allow: 'packages', on: ['fs'] })).toBeInstanceOf(
-    AllowPackages,
-  )
-  expect(resolver.resolve({ allow: 'layers', on: ['layer1'] })).toBeInstanceOf(
-    AllowLayers,
-  )
+  expect(
+    resolver.resolve({ allow: RuleTarget.PACKAGES, on: ['fs'] }),
+  ).toBeInstanceOf(AllowPackages)
+  expect(
+    resolver.resolve({ allow: RuleTarget.LAYERS, on: ['layer1'] }),
+  ).toBeInstanceOf(AllowLayers)
   expect(() =>
-    resolver.resolve({ allow: 'layers', on: ['layer_not_found'] }),
+    resolver.resolve({ allow: RuleTarget.LAYERS, on: ['layer_not_found'] }),
   ).toThrow()
-  expect(resolver.resolve({ disallow: 'all' })).toBeInstanceOf(DisallowAll)
-  expect(resolver.resolve({ disallow: 'allPackages' })).toBeInstanceOf(
-    DisallowAllPackages,
-  )
-  expect(resolver.resolve({ disallow: 'allLayers' })).toBeInstanceOf(
-    DisallowAllLayers,
-  )
-  expect(resolver.resolve({ disallow: 'allNodejs' })).toBeInstanceOf(
-    DisallowAllNodejs,
-  )
-  expect(resolver.resolve({ disallow: 'packages', on: ['fs'] })).toBeInstanceOf(
-    DisallowPackages,
+  expect(resolver.resolve({ disallow: RuleTarget.ALL })).toBeInstanceOf(
+    DisallowAll,
   )
   expect(
-    resolver.resolve({ disallow: 'layers', on: ['layer1'] }),
+    resolver.resolve({ disallow: RuleTarget.ALL_PACKAGES }),
+  ).toBeInstanceOf(DisallowAllPackages)
+  expect(resolver.resolve({ disallow: RuleTarget.ALL_LAYERS })).toBeInstanceOf(
+    DisallowAllLayers,
+  )
+  expect(resolver.resolve({ disallow: RuleTarget.ALL_NODEJS })).toBeInstanceOf(
+    DisallowAllNodejs,
+  )
+  expect(
+    resolver.resolve({ disallow: RuleTarget.PACKAGES, on: ['fs'] }),
+  ).toBeInstanceOf(DisallowPackages)
+  expect(
+    resolver.resolve({ disallow: RuleTarget.LAYERS, on: ['layer1'] }),
   ).toBeInstanceOf(DisallowLayers)
 })

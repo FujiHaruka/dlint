@@ -33,12 +33,12 @@ export enum RuleTarget {
 const RuleTargets = new Set(Object.values(RuleTarget))
 
 interface AllowingExpression {
-  allow: string
+  allow: RuleTarget
   on?: string[]
 }
 
 interface DisallowingExpression {
-  disallow: string
+  disallow: RuleTarget
   on?: string[]
 }
 
@@ -120,8 +120,8 @@ export class RuleResolver {
       )
     }
     const target = isAllowing
-      ? ((expression as AllowingExpression).allow as RuleTarget)
-      : ((expression as DisallowingExpression).disallow as RuleTarget)
+      ? (expression as AllowingExpression).allow
+      : (expression as DisallowingExpression).disallow
     if (!RuleTargets.has(target)) {
       throw new Error(`Invalid rule target name: ${target}`)
     }

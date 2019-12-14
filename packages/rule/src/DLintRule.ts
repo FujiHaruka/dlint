@@ -8,6 +8,7 @@ import {
 } from './core/LayerExpressions'
 
 export { LayerExpressions } from './core/LayerExpressions'
+export { RuleTarget, RuleExpression } from './resolver/RuleResolver'
 
 export class DLintRule {
   relations: LayerExpressionsRelations
