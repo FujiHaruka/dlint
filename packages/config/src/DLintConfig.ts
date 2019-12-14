@@ -1,5 +1,7 @@
 import { resolve, dirname } from 'path'
 
+import { RuleExpression } from '@dlint/rule'
+
 import { DLintConfigSchema, DLintConfigFields } from './core/DLintConfigSchema'
 import { ConfigFileReader } from './io/ConfigFileReader'
 
@@ -30,6 +32,40 @@ export class DLintConfig {
     })
     this.schema = new DLintConfigSchema()
     this.fields = {} as DLintConfigFields // late init
+  }
+
+  layers() {
+    const { configPath } = this
+    const {
+      layers,
+      ignorePatterns,
+      rootDir: relativeRootDir,
+      parser,
+    } = this.fields
+    const rootDir = resolve(configPath, relativeRootDir)
+    const options = {
+      rootDir,
+      ignorePatterns,
+      parser,
+    }
+    return {
+      layers,
+      options,
+    }
+  }
+
+  rules() {
+    const { defaultRules, rules: rawRules } = this.fields
+    const rules: typeof rawRules = Object.fromEntries(
+      Object.entries(rawRules).map(
+        ([layerName, expressions]) =>
+          [layerName, [...defaultRules, ...expressions]] as [
+            string,
+            RuleExpression[],
+          ],
+      ),
+    )
+    return rules
   }
 
   private async init(path: string) {

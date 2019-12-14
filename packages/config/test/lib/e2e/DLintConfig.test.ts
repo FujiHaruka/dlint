@@ -7,4 +7,7 @@ it('works', async () => {
   const config = await DLintConfig.load(projectDir)
   expect(config.configPath).toEqual(join(projectDir, 'dlint-rules.yml'))
   expect(Object.values(config.fields).length).toBeGreaterThan(0)
+
+  expect(config.layers()).toBeTruthy()
+  expect(config.rules()).toBeTruthy()
 })
