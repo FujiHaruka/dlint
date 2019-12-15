@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   DLintLayer,
-  ModuleTypes,
+  ModuleType,
   LocalModule,
   BuiltinModule,
   PackageModule,
-} from '@dlint/layer'
-import { FilePath } from '@dlint/layer/build/core/module/FilePath'
+  FilePath,
+  RuleTarget,
+  DLintRuleExpression,
+} from '@dlint/core'
 import minimatch from 'minimatch'
 
-import { RuleExpression } from '../../../src/resolver/RuleResolver'
 import { DLintRule, LayerExpressions } from '../../../src/DLintRule'
 
 const ROOT_DIR = '/project'
@@ -20,52 +21,52 @@ const FANIN = {
 const MapFrom = <V>(obj: { [key: string]: V }) =>
   new Map<string, V>(Object.entries(obj))
 const Package = (name: string): PackageModule => ({
-  type: ModuleTypes.PACKAGE,
+  type: ModuleType.PACKAGE,
   name,
 })
 const Builtin = (name: string): BuiltinModule => ({
-  type: ModuleTypes.BUILTIN,
+  type: ModuleType.BUILTIN,
   name,
 })
 const Local = (path: string): LocalModule => ({
-  type: ModuleTypes.LOCAL,
+  type: ModuleType.LOCAL,
   path: new FilePath(ROOT_DIR, path),
 })
 const File = (path: string) => new FilePath(ROOT_DIR, path)
 
 it('works', () => {
-  const expressionsMap = MapFrom<RuleExpression[]>({
+  const expressionsMap = MapFrom<DLintRuleExpression[]>({
     controller: [
       {
-        disallow: 'all',
+        disallow: RuleTarget.ALL,
       },
       {
-        allow: 'layers',
+        allow: RuleTarget.LAYERS,
         on: ['core', 'util'],
       },
       {
-        allow: 'allNodejs',
+        allow: RuleTarget.ALL_NODEJS,
       },
     ],
     core: [
       {
-        disallow: 'all',
+        disallow: RuleTarget.ALL,
       },
     ],
     main: [
       {
-        disallow: 'all',
+        disallow: RuleTarget.ALL,
       },
       {
-        allow: 'allLayers',
+        allow: RuleTarget.ALL_LAYERS,
       },
     ],
     util: [
       {
-        disallow: 'all',
+        disallow: RuleTarget.ALL,
       },
       {
-        allow: 'packages',
+        allow: RuleTarget.PACKAGES,
         on: ['os', 'path', 'lodash'],
       },
     ],

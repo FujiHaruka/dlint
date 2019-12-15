@@ -1,8 +1,6 @@
-import {
-  RuleResolver,
-  RuleExpression,
-  RuleTarget,
-} from '../../../src/resolver/RuleResolver'
+import { RuleTarget, DLintRuleExpression } from '@dlint/core'
+
+import { RuleResolver } from '../../../src/resolver/RuleResolver'
 import { MockLayer } from '../../tools/Mocks'
 import {
   AllowAll,
@@ -41,12 +39,12 @@ it('validate()', () => {
     positive: false,
     target: RuleTarget.PACKAGES,
   })
-  expect(() => resolver.validate({} as RuleExpression)).toThrow()
+  expect(() => resolver.validate({} as DLintRuleExpression)).toThrow()
   expect(() =>
     resolver.validate({
       allow: RuleTarget.ALL,
       disallow: RuleTarget.ALL,
-    } as RuleExpression),
+    } as DLintRuleExpression),
   ).toThrow()
   expect(() =>
     resolver.resolve({

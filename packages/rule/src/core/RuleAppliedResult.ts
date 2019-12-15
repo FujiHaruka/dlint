@@ -1,10 +1,9 @@
-import { DepNode } from '@dlint/layer/build/core/dep/DepNode'
 import {
   DLintModule,
-  toKeyString,
-} from '@dlint/layer/build/core/module/DLintModule'
-
-import { ObjectKeyMap } from '../core-util/ObjectKeyMap'
+  DLintModuleUtil,
+  DLintNode,
+  ObjectKeyMap,
+} from '@dlint/core'
 
 export enum RuleAllowanceStatus {
   ALLOWED = 'allowed',
@@ -21,7 +20,7 @@ interface ModuleAppliedStatus {
 }
 
 export interface DisallowedResult {
-  node: DepNode
+  node: DLintNode
   statuses: {
     ruleUnitName: string
     module: DLintModule
@@ -29,18 +28,18 @@ export interface DisallowedResult {
 }
 
 /**
- * Result of applying a specific rule unit to a DepNode
+ * Result of applying a specific rule unit to a DLintNode
  */
 export class NodeAppliedResult {
-  node: DepNode
+  node: DLintNode
   ruleUnitName: string
   private moduleStatusMap: ObjectKeyMap<DLintModule, ModuleAppliedStatus>
 
-  constructor(node: DepNode, ruleUnitName: string) {
+  constructor(node: DLintNode, ruleUnitName: string) {
     this.node = node
     this.ruleUnitName = ruleUnitName
     this.moduleStatusMap = new ObjectKeyMap<DLintModule, ModuleAppliedStatus>(
-      toKeyString,
+      DLintModuleUtil.toKeyString,
     )
   }
 
@@ -69,7 +68,7 @@ export class NodeAppliedResult {
  * Reduce NodeAppliedResult array to single result
  */
 export const reduceDisallowedResults = (
-  node: DepNode,
+  node: DLintNode,
   results: NodeAppliedResult[],
 ): DisallowedResult => {
   if (results.length === 0) {
@@ -86,7 +85,9 @@ export const reduceDisallowedResults = (
       `Different node: ${results[0].node.file.absolutePath} != ${invalidResult.node.file.absolutePath}`,
     )
   }
-  const map = new ObjectKeyMap<DLintModule, ModuleAppliedStatus>(toKeyString)
+  const map = new ObjectKeyMap<DLintModule, ModuleAppliedStatus>(
+    DLintModuleUtil.toKeyString,
+  )
   for (const result of results) {
     for (const status of result.statuses()) {
       map.set(status.module, status)

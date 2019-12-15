@@ -1,4 +1,4 @@
-import { DLintLayer } from '@dlint/layer/build/core/layer/DLintLayer'
+import { DLintLayer } from '@dlint/core'
 
 import { RuleResolver } from './resolver/RuleResolver'
 import { reduceDisallowedResults } from './core/RuleAppliedResult'
@@ -8,7 +8,6 @@ import {
 } from './core/LayerExpressions'
 
 export { LayerExpressions } from './core/LayerExpressions'
-export { RuleTarget, RuleExpression } from './resolver/RuleResolver'
 
 export class DLintRule {
   relations: LayerExpressionsRelations

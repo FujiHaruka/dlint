@@ -1,20 +1,25 @@
 import minimatch from 'minimatch'
-import { DepNode, ModuleTypes, DLintLayer, LocalModule } from '@dlint/layer'
-import { FilePath } from '@dlint/layer/build/core/module/FilePath'
+import {
+  DLintNode,
+  ModuleType,
+  DLintLayer,
+  LocalModule,
+  FilePath,
+} from '@dlint/core'
 
 export const MockNode = {
-  simple(): DepNode {
-    const node: DepNode = {
+  simple(): DLintNode {
+    const node: DLintNode = {
       file: new FilePath('/project', 'base'),
       fanin: {
         locals: [],
       },
       fanout: {
-        packages: [{ type: ModuleTypes.PACKAGE, name: 'foo' }],
-        builtins: [{ type: ModuleTypes.BUILTIN, name: 'fs' }],
+        packages: [{ type: ModuleType.PACKAGE, name: 'foo' }],
+        builtins: [{ type: ModuleType.BUILTIN, name: 'fs' }],
         locals: [
           {
-            type: ModuleTypes.LOCAL,
+            type: ModuleType.LOCAL,
             path: new FilePath('/project', 'local'),
           },
         ],
@@ -22,29 +27,29 @@ export const MockNode = {
     }
     return node
   },
-  multiple(): DepNode {
-    const node: DepNode = {
+  multiple(): DLintNode {
+    const node: DLintNode = {
       file: new FilePath('/project', 'base/root.js'),
       fanin: {
         locals: [],
       },
       fanout: {
         packages: [
-          { type: ModuleTypes.PACKAGE, name: 'foo' },
-          { type: ModuleTypes.PACKAGE, name: 'bar' },
+          { type: ModuleType.PACKAGE, name: 'foo' },
+          { type: ModuleType.PACKAGE, name: 'bar' },
         ],
-        builtins: [{ type: ModuleTypes.BUILTIN, name: 'fs' }],
+        builtins: [{ type: ModuleType.BUILTIN, name: 'fs' }],
         locals: [
           {
-            type: ModuleTypes.LOCAL,
+            type: ModuleType.LOCAL,
             path: new FilePath('/project', 'base/module.js'),
           },
           {
-            type: ModuleTypes.LOCAL,
+            type: ModuleType.LOCAL,
             path: new FilePath('/project', 'layer1/module.js'),
           },
           {
-            type: ModuleTypes.LOCAL,
+            type: ModuleType.LOCAL,
             path: new FilePath('/project', 'layer2/module.js'),
           },
         ],

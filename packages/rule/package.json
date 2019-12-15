@@ -7,7 +7,7 @@
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
-    "@dlint/layer": "0.0.1"
+    "@dlint/core": "0.0.1"
   },
   "engines": {
     "node": ">=10"

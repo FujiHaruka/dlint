@@ -1,4 +1,11 @@
-import { DLintLayer } from '@dlint/layer/build/core/layer/DLintLayer'
+import {
+  DLintLayer,
+  RuleTarget,
+  RuleAction,
+  DLintRuleExpression,
+  AllowingExpression,
+  DisallowingExpression,
+} from '@dlint/core'
 
 import {
   AllowAll,
@@ -16,33 +23,7 @@ import {
 } from '../core/RuleUnits'
 import { RuleUnit } from '../core/RuleUnitBase'
 
-export enum RuleAction {
-  ALLOW = 'allow',
-  DISALLOW = 'disallow',
-}
-
-export enum RuleTarget {
-  ALL = 'all',
-  ALL_LAYERS = 'allLayers',
-  ALL_PACKAGES = 'allPackages',
-  ALL_NODEJS = 'allNodejs',
-  LAYERS = 'layers',
-  PACKAGES = 'packages',
-}
-
 const RuleTargets = new Set(Object.values(RuleTarget))
-
-interface AllowingExpression {
-  allow: RuleTarget
-  on?: string[]
-}
-
-interface DisallowingExpression {
-  disallow: RuleTarget
-  on?: string[]
-}
-
-export type RuleExpression = AllowingExpression | DisallowingExpression
 
 function assertArgs(
   target: RuleTarget,
@@ -65,7 +46,7 @@ export class RuleResolver {
     this.layers = layers
   }
 
-  resolve(expression: RuleExpression): RuleUnit {
+  resolve(expression: DLintRuleExpression): RuleUnit {
     const { positive, target, args } = this.validate(expression)
     switch (target) {
       case RuleTarget.ALL: {
@@ -104,7 +85,7 @@ export class RuleResolver {
     }
   }
 
-  validate(expression: RuleExpression) {
+  validate(expression: DLintRuleExpression) {
     const isAllowing = RuleAction.ALLOW in expression
     const isDisallowing = RuleAction.DISALLOW in expression
     if (isAllowing && isDisallowing) {

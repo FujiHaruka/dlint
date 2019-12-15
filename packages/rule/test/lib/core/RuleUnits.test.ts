@@ -1,8 +1,7 @@
-import { DLintModule } from '@dlint/layer/build/DLintLayer'
+import { DLintModule, RuleUnitName } from '@dlint/core'
 
 import {
   AllowAll,
-  RuleUnitNames,
   AllowLayers,
   DisallowLayers,
 } from '../../../src/core/RuleUnits'
@@ -15,9 +14,9 @@ it('AllowAll', () => {
   const node = MockNode.simple()
   const result = allowAll.apply(node)
   expect(result.node).toEqual(node)
-  expect(result.ruleUnitName).toEqual(RuleUnitNames.AllowAll)
+  expect(result.ruleUnitName).toEqual(RuleUnitName.AllowAll)
   const allow = (module: DLintModule) => ({
-    ruleUnitName: RuleUnitNames.AllowAll,
+    ruleUnitName: RuleUnitName.AllowAll,
     status: RuleAllowanceStatus.ALLOWED,
     module,
   })
@@ -32,7 +31,7 @@ it('units', () => {
     new AllowLayers([MockLayer.simple()]).apply(MockNode.simple()).statuses(),
   ).toEqual([
     {
-      ruleUnitName: RuleUnitNames.AllowLayers,
+      ruleUnitName: RuleUnitName.AllowLayers,
       status: RuleAllowanceStatus.ALLOWED,
       module: MockNode.simple().fanout.locals[0],
     },
@@ -41,7 +40,7 @@ it('units', () => {
     new AllowLayers([MockLayer.layer1()]).apply(MockNode.multiple()).statuses(),
   ).toEqual([
     {
-      ruleUnitName: RuleUnitNames.AllowLayers,
+      ruleUnitName: RuleUnitName.AllowLayers,
       status: RuleAllowanceStatus.ALLOWED,
       module: MockNode.multiple().fanout.locals[1],
     },
@@ -52,7 +51,7 @@ it('units', () => {
       .statuses(),
   ).toEqual([
     {
-      ruleUnitName: RuleUnitNames.DisallowLayers,
+      ruleUnitName: RuleUnitName.DisallowLayers,
       status: RuleAllowanceStatus.DISALLOWED,
       module: MockNode.multiple().fanout.locals[1],
     },

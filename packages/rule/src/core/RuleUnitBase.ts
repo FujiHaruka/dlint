@@ -1,18 +1,17 @@
-import { DepNode, Fanout } from '@dlint/layer/build/core/dep/DepNode'
-import { DLintModule } from '@dlint/layer/build/core/module/DLintModule'
+import { DLintModule, DLintNode, Fanout } from '@dlint/core'
 
 import { NodeAppliedResult } from './RuleAppliedResult'
 
 export interface RuleUnit {
   name: string
-  apply(node: DepNode): NodeAppliedResult
+  apply(node: DLintNode): NodeAppliedResult
 }
 
 export class RuleUnitBase implements RuleUnit {
   name = 'Base'
   protected positive = true
 
-  apply(node: DepNode) {
+  apply(node: DLintNode) {
     const result = new NodeAppliedResult(node, this.name)
     for (const module of this.target(node.fanout)) {
       if (this.judge(module)) {

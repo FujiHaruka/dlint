@@ -1,4 +1,4 @@
-import { FilePath } from '@dlint/layer/build/core/module/FilePath'
+import { FilePath, RuleUnitName } from '@dlint/core'
 
 import {
   reduceDisallowedResults,
@@ -10,7 +10,6 @@ import {
   AllowAll,
   AllowPackages,
   AllowLayers,
-  RuleUnitNames,
   DisallowPackages,
   DisallowLayers,
 } from '../../../src/core/RuleUnits'
@@ -40,7 +39,7 @@ it('works disallow -> allow', () => {
           path: new FilePath('/project', 'base/module.js'),
           type: 'module:local',
         },
-        ruleUnitName: RuleUnitNames.DisallowAll,
+        ruleUnitName: RuleUnitName.DisallowAll,
         status: RuleAllowanceStatus.DISALLOWED,
       },
       {
@@ -48,17 +47,17 @@ it('works disallow -> allow', () => {
           path: new FilePath('/project', 'layer2/module.js'),
           type: 'module:local',
         },
-        ruleUnitName: RuleUnitNames.DisallowAll,
+        ruleUnitName: RuleUnitName.DisallowAll,
         status: RuleAllowanceStatus.DISALLOWED,
       },
       {
         module: { name: 'fs', type: 'module:builtin' },
-        ruleUnitName: RuleUnitNames.DisallowAll,
+        ruleUnitName: RuleUnitName.DisallowAll,
         status: RuleAllowanceStatus.DISALLOWED,
       },
       {
         module: { name: 'bar', type: 'module:package' },
-        ruleUnitName: RuleUnitNames.DisallowAll,
+        ruleUnitName: RuleUnitName.DisallowAll,
         status: RuleAllowanceStatus.DISALLOWED,
       },
     ],
@@ -83,12 +82,12 @@ it('works allow -> disallow', () => {
           path: new FilePath('/project', 'layer1/module.js'),
           type: 'module:local',
         },
-        ruleUnitName: RuleUnitNames.DisallowLayers,
+        ruleUnitName: RuleUnitName.DisallowLayers,
         status: RuleAllowanceStatus.DISALLOWED,
       },
       {
         module: { name: 'foo', type: 'module:package' },
-        ruleUnitName: RuleUnitNames.DisallowPackages,
+        ruleUnitName: RuleUnitName.DisallowPackages,
         status: RuleAllowanceStatus.DISALLOWED,
       },
     ],

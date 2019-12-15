@@ -1,31 +1,17 @@
-import { Fanout } from '@dlint/layer/build/core/dep/DepNode'
 import {
+  Fanout,
   LocalModule,
   PackageModule,
-} from '@dlint/layer/build/core/module/DLintModule'
-import { DLintLayer } from '@dlint/layer/build/core/layer/DLintLayer'
+  DLintLayer,
+  RuleUnitName,
+} from '@dlint/core'
 
 import { RuleUnitBase } from './RuleUnitBase'
-
-export const RuleUnitNames = {
-  AllowAll: 'AllowAll',
-  AllowAllLayers: 'AllowAllLayers',
-  AllowAllPackages: 'AllowAllPackages',
-  AllowAllNodejs: 'AllowAllNodejs',
-  AllowLayers: 'AllowLayers',
-  AllowPackages: 'AllowPackages',
-  DisallowAll: 'DisallowAll',
-  DisallowAllLayers: 'DisallowAllLayers',
-  DisallowAllPackages: 'DisallowAllPackages',
-  DisallowAllNodejs: 'DisallowAllNodejs',
-  DisallowLayers: 'DisallowLayers',
-  DisallowPackages: 'DisallowPackages',
-}
 
 // --- allowing rule units
 
 export class AllowAll extends RuleUnitBase {
-  name = RuleUnitNames.AllowAll
+  name = RuleUnitName.AllowAll
   protected positive = true
 
   protected target(fanout: Fanout) {
@@ -38,7 +24,7 @@ export class AllowAll extends RuleUnitBase {
 }
 
 export class AllowAllLayers extends RuleUnitBase {
-  name = RuleUnitNames.AllowAllLayers
+  name = RuleUnitName.AllowAllLayers
 
   protected positive = true
 
@@ -53,7 +39,7 @@ export class AllowAllLayers extends RuleUnitBase {
 }
 
 export class AllowAllPackages extends RuleUnitBase {
-  name = RuleUnitNames.AllowAllPackages
+  name = RuleUnitName.AllowAllPackages
   protected positive = true
 
   protected target(fanout: Fanout) {
@@ -66,7 +52,7 @@ export class AllowAllPackages extends RuleUnitBase {
 }
 
 export class AllowAllNodejs extends RuleUnitBase {
-  name = RuleUnitNames.AllowAllNodejs
+  name = RuleUnitName.AllowAllNodejs
   protected positive = true
 
   protected target(fanout: Fanout) {
@@ -79,7 +65,7 @@ export class AllowAllNodejs extends RuleUnitBase {
 }
 
 export class AllowLayers extends RuleUnitBase {
-  name = RuleUnitNames.AllowLayers
+  name = RuleUnitName.AllowLayers
   layers: DLintLayer[]
   protected positive = true
 
@@ -98,7 +84,7 @@ export class AllowLayers extends RuleUnitBase {
 }
 
 export class AllowPackages extends RuleUnitBase {
-  name = RuleUnitNames.AllowPackages
+  name = RuleUnitName.AllowPackages
   packages: string[]
   protected positive = true
 
@@ -119,31 +105,31 @@ export class AllowPackages extends RuleUnitBase {
 // --- disallowing rule units
 
 export class DisallowAll extends AllowAll {
-  name = RuleUnitNames.DisallowAll
+  name = RuleUnitName.DisallowAll
   protected positive = false
 }
 
 export class DisallowLayers extends AllowLayers {
-  name = RuleUnitNames.DisallowLayers
+  name = RuleUnitName.DisallowLayers
   protected positive = false
 }
 
 export class DisallowPackages extends AllowPackages {
-  name = RuleUnitNames.DisallowPackages
+  name = RuleUnitName.DisallowPackages
   protected positive = false
 }
 
 export class DisallowAllLayers extends AllowAllLayers {
-  name = RuleUnitNames.DisallowAllLayers
+  name = RuleUnitName.DisallowAllLayers
   protected positive = false
 }
 
 export class DisallowAllPackages extends AllowAllPackages {
-  name = RuleUnitNames.DisallowAllPackages
+  name = RuleUnitName.DisallowAllPackages
   protected positive = false
 }
 
 export class DisallowAllNodejs extends AllowAllNodejs {
-  name = RuleUnitNames.DisallowAllNodejs
+  name = RuleUnitName.DisallowAllNodejs
   protected positive = false
 }

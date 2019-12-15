@@ -1,16 +1,14 @@
-import { DLintLayer } from '@dlint/layer/build/core/layer/DLintLayer'
-
-import { RuleExpression } from '../resolver/RuleResolver'
+import { DLintLayer, DLintRuleExpression } from '@dlint/core'
 
 type LayerName = string
 
 export interface LayerExpressions {
   layer: DLintLayer
-  expressions: RuleExpression[]
+  expressions: DLintRuleExpression[]
 }
 
 export class LayerExpressionsRelations {
-  readonly expressions: Map<LayerName, RuleExpression[]>
+  readonly expressions: Map<LayerName, DLintRuleExpression[]>
   readonly layers: Map<LayerName, DLintLayer>
 
   constructor(relations: LayerExpressions[]) {
