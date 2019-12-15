@@ -1,7 +1,6 @@
-import { DepNodeCombiner } from '../../../../src/core/dep/DepNodeCombiner'
-import { ModuleTypes } from '../../../../src/core/module/DLintModule'
-import { FileFanout } from '../../../../src/core/dep/DepNode'
-import { FilePath } from '../../../../src/core/module/FilePath'
+import { FilePath, FileFanout, ModuleType } from '@dlint/core'
+
+import { DepNodeCombiner } from '../../../src/core/DepNodeCombiner'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const toPlainObject = (obj: any) => JSON.parse(JSON.stringify(obj))
@@ -16,7 +15,7 @@ it('works', () => {
     file: new FilePath('/', path),
     fanout: {
       locals: locals.map((path) => ({
-        type: ModuleTypes.LOCAL,
+        type: ModuleType.LOCAL,
         path: new FilePath('/', path),
       })),
       packages: [],

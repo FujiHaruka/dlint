@@ -1,6 +1,7 @@
-import { DepAnalyzer, DepParser } from '../../../../src/core/dep/DepAnalyzer'
-import { MockModuleResolver } from '../../../tools/MockModuleResolver'
-import { FilePath } from '../../../../src/core/module/FilePath'
+import { FilePath } from '@dlint/core'
+
+import { DepAnalyzer, DepParser } from '../../../src/core/DepAnalyzer'
+import { MockModuleResolver } from '../../tools/MockModuleResolver'
 
 it('works', async () => {
   const mockParser: DepParser = {

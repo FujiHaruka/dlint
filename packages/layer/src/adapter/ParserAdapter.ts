@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DepParser } from '../core/dep/DepAnalyzer'
+import { DepParser } from '../core/DepAnalyzer'
 
 // For AST spec, see ESTree https://github.com/estree/estree/blob/master/es2015.md#importdeclaration
 

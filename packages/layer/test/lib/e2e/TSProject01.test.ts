@@ -1,14 +1,15 @@
 import { resolve } from 'path'
 
-import { DLintLayer } from '../../../src/DLintLayer'
 import {
-  ModuleTypes,
+  FilePath,
+  ModuleType,
   LocalModule,
   PackageModule,
   BuiltinModule,
-} from '../../../src/core/module/DLintModule'
-import { FilePath } from '../../../src/core/module/FilePath'
-import { ParserNames } from '../../../src/resolver/ParserResolver'
+  ParserPackage,
+} from '@dlint/core'
+
+import { DLintLayer } from '../../../src/DLintLayer'
 
 it('works', async () => {
   // ts-project01/            import
@@ -26,18 +27,18 @@ it('works', async () => {
   const rootDir = resolve(__dirname, '../../fixtures/ts-project01')
   const layer = await DLintLayer.gatherDeps('layer', ['**/*.ts'], {
     rootDir,
-    parser: ParserNames.TS,
+    parser: ParserPackage.TS,
   })
   const Local = (file: string): LocalModule => ({
-    type: ModuleTypes.LOCAL,
+    type: ModuleType.LOCAL,
     path: new FilePath(rootDir, file),
   })
   const Package = (name: string): PackageModule => ({
-    type: ModuleTypes.PACKAGE,
+    type: ModuleType.PACKAGE,
     name,
   })
   const Builtin = (name: string): BuiltinModule => ({
-    type: ModuleTypes.BUILTIN,
+    type: ModuleType.BUILTIN,
     name,
   })
   const findDep = (file: string) =>

@@ -1,11 +1,10 @@
 import { parse as tsParse } from '@typescript-eslint/typescript-estree'
 import { parse as acornParse } from 'acorn'
+import { ModuleType, FilePath } from '@dlint/core'
 
 import { ParserAdapter, Parser } from '../../../src/adapter/ParserAdapter'
-import { DepAnalyzer } from '../../../src/core/dep/DepAnalyzer'
+import { DepAnalyzer } from '../../../src/core/DepAnalyzer'
 import { MockModuleResolver } from '../../tools/MockModuleResolver'
-import { ModuleTypes } from '../../../src/core/module/DLintModule'
-import { FilePath } from '../../../src/core/module/FilePath'
 
 it('works with ESM with some parsers', async () => {
   const code = `
@@ -48,27 +47,27 @@ export const FOO = 1
       fanout: {
         locals: [
           {
-            type: ModuleTypes.LOCAL,
+            type: ModuleType.LOCAL,
             path: new FilePath('/', '/foo'),
           },
           {
-            type: ModuleTypes.LOCAL,
+            type: ModuleType.LOCAL,
             path: new FilePath('/', '/tools/MockResolver'),
           },
         ],
         packages: [
           {
-            type: ModuleTypes.PACKAGE,
+            type: ModuleType.PACKAGE,
             name: 'color',
           },
           {
-            type: ModuleTypes.PACKAGE,
+            type: ModuleType.PACKAGE,
             name: '@typescript-eslint/typescript-estree',
           },
         ],
         builtins: [
           {
-            type: ModuleTypes.BUILTIN,
+            type: ModuleType.BUILTIN,
             name: 'fs',
           },
         ],
@@ -103,7 +102,7 @@ module.exports = 1
   expect(dep.fanout).toEqual({
     locals: [
       {
-        type: ModuleTypes.LOCAL,
+        type: ModuleType.LOCAL,
         path: new FilePath('/', '/project/tools/MockResolver'),
       },
     ],

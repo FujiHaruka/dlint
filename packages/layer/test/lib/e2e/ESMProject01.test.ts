@@ -1,13 +1,14 @@
 import { resolve } from 'path'
 
-import { DLintLayer } from '../../../src/DLintLayer'
 import {
-  ModuleTypes,
+  FilePath,
+  ModuleType,
   LocalModule,
   PackageModule,
   BuiltinModule,
-} from '../../../src/core/module/DLintModule'
-import { FilePath } from '../../../src/core/module/FilePath'
+} from '@dlint/core'
+
+import { DLintLayer } from '../../../src/DLintLayer'
 
 it('works', async () => {
   // ems-project01/            import
@@ -27,15 +28,15 @@ it('works', async () => {
     rootDir,
   })
   const Local = (file: string): LocalModule => ({
-    type: ModuleTypes.LOCAL,
+    type: ModuleType.LOCAL,
     path: new FilePath(rootDir, file),
   })
   const Package = (name: string): PackageModule => ({
-    type: ModuleTypes.PACKAGE,
+    type: ModuleType.PACKAGE,
     name,
   })
   const Builtin = (name: string): BuiltinModule => ({
-    type: ModuleTypes.BUILTIN,
+    type: ModuleType.BUILTIN,
     name,
   })
   const findDep = (file: string) =>

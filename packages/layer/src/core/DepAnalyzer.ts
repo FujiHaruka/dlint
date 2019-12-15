@@ -1,10 +1,8 @@
 import { promises as fs } from 'fs'
 
-import { DLintModuleResolver } from '../module/DLintModuleResolver'
-import { is } from '../module/DLintModule'
-import { FilePath } from '../module/FilePath'
+import { FilePath, FileFanout, DLintModuleUtil } from '@dlint/core'
 
-import { FileFanout } from './DepNode'
+import { DLintModuleResolver } from './DLintModuleResolver'
 
 export interface DepParser {
   parseImports: (code: string) => string[]
@@ -38,9 +36,9 @@ export class DepAnalyzer {
     return {
       file: path,
       fanout: {
-        locals: modules.filter(is.LocalModule),
-        packages: modules.filter(is.PackageModule),
-        builtins: modules.filter(is.BuiltinModule),
+        locals: modules.filter(DLintModuleUtil.is.LocalModule),
+        packages: modules.filter(DLintModuleUtil.is.PackageModule),
+        builtins: modules.filter(DLintModuleUtil.is.BuiltinModule),
       },
     }
   }

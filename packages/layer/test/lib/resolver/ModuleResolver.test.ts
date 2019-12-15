@@ -1,8 +1,8 @@
 import { join } from 'path'
 
+import { ModuleType, FilePath } from '@dlint/core'
+
 import { ModuleResolver } from '../../../src/resolver/ModuleResolver'
-import { ModuleTypes } from '../../../src/core/module/DLintModule'
-import { FilePath } from '../../../src/core/module/FilePath'
 
 it('works', async () => {
   const projectRoot = join(__dirname, '../../fixtures/resolver-project')
@@ -11,11 +11,11 @@ it('works', async () => {
   const resolve = (name: string) => resolver.resolve(rootFile, name)
 
   await expect(resolve('fs')).resolves.toEqual({
-    type: ModuleTypes.BUILTIN,
+    type: ModuleType.BUILTIN,
     name: 'fs',
   })
   await expect(resolve('some-package')).resolves.toEqual({
-    type: ModuleTypes.PACKAGE,
+    type: ModuleType.PACKAGE,
     name: 'some-package',
   })
   const locals: [string, string][] = [
@@ -36,7 +36,7 @@ it('works', async () => {
   ]
   for (const [name, expected] of locals) {
     await expect(resolve(name)).resolves.toEqual({
-      type: ModuleTypes.LOCAL,
+      type: ModuleType.LOCAL,
       path: new FilePath('/', join(projectRoot, expected)),
     })
   }

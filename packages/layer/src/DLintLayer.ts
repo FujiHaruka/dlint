@@ -1,31 +1,29 @@
 import glob from 'fast-glob'
-
-import { DepNode } from './core/dep/DepNode'
-import { ParserAdapter } from './adapter/ParserAdapter'
-import { DepAnalyzer } from './core/dep/DepAnalyzer'
-import { DepNodeCombiner } from './core/dep/DepNodeCombiner'
-import { ModuleResolver } from './resolver/ModuleResolver'
-import { FilePath } from './core/module/FilePath'
-import { LocalModule } from './core/module/DLintModule'
 import {
+  DLintNode,
+  FilePath,
   DLintLayer as IDLintLayer,
   DLintLayerMeta,
-} from './core/layer/DLintLayer'
-import { ParserNames, ParserResolver } from './resolver/ParserResolver'
+  ParserPackage,
+  LocalModule,
+} from '@dlint/core'
 
-export * from './core/dep/DepNode'
-export * from './core/module/DLintModule'
+import { ParserAdapter } from './adapter/ParserAdapter'
+import { DepAnalyzer } from './core/DepAnalyzer'
+import { DepNodeCombiner } from './core/DepNodeCombiner'
+import { ModuleResolver } from './resolver/ModuleResolver'
+import { ParserResolver } from './resolver/ParserResolver'
 
 export interface GatherDepsOptions {
   rootDir?: string
-  parser?: ParserNames
+  parser?: ParserPackage
   ignorePatterns?: string[]
 }
 
 export class DLintLayer implements IDLintLayer {
   name: string
   meta: DLintLayerMeta
-  nodes: DepNode[]
+  nodes: DLintNode[]
 
   private constructor({
     name,
@@ -34,7 +32,7 @@ export class DLintLayer implements IDLintLayer {
   }: {
     name: string
     meta: DLintLayerMeta
-    nodes: DepNode[]
+    nodes: DLintNode[]
   }) {
     this.name = name
     this.meta = meta
@@ -47,7 +45,7 @@ export class DLintLayer implements IDLintLayer {
     options: GatherDepsOptions = {},
   ): Promise<DLintLayer> {
     const {
-      parser: parserName = ParserNames.ACORN,
+      parser: parserName = ParserPackage.ACORN,
       rootDir = process.cwd(),
       ignorePatterns = [],
     } = options
@@ -74,14 +72,14 @@ export class DLintLayer implements IDLintLayer {
     const fileDeps = await Promise.all(
       filePaths.map((filePath) => analizer.fromFile(filePath)),
     )
-    const depNodes = DepNodeCombiner.combine(fileDeps)
+    const nodes = DepNodeCombiner.combine(fileDeps)
     return new this({
       name,
       meta: {
         rootDir,
         patterns,
       },
-      nodes: depNodes,
+      nodes,
     })
   }
 

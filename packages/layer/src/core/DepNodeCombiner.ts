@@ -1,7 +1,11 @@
-import { LocalModule, ModuleTypes } from '../module/DLintModule'
-import { FilePath } from '../module/FilePath'
-
-import { FileFanout, DepNode, Fanin } from './DepNode'
+import {
+  LocalModule,
+  ModuleType,
+  FilePath,
+  FileFanout,
+  DLintNode,
+  Fanin,
+} from '@dlint/core'
 
 const FaninResolver = (fanouts: FileFanout[]) => {
   const faninMap: { [path: string]: Set<LocalModule> } = {}
@@ -12,7 +16,7 @@ const FaninResolver = (fanouts: FileFanout[]) => {
         faninMap[path.absolutePath] = new Set<LocalModule>()
       }
       faninMap[path.absolutePath].add({
-        type: ModuleTypes.LOCAL,
+        type: ModuleType.LOCAL,
         path: file,
       })
     }
@@ -24,7 +28,7 @@ const FaninResolver = (fanouts: FileFanout[]) => {
 }
 
 export const DepNodeCombiner = {
-  combine(fanouts: FileFanout[]): DepNode[] {
+  combine(fanouts: FileFanout[]): DLintNode[] {
     const resolveFanin = FaninResolver(fanouts)
     const depNodes = fanouts.map(({ fanout, file }) => ({
       file,

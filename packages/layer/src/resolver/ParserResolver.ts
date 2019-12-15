@@ -1,9 +1,6 @@
-import { Parser } from '../adapter/ParserAdapter'
+import { ParserPackage } from '@dlint/core'
 
-export enum ParserNames {
-  ACORN = 'acorn',
-  TS = '@typescript-eslint/typescript-estree',
-}
+import { Parser } from '../adapter/ParserAdapter'
 
 const acornParser: Parser = {
   parse: (code: string) =>
@@ -18,11 +15,11 @@ const tsParser: Parser = {
 }
 
 export const ParserResolver = {
-  resolve(name: ParserNames) {
+  resolve(name: ParserPackage) {
     switch (name) {
-      case ParserNames.ACORN:
+      case ParserPackage.ACORN:
         return acornParser
-      case ParserNames.TS:
+      case ParserPackage.TS:
         return tsParser
       default:
         throw new Error(`Unsupported parser: "${name}"`)

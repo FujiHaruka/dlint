@@ -2,9 +2,9 @@ import Module from 'module'
 import { promises as fs } from 'fs'
 import { join, dirname } from 'path'
 
-import { DLintModule, ModuleTypes } from '../core/module/DLintModule'
-import { DLintModuleResolver } from '../core/module/DLintModuleResolver'
-import { FilePath } from '../core/module/FilePath'
+import { DLintModule, ModuleType, FilePath } from '@dlint/core'
+
+import { DLintModuleResolver } from '../core/DLintModuleResolver'
 
 const ModulePrefixes = {
   ABSOLUTE: '/',
@@ -104,10 +104,10 @@ export class ModuleResolver implements DLintModuleResolver {
     return this.resolveIndex(name)
   }
 
-  private resolveModuleType(name: string): ModuleTypes {
+  private resolveModuleType(name: string): ModuleType {
     const isAbsolute = name.startsWith(ModulePrefixes.ABSOLUTE)
     if (isAbsolute) {
-      return ModuleTypes.PACKAGE
+      return ModuleType.PACKAGE
     }
     const isRelative =
       name.startsWith(ModulePrefixes.RELATIVE) ||
@@ -116,19 +116,19 @@ export class ModuleResolver implements DLintModuleResolver {
       name === SpecialModules.UPPER_DIR
     if (isRelative) {
       // 相対パスのみローカルモジュールとする
-      return ModuleTypes.LOCAL
+      return ModuleType.LOCAL
     }
     const isBuilin = Module.builtinModules.includes(name)
     if (isBuilin) {
-      return ModuleTypes.BUILTIN
+      return ModuleType.BUILTIN
     }
-    return ModuleTypes.PACKAGE
+    return ModuleType.PACKAGE
   }
 
   async resolve(from: string, name: string): Promise<DLintModule> {
     const root = dirname(from)
     const type = this.resolveModuleType(name)
-    if (type === ModuleTypes.LOCAL) {
+    if (type === ModuleType.LOCAL) {
       const absPath = join(root, name)
       {
         const resolved = await this.resolveAsFile(absPath)
