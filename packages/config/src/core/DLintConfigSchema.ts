@@ -1,10 +1,10 @@
 import Ajv from 'ajv'
-import { RuleExpression } from '@dlint/rule'
+import { DLintRuleExpression, ParserPackage } from '@dlint/core'
 
 type PathPattern = string
 
 export interface DLintConfigFields {
-  defaultRules: RuleExpression[]
+  defaultRules: DLintRuleExpression[]
   ignorePatterns: PathPattern[]
   layers: {
     [layerName: string]: PathPattern[]
@@ -12,7 +12,7 @@ export interface DLintConfigFields {
   parser: string
   rootDir: string
   rules: {
-    [layerName: string]: RuleExpression[]
+    [layerName: string]: DLintRuleExpression[]
   }
 }
 
@@ -89,10 +89,7 @@ const JsonSchema = {
 }
 
 export class DLintConfigSchema {
-  static Defaults = {
-    // FIXME: layer に定義がある
-    PARSER: 'acorn',
-  }
+  static DEFAULT_PARSER = ParserPackage.ACORN
 
   validateUsingAjv: Ajv.ValidateFunction
 
@@ -117,7 +114,7 @@ export class DLintConfigSchema {
     full.defaultRules = fields.defaultRules || []
     full.ignorePatterns = fields.ignorePatterns || []
     full.rootDir = fields.rootDir || options.configDir
-    full.parser = fields.parser || DLintConfigSchema.Defaults.PARSER
+    full.parser = fields.parser || DLintConfigSchema.DEFAULT_PARSER
     return full
   }
 

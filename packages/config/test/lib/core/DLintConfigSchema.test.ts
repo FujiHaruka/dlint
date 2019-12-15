@@ -38,7 +38,7 @@ it('fills default fields', () => {
     rules: {},
     defaultRules: [],
     ignorePatterns: [],
-    parser: DLintConfigSchema.Defaults.PARSER,
+    parser: DLintConfigSchema.DEFAULT_PARSER,
     rootDir: __dirname,
   }
   expect(schema.fillDefaults(config, { configDir: __dirname })).toEqual(filled)

@@ -1,6 +1,6 @@
 import { resolve, dirname } from 'path'
 
-import { RuleExpression } from '@dlint/rule'
+import { DLintRuleExpression } from '@dlint/core'
 
 import { DLintConfigSchema, DLintConfigFields } from './core/DLintConfigSchema'
 import { ConfigFileReader } from './io/ConfigFileReader'
@@ -64,7 +64,7 @@ export class DLintConfig {
         ([layerName, expressions]) =>
           [layerName, [...defaultRules, ...expressions]] as [
             string,
-            RuleExpression[],
+            DLintRuleExpression[],
           ],
       ),
     )
