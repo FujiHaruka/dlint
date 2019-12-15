@@ -12,9 +12,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": [
-    "packages/**/*.ts",
-  ],
   "exclude": [
     "**/build/**/*",
   ]
