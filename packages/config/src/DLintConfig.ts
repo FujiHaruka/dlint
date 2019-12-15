@@ -49,7 +49,10 @@ export class DLintConfig {
       parser,
     }
     return {
-      layers,
+      expressions: Object.entries(layers).map(([name, patterns]) => ({
+        name,
+        patterns,
+      })),
       options,
     }
   }

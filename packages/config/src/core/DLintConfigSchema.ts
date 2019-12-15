@@ -90,6 +90,7 @@ const JsonSchema = {
 
 export class DLintConfigSchema {
   static Defaults = {
+    // FIXME: layer に定義がある
     PARSER: 'acorn',
   }
 
