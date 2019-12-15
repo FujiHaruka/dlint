@@ -1,0 +1,31 @@
+{
+  "name": "@dlint/core",
+  "description": "DLint core",
+  "version": "0.0.1",
+  "author": "FujiHaruka",
+  "bugs": {
+    "url": "https://github.com/FujiHaruka/dlint/issues"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=10"
+  },
+  "files": [
+    "build"
+  ],
+  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/dlint",
+  "keywords": [
+    "dependency",
+    "dlint",
+    "graph"
+  ],
+  "license": "MIT",
+  "main": "build/index.js",
+  "repository": "FujiHaruka/dlint",
+  "scripts": {
+    "build": "rm -rf build/ && tsc",
+    "prepare": "yarn build",
+    "test": "jest --silent false --config ../../jest.config.js packages/core"
+  },
+  "types": "build/index.d.ts"
+}
