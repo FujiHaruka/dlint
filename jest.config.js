@@ -1,3 +1,5 @@
+const { resolve } = require('path')
+
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
@@ -60,7 +62,11 @@ module.exports = {
   // globalTeardown: null,
 
   // A set of global variables that need to be available in all test environments
-  // globals: {},
+  globals: {
+    'ts-jest': {
+      tsConfig: resolve(__dirname, './tsconfig.base.json'),
+    },
+  },
 
   // An array of directory names to be searched recursively up from the requiring module's location
   // moduleDirectories: [
