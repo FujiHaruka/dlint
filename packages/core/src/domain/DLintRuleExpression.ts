@@ -1,11 +1,11 @@
 import { RuleTarget } from '../enum/RuleTarget'
 
-interface AllowingExpression {
+export interface AllowingExpression {
   allow: RuleTarget
   on?: string[]
 }
 
-interface DisallowingExpression {
+export interface DisallowingExpression {
   disallow: RuleTarget
   on?: string[]
 }
