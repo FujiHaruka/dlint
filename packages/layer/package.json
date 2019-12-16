@@ -7,6 +7,7 @@
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
+    "@dlint/core": "0.0.1",
     "acorn": "^7.1.0",
     "fast-glob": "^3.1.0"
   },
