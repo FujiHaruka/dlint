@@ -1,7 +1,7 @@
 import commander from 'commander'
 
 import { DLint } from './DLint'
-import { printDisallowed } from './util/printUtil'
+import { printDLintError } from './util/printUtil'
 
 commander
   .version(require('../package.json').version, '-v')
@@ -18,7 +18,7 @@ async function main({ configPath }: { configPath: string }) {
     return
   }
   for (const result of disallowed) {
-    printDisallowed(result)
+    printDLintError(result)
   }
 }
 

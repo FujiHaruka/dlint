@@ -1,8 +1,7 @@
+import { DLintError } from '@dlint/core'
 import { DLintConfig } from '@dlint/config'
 import { DLintLayer } from '@dlint/layer'
 import { DLintRule, LayerRuleBinding } from '@dlint/rule'
-// FIXME
-import { DisallowedResult } from '@dlint/rule/build/core/RuleAppliedResult'
 
 const loadLayers = async (config: DLintConfig) => {
   const { expressions, options } = config.layers()
@@ -40,7 +39,7 @@ export class DLint {
     return lint
   }
 
-  applyRule(): DisallowedResult[] {
+  applyRule(): DLintError[] {
     const { rule, layers } = this
     const disallowed = layers.map((layer) => rule.apply(layer)).flat()
     return disallowed
