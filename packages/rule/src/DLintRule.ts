@@ -23,10 +23,12 @@ export class DLintRule {
     const units = expressions.map((exp) =>
       new RuleResolver(layers).resolve(exp),
     )
-    const disallowed = layer.nodes.map((node) => {
-      const results = units.map((unit) => unit.apply(node))
-      return reduceDisallowedResults(node, results)
-    })
+    const disallowed = layer.nodes
+      .map((node) => {
+        const results = units.map((unit) => unit.apply(node))
+        return reduceDisallowedResults(node, results)
+      })
+      .filter(({ statuses }) => statuses.length > 0)
     return disallowed
   }
 }
