@@ -1,0 +1,29 @@
+defaultRules:
+  - disallow: all
+ignorePatterns:
+  - '**/ignore.ts'
+layers:
+  a:
+    - a/**/*.ts
+  b:
+    - b/**/*.ts
+parser: '@typescript-eslint/typescript-estree'
+rootDir: ./src
+rules:
+  a:
+    - allow: packages
+      on:
+        - fs
+        - path
+        - '@types/node'
+    - allow: layers
+      on:
+        - a
+  b:
+    - allow: packages
+      on:
+        - fs
+    - allow: layers
+      on:
+        - a
+        - b
