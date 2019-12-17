@@ -1,0 +1,16 @@
+layers:
+  core:
+    - core/**/*.js
+  surface:
+    - surface/**/*.js
+rules:
+  core:
+    - disallow: all
+    - allow: packages
+      on:
+        - path
+  surface:
+    - disallow: allLayers
+    - allow: layers
+      on:
+        - core
