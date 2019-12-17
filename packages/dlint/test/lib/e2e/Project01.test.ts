@@ -6,7 +6,7 @@ import { DLint } from '../../../src/DLint'
 
 it('project01', async () => {
   const dlint = await DLint.init(join(__dirname, '../../fixtures/project01'))
-  const disallowed = dlint.run()
+  const disallowed = dlint.applyRule()
   expect(disallowed).toHaveLength(1)
   expect(disallowed[0]).toMatchObject({
     statuses: [

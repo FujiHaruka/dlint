@@ -38,7 +38,7 @@ export class DLint {
     return lint
   }
 
-  run() {
+  applyRule() {
     const { rule, layers } = this
     const disallowed = layers.map((layer) => rule.apply(layer)).flat()
     return disallowed
