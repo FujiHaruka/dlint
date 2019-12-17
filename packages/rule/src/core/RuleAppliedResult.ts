@@ -2,6 +2,7 @@ import {
   DLintModule,
   DLintModuleUtil,
   DLintNode,
+  DLintError,
   ObjectKeyMap,
 } from '@dlint/core'
 
@@ -17,14 +18,6 @@ interface ModuleAppliedStatus {
   ruleUnitName: string
   status: RuleAllowanceStatus
   module: DLintModule
-}
-
-export interface DisallowedResult {
-  node: DLintNode
-  statuses: {
-    ruleUnitName: string
-    module: DLintModule
-  }[]
 }
 
 /**
@@ -70,7 +63,7 @@ export class NodeAppliedResult {
 export const reduceDisallowedResults = (
   node: DLintNode,
   results: NodeAppliedResult[],
-): DisallowedResult => {
+): DLintError => {
   if (results.length === 0) {
     return {
       node,

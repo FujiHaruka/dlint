@@ -1,3 +1,4 @@
+export * from './domain/DLintError'
 export * from './domain/DLintLayer'
 export * from './domain/DLintModule'
 export * from './domain/DLintNode'
