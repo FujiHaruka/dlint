@@ -35,14 +35,7 @@ export class DLintConfig {
   }
 
   layers() {
-    const { configPath } = this
-    const {
-      layers,
-      ignorePatterns,
-      rootDir: relativeRootDir,
-      parser,
-    } = this.fields
-    const rootDir = resolve(configPath, relativeRootDir)
+    const { layers, ignorePatterns, rootDir, parser } = this.fields
     const options = {
       rootDir,
       ignorePatterns,

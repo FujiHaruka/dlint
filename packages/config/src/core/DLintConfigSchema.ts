@@ -1,3 +1,5 @@
+import { resolve } from 'path'
+
 import Ajv from 'ajv'
 import { DLintRuleExpression, ParserPackage } from '@dlint/core'
 
@@ -113,7 +115,7 @@ export class DLintConfigSchema {
     full.rules = fields.rules || {}
     full.defaultRules = fields.defaultRules || []
     full.ignorePatterns = fields.ignorePatterns || []
-    full.rootDir = fields.rootDir || options.configDir
+    full.rootDir = resolve(options.configDir, fields.rootDir || '.')
     full.parser = fields.parser || DLintConfigSchema.DEFAULT_PARSER
     return full
   }

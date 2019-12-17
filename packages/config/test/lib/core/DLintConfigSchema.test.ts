@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import { join } from 'path'
+import { join, resolve } from 'path'
 
 import yaml from 'js-yaml'
 
@@ -20,7 +20,10 @@ it('works', async () => {
   expect(valid).toBeTruthy()
   expect(schema.errors).toBeNull()
 
-  expect(schema.fillDefaults(config, { configDir: __dirname })).toEqual(config)
+  expect(schema.fillDefaults(config, { configDir: __dirname })).toEqual({
+    ...config,
+    rootDir: resolve(__dirname, 'src'),
+  })
 })
 
 it('fills default fields', () => {
