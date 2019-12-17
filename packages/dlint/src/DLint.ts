@@ -2,6 +2,25 @@ import { DLintConfig } from '@dlint/config'
 import { DLintLayer } from '@dlint/layer'
 import { DLintRule, LayerRuleBinding } from '@dlint/rule'
 
+const loadLayers = async (config: DLintConfig) => {
+  const { expressions, options } = config.layers()
+  const layers = await Promise.all(
+    expressions.map(({ name, patterns }) =>
+      DLintLayer.gatherDeps(name, patterns, options),
+    ),
+  )
+  return layers
+}
+const bindRule = (config: DLintConfig, layers: DLintLayer[]) => {
+  const rules = config.rules()
+  const bindings: LayerRuleBinding[] = layers.map((layer) => ({
+    layer,
+    expressions: rules[layer.name] || [],
+  }))
+  const rule = new DLintRule(bindings)
+  return rule
+}
+
 export class DLint {
   layers: DLintLayer[]
   rule: DLintRule
@@ -13,18 +32,8 @@ export class DLint {
 
   static async init(configPath: string) {
     const config = await DLintConfig.load(configPath)
-    const rules = config.rules()
-    const { expressions, options } = config.layers()
-    const layers = await Promise.all(
-      expressions.map(({ name, patterns }) =>
-        DLintLayer.gatherDeps(name, patterns, options),
-      ),
-    )
-    const bindings: LayerRuleBinding[] = layers.map((layer) => ({
-      layer,
-      expressions: rules[layer.name] || [],
-    }))
-    const rule = new DLintRule(bindings)
+    const layers = await loadLayers(config)
+    const rule = bindRule(config, layers)
     const lint = new this(layers, rule)
     return lint
   }
