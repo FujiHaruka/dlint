@@ -9,7 +9,7 @@ export interface DLintConfigFields {
   layers: {
     [layerName: string]: PathPattern[]
   }
-  parser: string
+  parser: ParserPackage
   rootDir: string
   rules: {
     [layerName: string]: DLintRuleExpression[]
