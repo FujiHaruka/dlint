@@ -2,27 +2,24 @@ import { DLintLayer } from '@dlint/core'
 
 import { RuleResolver } from './resolver/RuleResolver'
 import { reduceDisallowedResults } from './core/RuleAppliedResult'
-import {
-  LayerExpressionsRelations,
-  LayerExpressions,
-} from './core/LayerExpressions'
+import { LayerRuleBindings, LayerRuleBinding } from './core/LayerRuleBindings'
 
-export { LayerExpressions } from './core/LayerExpressions'
+export { LayerRuleBinding } from './core/LayerRuleBindings'
 
 export class DLintRule {
-  relations: LayerExpressionsRelations
+  bindings: LayerRuleBindings
 
-  constructor(relations: LayerExpressions[]) {
-    this.relations = new LayerExpressionsRelations(relations)
+  constructor(bindings: LayerRuleBinding[]) {
+    this.bindings = new LayerRuleBindings(bindings)
   }
 
   apply(layer: DLintLayer) {
-    const { relations } = this
-    const { layers } = relations
+    const { bindings } = this
+    const { layers } = bindings
     if (!layers.has(layer.name)) {
       throw new Error(`Layer "${layer.name}" not found in DLintRule`)
     }
-    const expressions = relations.expressionFor(layer)
+    const expressions = bindings.expressionFor(layer)
     const units = expressions.map((exp) =>
       new RuleResolver(layers).resolve(exp),
     )

@@ -11,7 +11,7 @@ import {
 } from '@dlint/core'
 import minimatch from 'minimatch'
 
-import { DLintRule, LayerExpressions } from '../../../src/DLintRule'
+import { DLintRule, LayerRuleBinding } from '../../../src/DLintRule'
 
 const ROOT_DIR = '/project'
 const FANIN = {
@@ -167,7 +167,7 @@ it('works', () => {
     },
   ]
 
-  const relations: LayerExpressions[] = layers.map((layer) => ({
+  const relations: LayerRuleBinding[] = layers.map((layer) => ({
     layer,
     expressions: expressionsMap.get(layer.name) || [],
   }))

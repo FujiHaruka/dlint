@@ -2,20 +2,20 @@ import { DLintLayer, DLintRuleExpression } from '@dlint/core'
 
 type LayerName = string
 
-export interface LayerExpressions {
+export interface LayerRuleBinding {
   layer: DLintLayer
   expressions: DLintRuleExpression[]
 }
 
-export class LayerExpressionsRelations {
+export class LayerRuleBindings {
   readonly expressions: Map<LayerName, DLintRuleExpression[]>
   readonly layers: Map<LayerName, DLintLayer>
 
-  constructor(relations: LayerExpressions[]) {
-    this.validateRelations(relations)
-    this.layers = new Map(relations.map(({ layer }) => [layer.name, layer]))
+  constructor(bidings: LayerRuleBinding[]) {
+    this.validate(bidings)
+    this.layers = new Map(bidings.map(({ layer }) => [layer.name, layer]))
     this.expressions = new Map(
-      relations.map(({ layer, expressions }) => [layer.name, expressions]),
+      bidings.map(({ layer, expressions }) => [layer.name, expressions]),
     )
   }
 
@@ -23,8 +23,8 @@ export class LayerExpressionsRelations {
     return this.expressions.get(layer.name) || []
   }
 
-  private validateRelations(relations: LayerExpressions[]) {
-    const layers = relations.map(({ layer }) => layer)
+  private validate(bidings: LayerRuleBinding[]) {
+    const layers = bidings.map(({ layer }) => layer)
     const nameDuplicated = layers.find(
       (layer, i) => layers.findIndex(({ name }) => name === layer.name) !== i,
     )
