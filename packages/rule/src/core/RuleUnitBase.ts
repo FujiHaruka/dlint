@@ -1,14 +1,14 @@
-import { DLintModule, DLintNode, Fanout } from '@dlint/core'
+import { DLintModule, DLintNode, Fanout, RuleUnitName } from '@dlint/core'
 
 import { NodeAppliedResult } from './RuleAppliedResult'
 
 export interface RuleUnit {
-  name: string
+  name: RuleUnitName
   apply(node: DLintNode): NodeAppliedResult
 }
 
 export class RuleUnitBase implements RuleUnit {
-  name = 'Base'
+  name = 'Base' as RuleUnitName
   protected positive = true
 
   apply(node: DLintNode) {

@@ -4,6 +4,7 @@ import {
   DLintNode,
   DLintError,
   ObjectKeyMap,
+  RuleUnitName,
 } from '@dlint/core'
 
 export enum RuleAllowanceStatus {
@@ -15,7 +16,7 @@ export enum RuleAllowanceStatus {
  * Status of applying a rule unit to a DLintModule
  */
 interface ModuleAppliedStatus {
-  ruleUnitName: string
+  ruleUnitName: RuleUnitName
   status: RuleAllowanceStatus
   module: DLintModule
 }
@@ -25,10 +26,10 @@ interface ModuleAppliedStatus {
  */
 export class NodeAppliedResult {
   node: DLintNode
-  ruleUnitName: string
+  ruleUnitName: RuleUnitName
   private moduleStatusMap: ObjectKeyMap<DLintModule, ModuleAppliedStatus>
 
-  constructor(node: DLintNode, ruleUnitName: string) {
+  constructor(node: DLintNode, ruleUnitName: RuleUnitName) {
     this.node = node
     this.ruleUnitName = ruleUnitName
     this.moduleStatusMap = new ObjectKeyMap<DLintModule, ModuleAppliedStatus>(
