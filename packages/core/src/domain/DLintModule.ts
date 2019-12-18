@@ -46,4 +46,13 @@ export const DLintModuleUtil = {
       DLintModuleUtil.toKeyString(moduleB)
     )
   },
+  format(module: DLintModule) {
+    switch (module.type) {
+      case ModuleType.BUILTIN:
+      case ModuleType.PACKAGE:
+        return module.name
+      case ModuleType.LOCAL:
+        return module.path.relativePath
+    }
+  },
 }
