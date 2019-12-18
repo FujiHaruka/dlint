@@ -1,7 +1,7 @@
 import commander from 'commander'
 
 import { DLint } from './DLint'
-import { printDLintError } from './util/printUtil'
+import { formatDLintError } from './util/MessageFormatter'
 
 commander
   .version(require('../package.json').version, '-v')
@@ -13,12 +13,11 @@ const configPath = (commander.rule || '') as string
 async function main({ configPath }: { configPath: string }) {
   const dlint = await DLint.init(configPath)
   const disallowed = dlint.applyRule()
-  console.log(disallowed)
   if (disallowed.length === 0) {
     return
   }
   for (const result of disallowed) {
-    printDLintError(result)
+    console.log(formatDLintError(result))
   }
 }
 
