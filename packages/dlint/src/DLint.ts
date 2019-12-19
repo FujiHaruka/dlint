@@ -43,7 +43,10 @@ export class DLint {
     this.debug = Debugger(options.verbose)
   }
 
-  static async init(configPath: string, options: { verbose: boolean }) {
+  static async init(
+    configPath: string,
+    options: { verbose: boolean } = { verbose: false },
+  ) {
     const { verbose } = options
     const debug = Debugger(verbose)
     const config = await DLintConfig.load(configPath)
