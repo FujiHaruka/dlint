@@ -1,18 +1,27 @@
 import commander from 'commander'
+import chalk from 'chalk'
 
 import { DLint } from './DLint'
 import { formatDLintError, formatSummary } from './util/MessageFormatter'
 
 commander
   .name('dlint')
-  .version(require('../package.json').version, '-v')
+  .version(require('../package.json').version)
   .option('-c, --config <configPath>', 'Use this rule file')
+  .option('--verbose', 'Verbose output')
   .parse(process.argv)
 
 const configPath = (commander.config || '') as string
+const verbose = (commander.verbose || false) as boolean
 
-async function main({ configPath }: { configPath: string }) {
-  const dlint = await DLint.init(configPath)
+async function main({
+  configPath,
+  verbose,
+}: {
+  configPath: string
+  verbose: boolean
+}) {
+  const dlint = await DLint.init(configPath, { verbose })
   const disallowed = dlint.applyRule()
   if (disallowed.length === 0) {
     return
@@ -24,7 +33,12 @@ async function main({ configPath }: { configPath: string }) {
   console.log(formatSummary(disallowed))
 }
 
-main({ configPath }).catch((e) => {
-  console.error(e)
+main({ configPath, verbose }).catch((e) => {
+  if (verbose) {
+    console.error(e)
+  } else {
+    console.error(chalk.red('Error:'))
+    console.error('  ' + e.message)
+  }
   process.exit(1)
 })
