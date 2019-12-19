@@ -1,7 +1,7 @@
 import commander from 'commander'
 
 import { DLint } from './DLint'
-import { formatDLintError } from './util/MessageFormatter'
+import { formatDLintError, formatSummary } from './util/MessageFormatter'
 
 commander
   .version(require('../package.json').version, '-v')
@@ -19,6 +19,7 @@ async function main({ configPath }: { configPath: string }) {
   for (const result of disallowed) {
     console.log(formatDLintError(result))
   }
+  console.log(formatSummary(disallowed.length))
 }
 
 main({ configPath }).catch((e) => {

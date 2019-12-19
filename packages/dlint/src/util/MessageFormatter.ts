@@ -22,3 +22,10 @@ export const formatDLintError = (result: DLintError) => {
     ),
   ])
 }
+
+export const formatSummary = (errorCount: number) => {
+  return Styled(
+    `✖ ${errorCount} error${errorCount === 1 ? '' : 's'}`,
+    chalk.redBright,
+  )
+}
