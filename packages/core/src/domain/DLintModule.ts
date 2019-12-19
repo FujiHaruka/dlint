@@ -40,12 +40,6 @@ export const DLintModuleUtil = {
         throw new Error(`Unknown module type: ${(mod as DLintModule).type}`)
     }
   },
-  equals: (moduleA: DLintModule, moduleB: DLintModule) => {
-    return (
-      DLintModuleUtil.toKeyString(moduleA) ===
-      DLintModuleUtil.toKeyString(moduleB)
-    )
-  },
   format(module: DLintModule) {
     switch (module.type) {
       case ModuleType.BUILTIN:
