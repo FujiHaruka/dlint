@@ -43,7 +43,7 @@ it('works', () => {
     ],
   }
   // console.log(formatDLintError(error))
-  // console.log(formatSummary(1))
+  // console.log(formatSummary([error]))
   expect(formatDLintError(error)).toBeTruthy()
-  expect(formatSummary(1)).toBeTruthy()
+  expect(formatSummary([error])).toBeTruthy()
 })

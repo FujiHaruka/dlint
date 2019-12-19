@@ -14,6 +14,7 @@ export const formatDLintError = (result: DLintError) => {
     ...result.statuses.map(({ ruleUnitName, module }) =>
       Block([
         ' ',
+        Styled('error', chalk.red),
         Styled('Rule', chalk.gray),
         Styled(`"${RuleUnitNameUtil.format(ruleUnitName)}"`, chalk.white),
         Styled(`disallows to depend on`, chalk.gray),
@@ -23,7 +24,11 @@ export const formatDLintError = (result: DLintError) => {
   ])
 }
 
-export const formatSummary = (errorCount: number) => {
+export const formatSummary = (results: DLintError[]) => {
+  const errorCount = results.reduce(
+    (count, result) => count + result.statuses.length,
+    0,
+  )
   return Styled(
     `✖ ${errorCount} error${errorCount === 1 ? '' : 's'}`,
     chalk.redBright,
