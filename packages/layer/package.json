@@ -28,8 +28,9 @@
   "private": false,
   "repository": "FujiHaruka/dlint",
   "scripts": {
+    "build": "tsc -b",
+    "clean": "tsc -b --clean",
     "prepare": "yarn build",
-    "build": "rm -rf build/ && tsc",
     "test": "jest --silent false --config ../../jest.config.js packages/layer"
   },
   "types": "build/DLintLayer.d.ts"

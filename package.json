@@ -26,7 +26,7 @@
   "private": true,
   "repository": "https://github.com/FujiHaruka/dlint",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b packages/config packages/core packages/dlint packages/layer packages/rule --verbose",
     "eslint": "eslint packages/**/*.ts",
     "yaml": "./scripts/sortYaml.js packages/**/*.{yml,yaml}",
     "test": "jest --silent false",
