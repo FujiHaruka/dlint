@@ -63,7 +63,7 @@ export class DLint {
   applyRule(): DLintError[] {
     const { rule, layers, debug } = this
     const disallowed = layers.map((layer) => rule.apply(layer)).flat()
-    debug('Allied')
+    debug('Apllied')
     debug(JSON.stringify(disallowed))
     return disallowed
   }

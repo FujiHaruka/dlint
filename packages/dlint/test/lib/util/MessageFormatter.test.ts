@@ -1,4 +1,10 @@
-import { FilePath, ModuleType, RuleUnitName, DLintError } from '@dlint/core'
+import {
+  FilePath,
+  ModuleType,
+  RuleUnitName,
+  DLintError,
+  DLintLayer,
+} from '@dlint/core'
 
 import {
   formatDLintError,
@@ -6,7 +12,11 @@ import {
 } from '../../../src/util/MessageFormatter'
 
 it('works', () => {
+  const layer = {
+    name: 'layer01',
+  } as DLintLayer
   const error: DLintError = {
+    layer,
     node: {
       file: new FilePath('/project', 'module.js'),
       fanin: {

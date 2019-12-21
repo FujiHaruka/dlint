@@ -9,8 +9,12 @@ const Block = (inlines: string[]) => inlines.join(' ')
 const join = (blocks: string[]) => blocks.join(EOL) + EOL
 
 export const formatDLintError = (result: DLintError) => {
+  const headLine =
+    Styled(result.node.file.relativePath, chalk.white.underline) +
+    Styled(' at layer ', chalk.gray) +
+    result.layer.name
   return join([
-    Styled(result.node.file.absolutePath, chalk.white.underline),
+    headLine,
     ...result.statuses.map(({ ruleUnitName, module }) =>
       Block([
         ' ',
