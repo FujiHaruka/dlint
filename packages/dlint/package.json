@@ -1,7 +1,7 @@
 {
   "name": "dlint",
   "description": "Linter about inter-module dependencies",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bin": {
     "dlint": "./bin/cli.js"
@@ -10,9 +10,9 @@
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
-    "@dlint/config": "0.1.1",
-    "@dlint/layer": "0.1.1",
-    "@dlint/rule": "0.1.1",
+    "@dlint/config": "0.2.0",
+    "@dlint/layer": "0.2.0",
+    "@dlint/rule": "0.2.0",
     "chalk": "^3.0.0",
     "commander": "^4.0.1"
   },

@@ -1,13 +1,13 @@
 {
   "name": "@dlint/config",
   "description": "DLint config",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
-    "@dlint/core": "0.1.1",
+    "@dlint/core": "0.2.0",
     "ajv": "^6.10.2",
     "chalk": "^3.0.0",
     "js-yaml": "^3.13.1"

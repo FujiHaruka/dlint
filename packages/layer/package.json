@@ -1,13 +1,13 @@
 {
   "name": "@dlint/layer",
   "description": "Directory layer for DLint",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
-    "@dlint/core": "0.1.1",
+    "@dlint/core": "0.2.0",
     "acorn": "^7.1.0",
     "fast-glob": "^3.1.0"
   },
