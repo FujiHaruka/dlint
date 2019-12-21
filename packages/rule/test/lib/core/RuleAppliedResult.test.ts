@@ -15,14 +15,17 @@ import {
 } from '../../../src/core/RuleUnits'
 
 it('works with empty array', () => {
+  const layer = MockLayer.simple()
   const node = MockNode.simple()
-  expect(reduceDisallowedResults(node, [])).toEqual({
+  expect(reduceDisallowedResults(layer, node, [])).toEqual({
     node,
     statuses: [],
+    layer,
   })
 })
 
 it('works disallow -> allow', () => {
+  const layer = MockLayer.simple()
   const node = MockNode.multiple()
 
   const results = [
@@ -31,7 +34,7 @@ it('works disallow -> allow', () => {
     new AllowLayers([MockLayer.layer1()]),
   ].map((rule) => rule.apply(node))
 
-  const reduced = reduceDisallowedResults(node, results)
+  const reduced = reduceDisallowedResults(layer, node, results)
   expect(reduced).toEqual({
     statuses: [
       {
@@ -62,10 +65,12 @@ it('works disallow -> allow', () => {
       },
     ],
     node,
+    layer,
   })
 })
 
 it('works allow -> disallow', () => {
+  const layer = MockLayer.simple()
   const node = MockNode.multiple()
 
   const results = [
@@ -74,7 +79,7 @@ it('works allow -> disallow', () => {
     new DisallowLayers([MockLayer.layer1()]),
   ].map((rule) => rule.apply(node))
 
-  const reduced = reduceDisallowedResults(node, results)
+  const reduced = reduceDisallowedResults(layer, node, results)
   expect(reduced).toEqual({
     statuses: [
       {
@@ -92,5 +97,6 @@ it('works allow -> disallow', () => {
       },
     ],
     node,
+    layer,
   })
 })

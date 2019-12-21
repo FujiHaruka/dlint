@@ -5,6 +5,7 @@ import {
   DLintError,
   ObjectKeyMap,
   RuleUnitName,
+  DLintLayer,
 } from '@dlint/core'
 
 export enum RuleAllowanceStatus {
@@ -62,11 +63,13 @@ export class NodeAppliedResult {
  * Reduce NodeAppliedResult array to single result
  */
 export const reduceDisallowedResults = (
+  layer: DLintLayer,
   node: DLintNode,
   results: NodeAppliedResult[],
 ): DLintError => {
   if (results.length === 0) {
     return {
+      layer,
       node,
       statuses: [],
     }
@@ -88,6 +91,7 @@ export const reduceDisallowedResults = (
     }
   }
   return {
+    layer,
     node,
     statuses: map
       .values()
