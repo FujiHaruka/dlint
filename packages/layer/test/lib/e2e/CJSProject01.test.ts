@@ -71,6 +71,7 @@ it('works', async () => {
       locals: [Local('a/moduleA.js')],
     },
     fanout: {
+      packages: [],
       builtins: [Builtin('fs')],
     },
   })

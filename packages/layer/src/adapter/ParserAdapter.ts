@@ -33,16 +33,16 @@ const isPrimitive = (value: unknown): boolean => {
 }
 
 // require を呼び出している CallExpression を再帰的に探索
-const findCallExpressionRecursively = (node: any): string[] => {
+const REQUIRE_FUNCTION = 'require'
+const findRequireCall = (node: any): string[] => {
   if (Array.isArray(node)) {
-    return node.flatMap((item) => findCallExpressionRecursively(item))
+    return node.flatMap((item) => findRequireCall(item))
   }
   if (node.type === CallExpressionType) {
     if (
-      node.arguments &&
-      node.arguments[0] &&
-      node.arguments[0].type === LiteralType &&
-      typeof node.arguments[0].value === 'string'
+      node.arguments?.[0]?.type === LiteralType &&
+      typeof node.arguments?.[0]?.value === 'string' &&
+      node.callee?.name === REQUIRE_FUNCTION
     ) {
       return [node.arguments[0].value]
     } else {
@@ -54,14 +54,13 @@ const findCallExpressionRecursively = (node: any): string[] => {
       if (isPrimitive(child)) {
         return []
       }
-      return findCallExpressionRecursively(child)
+      return findRequireCall(child)
     })
   }
 }
 
 const collectModuleNames = {
   inESM(ast: any): string[] {
-    // console.log(require('util').inspect(ast, { depth: null }))
     return ast.body
       .filter((statement: any) => ESMImportTypes.has(statement.type))
       .map(
@@ -70,7 +69,7 @@ const collectModuleNames = {
       .filter(Boolean)
   },
   inCJS(ast: any): string[] {
-    return findCallExpressionRecursively(ast)
+    return findRequireCall(ast)
   },
 }
 
