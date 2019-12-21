@@ -32,7 +32,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn eslint && yarn dlint && yarn test"
+      "pre-commit": "yarn each:eslint && yarn each:dlint && yarn test"
     }
   },
   "keywords": [
@@ -48,13 +48,13 @@
   "repository": "FujiHaruka/dlint",
   "scripts": {
     "build": "tsc -b packages/core packages/config packages/layer packages/rule packages/dlint --verbose",
-    "dlint": "yarn workspaces run dlint",
-    "eslint": "eslint packages/**/*.ts",
+    "each:dlint": "yarn workspaces run dlint",
+    "each:eslint": "eslint packages/**/*.ts",
+    "each:publish": "yarn workspaces run publish --non-interactive",
     "pkg:sync": "./scripts/syncPackages.js",
     "prepare": "yarn build",
-    "publish:all": "yarn workspaces run publish --non-interactive",
     "test": "jest --silent false",
-    "test:all": "jest --coverage",
+    "test:coverage": "jest --coverage",
     "yaml": "./scripts/sortYaml.js packages/**/*.{yml,yaml}"
   },
   "workspaces": [

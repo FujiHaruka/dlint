@@ -12,6 +12,6 @@ jobs:
       run: yarn install
     - name: Run tests
       run: |
-        yarn build
-        yarn dlint
-        yarn test:all
+        yarn each:eslint
+        yarn each:dlint
+        yarn test:coverage
