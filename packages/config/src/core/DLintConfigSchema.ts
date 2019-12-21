@@ -152,8 +152,10 @@ export class DLintConfigSchema {
   ): DLintConfigFields {
     const full = {} as DLintConfigFields
     // layer and rules has been validated
-    full.layers = fields.layers || {}
-    full.rules = fields.rules || {}
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    full.layers = fields.layers!
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    full.rules = fields.rules!
     for (const name of Object.keys(full.rules)) {
       full.rules[name] = full.rules[name] || []
     }
