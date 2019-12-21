@@ -1,0 +1,7 @@
+layers:
+  layer1:
+    - layer1/**/*.ts
+rules:
+  layer1:
+    - allow: all
+additional: false

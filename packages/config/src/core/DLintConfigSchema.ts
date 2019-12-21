@@ -100,6 +100,8 @@ export class DLintConfigSchema {
 
   ajv: Ajv.Ajv
   validateWithAjv: Ajv.ValidateFunction
+  customErrors: ValidationError[] = []
+  done = false
 
   constructor() {
     this.ajv = new Ajv({ allErrors: true })
@@ -107,9 +109,41 @@ export class DLintConfigSchema {
   }
 
   validate(fields: object): fields is Partial<DLintConfigFields> {
-    const valid = this.validateWithAjv(fields) as boolean
-    // TODO: domain specific logic
+    if (this.done) {
+      throw new Error(`validate() can not be called twice`)
+    }
+    const valid = [
+      this.validateWithAjv(fields) as boolean,
+      this.validateLayerRuleRelation(fields),
+    ].every(Boolean)
+    this.done = true
     return valid
+  }
+
+  private validateLayerRuleRelation(
+    fields: Partial<DLintConfigFields>,
+  ): boolean {
+    const layers = Object.keys(fields.layers || {})
+    const ruleLayers = Object.keys(fields.rules || {})
+    const layersNotInRules = layers.filter(
+      (layer) => !ruleLayers.includes(layer),
+    )
+    this.customErrors = this.customErrors.concat(
+      layersNotInRules.map((layer) => ({
+        dataPath: `.layers['${layer}']`,
+        message: 'should have the rule which corresponds to the layer',
+      })),
+    )
+    const layersOnlyInRules = ruleLayers.filter(
+      (layer) => !layers.includes(layer),
+    )
+    this.customErrors = this.customErrors.concat(
+      layersOnlyInRules.map((layer) => ({
+        dataPath: `.rules['${layer}']`,
+        message: 'should have the layer which corresponds to the rule',
+      })),
+    )
+    return layersNotInRules.length === 0 && layersOnlyInRules.length === 0
   }
 
   fillDefaults(
@@ -131,7 +165,8 @@ export class DLintConfigSchema {
   }
 
   get errors() {
-    const errors = (this.validateWithAjv.errors || []) as ValidationError[]
+    const errors = ((this.validateWithAjv.errors ||
+      []) as ValidationError[]).concat(this.customErrors)
     return errors.length === 0 ? null : errors
   }
 }

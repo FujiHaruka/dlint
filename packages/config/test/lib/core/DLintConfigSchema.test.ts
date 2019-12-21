@@ -6,7 +6,24 @@ import yaml from 'js-yaml'
 import {
   DLintConfigSchema,
   DLintConfigFields,
+  ValidationError,
 } from '../../../src/core/DLintConfigSchema'
+
+const testInvalidConfig = async (
+  configFile: string,
+  match: Partial<ValidationError>,
+) => {
+  const config = yaml.safeLoad(
+    await fs.readFile(
+      join(__dirname, '../../fixtures/configs', configFile),
+      'utf-8',
+    ),
+  )
+  const schema = new DLintConfigSchema()
+  const valid = schema.validate(config)
+  expect(valid).toBeFalsy()
+  expect((schema.errors || [])[0]).toMatchObject(match)
+}
 
 it('project01: standard config', async () => {
   const config = yaml.safeLoad(
@@ -26,10 +43,10 @@ it('project01: standard config', async () => {
   })
 })
 
-it('project02: rule fields allow null', async () => {
+it('valid 01: rule fields allow null', async () => {
   const config = yaml.safeLoad(
     await fs.readFile(
-      join(__dirname, '../../fixtures/project02/dlint-rules.yml'),
+      join(__dirname, '../../fixtures/configs/valid01.yml'),
       'utf-8',
     ),
   )
@@ -40,6 +57,24 @@ it('project02: rule fields allow null', async () => {
   expect(
     schema.fillDefaults(config, { configDir: __dirname }).rules.layer1,
   ).toEqual([])
+})
+
+it('invalid 02: additional field', async () => {
+  await testInvalidConfig('invalid01.yml', {
+    message: 'should NOT have additional properties',
+  })
+})
+
+it('invalid 03: layer with no correspoinding rule', async () => {
+  await testInvalidConfig('invalid02.yml', {
+    dataPath: ".layers['layer2']",
+  })
+})
+
+it('invalid 04: layer in rule with no corresponding layer', async () => {
+  await testInvalidConfig('invalid03.yml', {
+    dataPath: ".rules['layer2']",
+  })
 })
 
 it('fills default fields', () => {

@@ -1,0 +1,8 @@
+layers:
+  layer1:
+    - layer1/**/*.ts
+  layer2: # has no corresponding rule
+    - layer2/**/*.ts
+rules:
+  layer1:
+    - allow: all
