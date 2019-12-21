@@ -32,6 +32,7 @@ async function main({
   }
   console.log(formatSummary(disallowed))
   console.log('')
+  process.exit(1)
 }
 
 main({ configPath, verbose }).catch((e) => {
