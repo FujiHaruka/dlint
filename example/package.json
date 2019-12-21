@@ -1,0 +1,9 @@
+{
+  "name": "example",
+  "description": "example project for DLint",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "dlint": "^0.1.1"
+  }
+}

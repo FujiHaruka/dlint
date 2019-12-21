@@ -1,0 +1,3 @@
+[submodule "example/nodejs-clean-architecture-app"]
+	path = example/nodejs-clean-architecture-app
+	url = https://github.com/jbuget/nodejs-clean-architecture-app
