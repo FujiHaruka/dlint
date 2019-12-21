@@ -104,3 +104,9 @@ it('errors', () => {
   expect(valid).toBeFalsy()
   expect(schema.errors).toBeTruthy()
 })
+
+it('can not call validate() twice', () => {
+  const schema = new DLintConfigSchema()
+  schema.validate({})
+  expect(() => schema.validate({})).toThrow()
+})

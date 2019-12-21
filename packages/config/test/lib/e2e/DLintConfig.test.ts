@@ -11,3 +11,8 @@ it('works', async () => {
   expect(config.layers()).toBeTruthy()
   expect(config.rules()).toBeTruthy()
 })
+
+it('works with errors', async () => {
+  const projectDir = join(__dirname, '../../fixtures/configs/invalid01.yml')
+  await expect(DLintConfig.load(projectDir)).rejects.toBeInstanceOf(Error)
+})
