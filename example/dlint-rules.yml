@@ -1,0 +1,44 @@
+defaultRules:
+  - disallow: all
+layers:
+  apps/repositories:
+    - application_business_rules/repositories/*.js
+  apps/security:
+    - application_business_rules/security/*.js
+  apps/use_cases:
+    - application_business_rules/use_cases/*.js
+  business/entities:
+    - enterprise_business_rules/entities/*.js
+  frameworks/database:
+    - frameworks_drivers/database/**/*.js
+  frameworks/webserver:
+    - frameworks_drivers/webserver/**/*.js
+  interface_adapters:
+    - interface_adapters/**/*.js
+rootDir: nodejs-clean-architecture-app/lib
+rules:
+  apps/repositories:
+  apps/security:
+  apps/use_cases:
+    - allow: layers
+      on:
+        - business/entities
+  business/entities:
+  frameworks/database:
+    - allow: packages
+      on:
+        - sequelize
+  frameworks/webserver:
+    - allow: packages
+      on:
+        - '@hapi/hapi'
+    - allow: layers
+      on:
+        - interface_adapters
+    - allow: allJson
+  interface_adapters:
+    - allow: allLayers
+    - allow: packages
+      on:
+        - '@hapi/boom'
+        - jsonwebtoken
