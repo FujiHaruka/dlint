@@ -1,9 +1,11 @@
+import { EOL } from 'os'
 import { resolve, dirname } from 'path'
 
 import { DLintRuleExpression } from '@dlint/core'
 
 import { DLintConfigSchema, DLintConfigFields } from './core/DLintConfigSchema'
 import { ConfigFileReader } from './io/ConfigFileReader'
+import { formatAjvErrors } from './formatter/ErrorFormatter'
 
 export class DLintConfig {
   /**
@@ -76,7 +78,7 @@ export class DLintConfig {
       })
       this.fields = fields
     } else {
-      throw new Error(JSON.stringify(schema.errors))
+      throw new Error(formatAjvErrors(this.configPath, schema.errors || []))
     }
   }
 }

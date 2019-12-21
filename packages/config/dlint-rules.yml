@@ -5,6 +5,8 @@ layers:
     - core/**/*.ts
   io:
     - io/**/*.ts
+  formatter:
+    - formatter/**/*.ts
 parser: '@typescript-eslint/typescript-estree'
 rootDir: src
 rules:
@@ -15,4 +17,6 @@ rules:
         - ajv
         - '@dlint/core'
   io:
+    - allow: allPackages
+  formatter:
     - allow: allPackages
