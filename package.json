@@ -51,8 +51,9 @@
     "build": "tsc -b packages/core packages/config packages/layer packages/rule packages/dlint --verbose",
     "dlint": "yarn workspaces run dlint",
     "eslint": "eslint packages/**/*.ts",
-    "prepare": "yarn build",
     "pkg:sync": "./scripts/syncPackages.js",
+    "prepare": "yarn build",
+    "publish:all": "yarn workspaces run publish --non-interactive",
     "test": "jest --silent false",
     "test:all": "jest --coverage",
     "yaml": "./scripts/sortYaml.js packages/**/*.{yml,yaml}"
