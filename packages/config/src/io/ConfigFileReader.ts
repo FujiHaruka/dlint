@@ -41,10 +41,14 @@ export class ConfigFileReader {
     if (stats.isFile()) {
       const ext = extname(path)
       if (ext === '.yaml' || ext === '.yml' || ext === '.json') {
-        return resolve(path)
+        return path
+      } else {
+        throw new Error(
+          `Config file extension must .yml, .yaml, or .json: ${path}`,
+        )
       }
     }
-    throw new Error(`Config file extension must .yml, .yaml, or .json: ${path}`)
+    throw new Error(`Not file or directory: ${path}`)
   }
 
   async fromPath(path: string): Promise<object> {
