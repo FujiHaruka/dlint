@@ -12,12 +12,14 @@ import {
   AllowAllLayers,
   AllowAllPackages,
   AllowAllNodejs,
+  AllowAllJson,
   AllowLayers,
   AllowPackages,
   DisallowAll,
   DisallowAllLayers,
   DisallowAllPackages,
   DisallowAllNodejs,
+  DisallowAllJson,
   DisallowLayers,
   DisallowPackages,
 } from '../core/RuleUnits'
@@ -64,6 +66,10 @@ export class RuleResolver {
       case RuleTarget.ALL_NODEJS: {
         warnIfArgs(target, args)
         return positive ? new AllowAllNodejs() : new DisallowAllNodejs()
+      }
+      case RuleTarget.ALL_JSON: {
+        warnIfArgs(target, args)
+        return positive ? new AllowAllJson() : new DisallowAllJson()
       }
       case RuleTarget.LAYERS: {
         assertArgs(target, args)

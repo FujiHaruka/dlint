@@ -12,6 +12,7 @@ rules:
     - allow: packages
       on:
         - '@dlint/core'
+        - path
     - allow: layers
       on:
         - core

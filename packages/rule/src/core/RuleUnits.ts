@@ -1,3 +1,5 @@
+import { extname } from 'path'
+
 import {
   Fanout,
   LocalModule,
@@ -64,6 +66,19 @@ export class AllowAllNodejs extends RuleUnitBase {
   }
 }
 
+export class AllowAllJson extends RuleUnitBase {
+  name = RuleUnitName.AllowAllJson
+  protected positive = true
+
+  protected target(fanout: Fanout) {
+    return [...fanout.locals]
+  }
+
+  protected judge(module: LocalModule) {
+    return extname(module.path.relativePath) === '.json'
+  }
+}
+
 export class AllowLayers extends RuleUnitBase {
   name = RuleUnitName.AllowLayers
   layers: DLintLayer[]
@@ -75,7 +90,7 @@ export class AllowLayers extends RuleUnitBase {
   }
 
   protected target(fanout: Fanout) {
-    return fanout.locals
+    return [...fanout.locals]
   }
 
   protected judge(module: LocalModule) {
@@ -131,5 +146,10 @@ export class DisallowAllPackages extends AllowAllPackages {
 
 export class DisallowAllNodejs extends AllowAllNodejs {
   name = RuleUnitName.DisallowAllNodejs
+  protected positive = false
+}
+
+export class DisallowAllJson extends AllowAllJson {
+  name = RuleUnitName.DisallowAllJson
   protected positive = false
 }

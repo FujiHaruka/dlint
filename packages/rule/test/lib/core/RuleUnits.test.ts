@@ -4,6 +4,7 @@ import {
   AllowAll,
   AllowLayers,
   DisallowLayers,
+  AllowAllJson,
 } from '../../../src/core/RuleUnits'
 import { RuleAllowanceStatus } from '../../../src/core/RuleAppliedResult'
 import { MockNode, MockLayer } from '../../tools/Mocks'
@@ -56,4 +57,9 @@ it('units', () => {
       module: MockNode.multiple().fanout.locals[1],
     },
   ])
+  expect(new AllowAllJson().apply(MockNode.json()).statuses()[0]).toEqual({
+    ruleUnitName: RuleUnitName.AllowAllJson,
+    status: RuleAllowanceStatus.ALLOWED,
+    module: MockNode.json().fanout.locals[0],
+  })
 })

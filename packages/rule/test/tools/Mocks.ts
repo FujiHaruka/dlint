@@ -57,6 +57,29 @@ export const MockNode = {
     }
     return node
   },
+  json(): DLintNode {
+    const node: DLintNode = {
+      file: new FilePath('/project', 'json.js'),
+      fanin: {
+        locals: [],
+      },
+      fanout: {
+        packages: [],
+        builtins: [],
+        locals: [
+          {
+            type: ModuleType.LOCAL,
+            path: new FilePath('/project', 'package.json'),
+          },
+          {
+            type: ModuleType.LOCAL,
+            path: new FilePath('/project', 'module.js'),
+          },
+        ],
+      },
+    }
+    return node
+  },
 }
 
 export const MockLayer = {

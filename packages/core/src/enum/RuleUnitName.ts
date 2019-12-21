@@ -3,12 +3,14 @@ export enum RuleUnitName {
   AllowAllLayers = 'AllowAllLayers',
   AllowAllPackages = 'AllowAllPackages',
   AllowAllNodejs = 'AllowAllNodejs',
+  AllowAllJson = 'AllowAllJson',
   AllowLayers = 'AllowLayers',
   AllowPackages = 'AllowPackages',
   DisallowAll = 'DisallowAll',
   DisallowAllLayers = 'DisallowAllLayers',
   DisallowAllPackages = 'DisallowAllPackages',
   DisallowAllNodejs = 'DisallowAllNodejs',
+  DisallowAllJson = 'DisallowAllJson',
   DisallowLayers = 'DisallowLayers',
   DisallowPackages = 'DisallowPackages',
 }
@@ -24,6 +26,8 @@ export const RuleUnitNameUtil = {
         return 'allow: allNodejs'
       case RuleUnitName.AllowAllPackages:
         return 'allow: allPackages'
+      case RuleUnitName.AllowAllJson:
+        return 'allow: allJson'
       case RuleUnitName.AllowLayers:
         return 'allow: layers'
       case RuleUnitName.AllowPackages:
@@ -36,6 +40,8 @@ export const RuleUnitNameUtil = {
         return 'disallow: allNodejs'
       case RuleUnitName.DisallowAllPackages:
         return 'disallow: allPackages'
+      case RuleUnitName.DisallowAllJson:
+        return 'disallow: allJson'
       case RuleUnitName.DisallowLayers:
         return 'disallow: layers'
       case RuleUnitName.DisallowPackages:
