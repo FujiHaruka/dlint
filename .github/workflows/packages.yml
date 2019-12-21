@@ -11,7 +11,7 @@ jobs:
     - name: Install packages
       run: yarn install
     - name: Run tests
-      run:
-        - yarn build
-        - yarn dlint
-        - yarn test:all
+      run: |
+        yarn build
+        yarn dlint
+        yarn test:all
