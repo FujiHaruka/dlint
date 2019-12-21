@@ -31,6 +31,7 @@ async function main({
     console.log(formatDLintError(result))
   }
   console.log(formatSummary(disallowed))
+  console.log('')
 }
 
 main({ configPath, verbose }).catch((e) => {
