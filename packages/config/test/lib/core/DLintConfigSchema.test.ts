@@ -59,21 +59,27 @@ it('valid 01: rule fields allow null', async () => {
   ).toEqual([])
 })
 
-it('invalid 02: additional field', async () => {
+it('invalid 01: additional field', async () => {
   await testInvalidConfig('invalid01.yml', {
     message: 'should NOT have additional properties',
   })
 })
 
-it('invalid 03: layer with no correspoinding rule', async () => {
+it('invalid 02: layer with no correspoinding rule', async () => {
   await testInvalidConfig('invalid02.yml', {
     dataPath: ".layers['layer2']",
   })
 })
 
-it('invalid 04: layer in rule with no corresponding layer', async () => {
+it('invalid 03: layer in rule with no corresponding layer', async () => {
   await testInvalidConfig('invalid03.yml', {
     dataPath: ".rules['layer2']",
+  })
+})
+
+it('invalid 04: every layer has at least one rule', async () => {
+  await testInvalidConfig('invalid04.yml', {
+    dataPath: ".rules['layer1']",
   })
 })
 

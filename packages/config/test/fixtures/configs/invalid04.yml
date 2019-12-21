@@ -1,0 +1,5 @@
+layers:
+  layer1:
+    - layer1/**/*.ts
+rules:
+  layer1: []

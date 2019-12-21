@@ -115,11 +115,15 @@ export class DLintConfigSchema {
     const valid = [
       this.validateWithAjv(fields) as boolean,
       this.validateLayerRuleRelation(fields),
+      this.valildateRulesCount(fields),
     ].every(Boolean)
     this.done = true
     return valid
   }
 
+  /**
+   * Validate that all .layers keys equal .rules keys.
+   */
   private validateLayerRuleRelation(
     fields: Partial<DLintConfigFields>,
   ): boolean {
@@ -144,6 +148,28 @@ export class DLintConfigSchema {
       })),
     )
     return layersNotInRules.length === 0 && layersOnlyInRules.length === 0
+  }
+
+  /**
+   * Validate that each layer has at least one rule.
+   */
+  private valildateRulesCount(fields: Partial<DLintConfigFields>) {
+    const defaultRules = fields.defaultRules || []
+    if (defaultRules.length > 0) {
+      return true
+    }
+    const rules = fields.rules || {}
+    let valid = true
+    for (const [layer, ruleExpressions] of Object.entries(rules)) {
+      if (ruleExpressions.length === 0) {
+        valid = false
+        this.customErrors.push({
+          dataPath: `.rules['${layer}']`,
+          message: `should has at least one rule, or "defaultRules" field are required`,
+        })
+      }
+    }
+    return valid
   }
 
   fillDefaults(
