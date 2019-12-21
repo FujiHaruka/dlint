@@ -49,7 +49,7 @@ export class ConfigFileReader {
 
   async fromPath(path: string): Promise<object> {
     const ext = extname(path)
-    if (ext === '.yaml' || ext === '.yml' || ext) {
+    if (ext === '.yaml' || ext === '.yml') {
       return this.fromYamlFile(path)
     }
     if (ext === '.json') {
