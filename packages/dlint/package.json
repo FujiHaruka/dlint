@@ -1,6 +1,6 @@
 {
   "name": "dlint",
-  "description": "Linter about inter-module dependencies",
+  "description": "Linter about inter-layer dependencies",
   "version": "0.2.0",
   "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bin": {

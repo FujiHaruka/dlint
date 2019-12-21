@@ -2,7 +2,7 @@
 
 ![](https://github.com/fujiharuka/dlint/workflows/all%20packages/badge.svg)
 
-Linter about inter-module dependencies.
+Linter about inter-layer dependencies.
 
 ## Motivation
 

@@ -1,6 +1,6 @@
 # DLint
 
-Linter about inter-module dependencies.
+Linter about inter-layer dependencies.
 
 See our [documentaion](https://github.com/FujiHaruka/dlint#readme).
 
