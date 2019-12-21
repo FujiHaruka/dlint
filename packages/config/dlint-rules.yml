@@ -19,4 +19,7 @@ rules:
   io:
     - allow: allPackages
   formatter:
+    - allow: layers
+      on:
+        - core
     - allow: allPackages
