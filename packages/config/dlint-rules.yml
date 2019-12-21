@@ -1,0 +1,18 @@
+defaultRules:
+  - disallow: all
+layers:
+  core:
+    - core/**/*.ts
+  io:
+    - io/**/*.ts
+parser: '@typescript-eslint/typescript-estree'
+rootDir: src
+rules:
+  core:
+    - allow: packages
+      on:
+        - path
+        - ajv
+        - '@dlint/core'
+  io:
+    - allow: allPackages

@@ -1,0 +1,23 @@
+defaultRules:
+  - disallow: all
+layers:
+  domain:
+    - domain/**/*.ts
+  enum:
+    - enum/**/*.ts
+  std:
+    - std/**/*.ts
+parser: '@typescript-eslint/typescript-estree'
+rootDir: src
+rules:
+  domain:
+    - allow: layers
+      on:
+        - domain
+        - enum
+        - std
+  enum: []
+  std:
+    - allow: packages
+      on:
+        - path

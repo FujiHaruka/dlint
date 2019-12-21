@@ -1,0 +1,19 @@
+defaultRules:
+  - disallow: all
+layers:
+  core:
+    - core/**/*.ts
+  resolver:
+    - resolver/**/*.ts
+parser: '@typescript-eslint/typescript-estree'
+rootDir: src
+rules:
+  core:
+    - allow: packages
+      on:
+        - '@dlint/core'
+    - allow: layers
+      on:
+        - core
+  resolver:
+    - allow: all

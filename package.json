@@ -26,12 +26,13 @@
   "private": true,
   "repository": "https://github.com/FujiHaruka/dlint",
   "scripts": {
-    "prepare": "yarn build",
     "build": "tsc -b packages/core packages/config packages/layer packages/rule packages/dlint --verbose",
+    "dlint": "yarn workspaces run dlint",
     "eslint": "eslint packages/**/*.ts",
-    "yaml": "./scripts/sortYaml.js packages/**/*.{yml,yaml}",
+    "prepare": "yarn build",
     "test": "jest --silent false",
-    "test:all": "jest --coverage"
+    "test:all": "jest --coverage",
+    "yaml": "./scripts/sortYaml.js packages/**/*.{yml,yaml}"
   },
   "workspaces": [
     "packages/*"
