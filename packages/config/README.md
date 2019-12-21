@@ -1,0 +1,3 @@
+# @dlint/config
+
+DLint config.

@@ -1,19 +1,11 @@
-# dlint
+# DLint
 
 ![](https://github.com/fujiharuka/dlint/workflows/all%20packages/badge.svg)
 
-THIS PROJECT IS IN DEVELOPMENT.
+Linter about inter-module dependencies.
 
-## Scripts
-
-Build package
+## Development
 
 ```console
-$ yarn build packages/<package>
-```
-
-Test package
-
-```console
-$ yarn test packages/<package>/test
+$ yarn install
 ```
