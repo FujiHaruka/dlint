@@ -1,7 +1,11 @@
 {
-  "name": "dlint",
-  "description": "Inter-module dependencies lint",
-  "author": "FujiHaruka",
+  "name": "dlint-monorepo",
+  "description": "Linter about inter-module dependencies",
+  "version": "0.1.0",
+  "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/FujiHaruka/dlint/issues"
+  },
   "devDependencies": {
     "@types/jest": "^24.0.23",
     "@types/js-yaml": "^3.12.1",
@@ -15,6 +19,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
     "fast-glob": "^3.1.1",
+    "fixpack": "^2.3.1",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "js-yaml": "^3.13.1",
@@ -23,19 +28,31 @@
     "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
   },
+  "engines": {
+    "node": ">=12"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "yarn eslint && yarn dlint && yarn test"
     }
   },
+  "keywords": [
+    "dependency",
+    "dlint",
+    "linter"
+  ],
   "license": "MIT",
   "private": true,
-  "repository": "https://github.com/FujiHaruka/dlint",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "FujiHaruka/dlint",
   "scripts": {
     "build": "tsc -b packages/core packages/config packages/layer packages/rule packages/dlint --verbose",
     "dlint": "yarn workspaces run dlint",
     "eslint": "eslint packages/**/*.ts",
     "prepare": "yarn build",
+    "pkg:sync": "./scripts/syncPackages.js",
     "test": "jest --silent false",
     "test:all": "jest --coverage",
     "yaml": "./scripts/sortYaml.js packages/**/*.{yml,yaml}"

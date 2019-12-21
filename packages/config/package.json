@@ -1,32 +1,35 @@
 {
   "name": "@dlint/config",
   "description": "DLint config",
-  "version": "0.0.1",
-  "author": "FujiHaruka",
+  "version": "0.1.0",
+  "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
-    "@dlint/core": "0.0.1",
+    "@dlint/core": "0.1.0",
     "ajv": "^6.10.2",
     "chalk": "^3.0.0",
     "js-yaml": "^3.13.1"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "files": [
     "build"
   ],
-  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/deps",
+  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/config#readme",
   "keywords": [
     "dependency",
     "dlint",
-    "graph"
+    "linter"
   ],
   "license": "MIT",
   "main": "build/DLintConfig.js",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": "FujiHaruka/dlint",
   "scripts": {
     "build": "tsc -b",

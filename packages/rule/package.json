@@ -1,28 +1,32 @@
 {
   "name": "@dlint/rule",
-  "description": "Rules for dlint",
-  "version": "0.0.1",
-  "author": "FujiHaruka",
+  "description": "Rules for DLint",
+  "version": "0.1.0",
+  "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
-    "@dlint/core": "0.0.1"
+    "@dlint/core": "0.1.0"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "files": [
     "build"
   ],
-  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/rule",
+  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/rule#readme",
   "keywords": [
     "dependency",
-    "dlint"
+    "dlint",
+    "linter"
   ],
   "license": "MIT",
   "main": "build/DLintRule.js",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": "FujiHaruka/dlint",
   "scripts": {
     "build": "tsc -b",

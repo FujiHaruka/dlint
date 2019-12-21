@@ -1,31 +1,34 @@
 {
   "name": "@dlint/layer",
-  "description": "Directory layer for dlint",
-  "version": "0.0.1",
-  "author": "FujiHaruka",
+  "description": "Directory layer for DLint",
+  "version": "0.1.0",
+  "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
-    "@dlint/core": "0.0.1",
+    "@dlint/core": "0.1.0",
     "acorn": "^7.1.0",
     "fast-glob": "^3.1.0"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "files": [
     "build"
   ],
-  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/layer",
+  "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/layer#readme",
   "keywords": [
     "dependency",
     "dlint",
-    "graph"
+    "linter"
   ],
   "license": "MIT",
   "main": "build/DLintLayer.js",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": "FujiHaruka/dlint",
   "scripts": {
     "build": "tsc -b",
