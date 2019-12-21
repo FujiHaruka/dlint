@@ -1,7 +1,7 @@
 {
   "name": "dlint-monorepo",
   "description": "Linter about inter-module dependencies",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"

@@ -1,13 +1,13 @@
 {
   "name": "@dlint/rule",
   "description": "Rules for DLint",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"
   },
   "dependencies": {
-    "@dlint/core": "0.1.0"
+    "@dlint/core": "0.1.1"
   },
   "engines": {
     "node": ">=12"
