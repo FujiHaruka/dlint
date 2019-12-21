@@ -23,6 +23,8 @@ export interface ValidationError {
   message: string
 }
 
+const LAYER_NAME_PATTERN = '^.+$'
+
 const JsonSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
@@ -43,7 +45,7 @@ const JsonSchema = {
       type: 'object',
       additionalProperties: false,
       patternProperties: {
-        '^[a-zA-Z0-9_-]+$': {
+        [LAYER_NAME_PATTERN]: {
           type: 'array',
           items: {
             type: 'string',
@@ -61,7 +63,7 @@ const JsonSchema = {
       type: 'object',
       additionalProperties: false,
       patternProperties: {
-        '^[a-zA-Z0-9_-]+$': {
+        [LAYER_NAME_PATTERN]: {
           type: ['array', 'null'],
           items: {
             $ref: '#/definitions/rule',
