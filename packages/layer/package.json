@@ -15,7 +15,8 @@
     "node": ">=12"
   },
   "files": [
-    "build"
+    "build",
+    "bin"
   ],
   "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/layer#readme",
   "keywords": [

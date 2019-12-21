@@ -13,7 +13,8 @@
     "node": ">=12"
   },
   "files": [
-    "build"
+    "build",
+    "bin"
   ],
   "homepage": "https://github.com/FujiHaruka/dlint/tree/master/packages/rule#readme",
   "keywords": [

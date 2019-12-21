@@ -38,7 +38,7 @@ async function syncPackage(mainPkg) {
       for (const field of fields) {
         pkg[field] = mainPkg[field]
       }
-      pkg.files = ['build']
+      pkg.files = ['build', 'bin']
       const name = path.match(/packages\/(\w+)\//)[1]
       pkg.homepage = `https://github.com/FujiHaruka/dlint/tree/master/packages/${name}#readme`
       pkg.private = false
