@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import { extname, join, resolve } from 'path'
+import { extname, join } from 'path'
 
 import YAML from 'js-yaml'
 
