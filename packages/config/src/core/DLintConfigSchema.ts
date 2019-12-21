@@ -18,6 +18,11 @@ export interface DLintConfigFields {
   }
 }
 
+export interface ValidationError {
+  dataPath: string
+  message: string
+}
+
 const JsonSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   additionalProperties: false,
@@ -93,14 +98,16 @@ const JsonSchema = {
 export class DLintConfigSchema {
   static DEFAULT_PARSER = ParserPackage.ACORN
 
-  validateUsingAjv: Ajv.ValidateFunction
+  ajv: Ajv.Ajv
+  validateWithAjv: Ajv.ValidateFunction
 
   constructor() {
-    this.validateUsingAjv = new Ajv({ allErrors: true }).compile(JsonSchema)
+    this.ajv = new Ajv({ allErrors: true })
+    this.validateWithAjv = this.ajv.compile(JsonSchema)
   }
 
   validate(fields: object): fields is Partial<DLintConfigFields> {
-    const valid = this.validateUsingAjv(fields) as boolean
+    const valid = this.validateWithAjv(fields) as boolean
     // TODO: domain specific logic
     return valid
   }
@@ -124,6 +131,7 @@ export class DLintConfigSchema {
   }
 
   get errors() {
-    return this.validateUsingAjv.errors
+    const errors = (this.validateWithAjv.errors || []) as ValidationError[]
+    return errors.length === 0 ? null : errors
   }
 }
