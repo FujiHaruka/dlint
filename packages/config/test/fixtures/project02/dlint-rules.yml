@@ -1,0 +1,8 @@
+defaultRules:
+  - allow: all
+layers:
+  layer1:
+    - layer1/**/*.ts
+rules:
+  # can be null
+  layer1: null

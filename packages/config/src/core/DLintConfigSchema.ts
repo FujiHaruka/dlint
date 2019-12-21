@@ -57,7 +57,7 @@ const JsonSchema = {
       additionalProperties: false,
       patternProperties: {
         '^[a-zA-Z0-9_-]+$': {
-          type: 'array',
+          type: ['array', 'null'],
           items: {
             $ref: '#/definitions/rule',
           },
@@ -113,6 +113,9 @@ export class DLintConfigSchema {
     // layer and rules has been validated
     full.layers = fields.layers || {}
     full.rules = fields.rules || {}
+    for (const name of Object.keys(full.rules)) {
+      full.rules[name] = full.rules[name] || []
+    }
     full.defaultRules = fields.defaultRules || []
     full.ignorePatterns = fields.ignorePatterns || []
     full.rootDir = resolve(options.configDir, fields.rootDir || '.')

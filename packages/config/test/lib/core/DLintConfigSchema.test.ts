@@ -8,7 +8,7 @@ import {
   DLintConfigFields,
 } from '../../../src/core/DLintConfigSchema'
 
-it('works', async () => {
+it('project01: standard config', async () => {
   const config = yaml.safeLoad(
     await fs.readFile(
       join(__dirname, '../../fixtures/project01/dlint-rules.yml'),
@@ -24,6 +24,22 @@ it('works', async () => {
     ...config,
     rootDir: resolve(__dirname, 'src'),
   })
+})
+
+it('project02: rule fields allow null', async () => {
+  const config = yaml.safeLoad(
+    await fs.readFile(
+      join(__dirname, '../../fixtures/project02/dlint-rules.yml'),
+      'utf-8',
+    ),
+  )
+  const schema = new DLintConfigSchema()
+  const valid = schema.validate(config)
+  expect(valid).toBeTruthy()
+  expect(schema.errors).toBeNull()
+  expect(
+    schema.fillDefaults(config, { configDir: __dirname }).rules.layer1,
+  ).toEqual([])
 })
 
 it('fills default fields', () => {
