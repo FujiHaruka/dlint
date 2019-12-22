@@ -36,23 +36,23 @@ texts:
 ---
 texts:
   ja: DLint は CLI を提供しています。`dlint` コマンドは、設定ファイル `dlint-rules.yml` と一緒に使います。これはレイヤーとレイヤー間の依存関係ルールを定義した設定ファイルです。
-  en: __COPY__
+  en: DLint provides CLI. The `dlint` command is used with rule config file called `dlint-rules.yml`. This defines inter-layer dependency rules.
 ---
 texts:
   ja: 例を見ましょう。今、以下のようなディレクトリ構成のプロジェクトを考えます。
-  en: __COPY__
+  en: Show me an example. Here is a project with a directory structure as follows.
 ---
 texts:
   ja: このプロジェクトルートに以下のような `dlint-rules.yml` を書きます。
-  en: __COPY__
+  en: Put `dlint-rules.yml` as follows on the project root.
 ---
 texts:
   ja: "`layers` フィールドは、レイヤーを定義しています。ここでは `entity`、`controller`、`main` の 3 つのレイヤーがあり、各レイヤーは [glob パターン](https://github.com/mrmlnc/fast-glob#pattern-syntax)で定義されます。たとえば `entity` レイヤーは `entities/` ディレクトリ以下にあるすべての `.js` ファイルが対象です。"
-  en: __COPY__
+  en: "`layers` field defines layers. There are 3 layers (`entity`, `controller`, and `main`), and each layer is defined with [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax). For example, `entity` layer is composed of all `.js` files under `entities/` directory."
 ---
 texts:
   ja: "`rules` フィールドは、各レイヤーの依存関係ルールを定義しています。依存関係ルールは配列であり、後のルールが前のルールを上書きします。たとえば、`controller` レイヤーのルールを見ましょう。"
-  en: __COPY__
+  en: "`rules` field defines dependency rules of layers. Dependency rules are array, and a next rule overrides previous rules. Let's see the rule of `controller`."
 ---
 texts:
   ja: "`disallow: allLayers`"
@@ -60,7 +60,7 @@ texts:
 ---
 texts:
   ja: すべてのレイヤーに対しての依存を禁止する
-  en: __COPY__
+  en: Disallow dependencies on all layers
 ---
 texts:
   ja: "`disallow: allPackages`"
@@ -68,7 +68,7 @@ texts:
 ---
 texts:
   ja: すべてのパッケージへの依存を禁止する
-  en: __COPY__
+  en: Disallow dependencies on all packages
 ---
 texts:
   ja: "`allow: layers`"
@@ -76,35 +76,35 @@ texts:
 ---
 texts:
   ja: "指定したレイヤーへの依存を許可する。（最初の `disallow: allLayers` を上書きする）"
-  en: __COPY__
+  en: "Allow dependencies on the specific layers. (Overrides previous `disallow: allLayers` rule)"
 ---
 texts:
   ja: ここでは `entity` レイヤーへの依存を許可している
-  en: __COPY__
+  en: In this case, it alllows dependencies on `entity` layer.
 ---
 texts:
   ja: 依存の許可とは import 文 (と require 関数) が許可されるかどうかです。各レイヤーのルールを要約すると以下のとおりです。
-  en: __COPY__
+  en: Allowance of dependencies means whether "import" statements (and "require()" functions) are allowed. In short all layers says as follows.
 ---
 texts:
   ja: "`entity` レイヤー: すべての import を禁止する"
-  en: __COPY__
+  en: "`entity` layers: Disallow all import statements"
 ---
 texts:
   ja: "`controller` レイヤー: `entity` レイヤーの import だけを許可します"
-  en: __COPY__
+  en: "`controller` layer: Allow import statements only from `entity` layer"
 ---
 texts:
   ja: "`main` レイヤー: すべての import を許可します"
-  en: __COPY__
+  en: "`main` layer: Allow all import statements"
 ---
 texts:
   ja: これで `dlint-rules.yml` が用意できました。コードがこの依存関係ルールに一致しているかどうかを確認するには、`dlint` コマンドを使います。
-  en: __COPY__
+  en: "Now `dlint-rules.yml` is ready. Use `dlint` command to check that codes follows the dependency rules."
 ---
 texts:
   ja: 何も出力されなければ、valid な状態です。ルール違反があればエラーメッセージで教えてくれます。
-  en: __COPY__
+  en: "If the terminal prints nothing, it's OK. If there are any errors, the command will show error messages."
 ---
 texts:
   ja: Rule file syntax
