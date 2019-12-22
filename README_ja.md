@@ -35,24 +35,24 @@ DLint は CLI を提供しています。`dlint` コマンドは、設定ファ�
 
 ```yaml
 layers:
-	entity:
-		- entities/**/*.js
-	controller:
-		- controllers/**/*.js
-	main:
-		- main.js
+  entity:
+    - entities/**/*.js
+  controller:
+    - controllers/**/*.js
+  main:
+    - main.js
 rules:
-	entity:
-		- disallow: allLayers
-		- disallow: allPackages
-	controller:
-		- disallow: allLayers
-		- disallow: allPackages
-		- allow: layers
-			on:
-			  - entity
-	main:
-		- allow: all
+  entity:
+    - disallow: allLayers
+    - disallow: allPackages
+  controller:
+    - disallow: allLayers
+    - disallow: allPackages
+    - allow: layers
+      on:
+        - entity
+  main:
+    - allow: all
 ```
 
 `layers` フィールドは、レイヤーを定義しています。ここでは `entity`、`controller`、`main` の 3 つのレイヤーがあり、各レイヤーは [glob パターン](https://github.com/mrmlnc/fast-glob#pattern-syntax)で定義されます。たとえば `entity` レイヤーは `entities/` ディレクトリ以下にあるすべての `.js` ファイルが対象です。

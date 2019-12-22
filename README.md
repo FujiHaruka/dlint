@@ -35,24 +35,24 @@ Put `dlint-rules.yml` as follows on the project root.
 
 ```yaml
 layers:
-	entity:
-		- entities/**/*.js
-	controller:
-		- controllers/**/*.js
-	main:
-		- main.js
+  entity:
+    - entities/**/*.js
+  controller:
+    - controllers/**/*.js
+  main:
+    - main.js
 rules:
-	entity:
-		- disallow: allLayers
-		- disallow: allPackages
-	controller:
-		- disallow: allLayers
-		- disallow: allPackages
-		- allow: layers
-			on:
-			  - entity
-	main:
-		- allow: all
+  entity:
+    - disallow: allLayers
+    - disallow: allPackages
+  controller:
+    - disallow: allLayers
+    - disallow: allPackages
+    - allow: layers
+      on:
+        - entity
+  main:
+    - allow: all
 ```
 
 `layers` field defines layers. There are 3 layers (`entity`, `controller`, and `main`), and each layer is defined with [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax). For example, `entity` layer is composed of all `.js` files under `entities/` directory.
