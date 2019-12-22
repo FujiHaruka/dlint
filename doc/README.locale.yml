@@ -1,0 +1,131 @@
+texts:
+  ja: DLint
+  en: __COPY__
+---
+texts:
+  ja: "![](https://github.com/fujiharuka/dlint/workflows/all%20packages/badge.svg)"
+  en: __COPY__
+---
+texts:
+  ja: JavaScript / TypeScript プロジェクトのためのレイヤー間依存関係を管理する Linter。
+  en: Linter about inter-layer dependencies for JavaScript / TypeScript projects.
+---
+texts:
+  ja: Motivation
+  en: __COPY__
+---
+texts:
+  ja: 保守性の高いコードを書くには、モジュールを関心ごとに分割して、クリーンな依存関係を保つことが大切です。レイヤードアーキテクチャを始めとした DDD のさまざまなアーキテクチャは、細かい違いを無視すれば、同じことを言っています。モジュールをレイヤーで区切り、ドメイン知識を一つのレイヤーにまとめるということです。ドメイン知識を凝集したレイヤーは他のレイヤーに依存せず、逆に他のレイヤーがそのレイヤーに依存します。
+  en: If you want to keep your codebase maintenable, it's important to split the code into modules by concerns and keep dependencies clean. Layered Architecture and other variations in DDD (Domain-Driven Design) say the same thing when viewed as a whole. They group modules by layer. Modules representing domain knowledge are gathered into a single domain layer. The domain layer doesn't depend on other layers, but other layers depend on it.
+---
+texts:
+  ja: これは素晴らしいアイデアだし、うまくいきそうな気がします。しかし、レイヤー間の依存関係をクリーンに保つには実装者が気遣ってあげなければなりません。ある日、ちょっとしたコード変更のつもりでコードベースにコミットしたら、意図せずレイヤーの依存関係が壊れてしまうかもしれません。
+  en: That's a great idea. I love it. But there's one problem. Developers have to take care of inter-layer dependencies to keep them clean. Otherwise one day you may commit a small patch which unintentionally breaks the layer dependency structure.
+---
+texts:
+  ja: そうした事故を防ぐために、レイヤー間の依存関係ルールをあらかじめ設定しておいて、コードの静的解析によってレイヤー間の依存関係を保証すると便利です。これが DLint のモチベーションです。DLint を使えば、コードベース内のモジュールをレイヤーでまとめ、レイヤー間の依存関係ルールを定義し、コードの依存関係がルール通りになっているかどうかをチェックできます。
+  en: You might want to ensure inter-layer dependecies to avoid such an accident. That's why I made DLint. DLint ensures inter-layer dependency with static code analysis. It enables to define layers and inter-layer dependency rules, and checks that the codebase follow the rules.
+---
+texts:
+  ja: Installation
+  en: __COPY__
+---
+texts:
+  ja: Usage
+  en: __COPY__
+---
+texts:
+  ja: DLint は CLI を提供しています。`dlint` コマンドは、設定ファイル `dlint-rules.yml` と一緒に使います。これはレイヤーとレイヤー間の依存関係ルールを定義した設定ファイルです。
+  en: __COPY__
+---
+texts:
+  ja: 例を見ましょう。今、以下のようなディレクトリ構成のプロジェクトを考えます。
+  en: __COPY__
+---
+texts:
+  ja: このプロジェクトルートに以下のような `dlint-rules.yml` を書きます。
+  en: __COPY__
+---
+texts:
+  ja: "`layers` フィールドは、レイヤーを定義しています。ここでは `entity`、`controller`、`main` の 3 つのレイヤーがあり、各レイヤーは [glob パターン](https://github.com/mrmlnc/fast-glob#pattern-syntax)で定義されます。たとえば `entity` レイヤーは `entities/` ディレクトリ以下にあるすべての `.js` ファイルが対象です。"
+  en: __COPY__
+---
+texts:
+  ja: "`rules` フィールドは、各レイヤーの依存関係ルールを定義しています。依存関係ルールは配列であり、後のルールが前のルールを上書きします。たとえば、`controller` レイヤーのルールを見ましょう。"
+  en: __COPY__
+---
+texts:
+  ja: "`disallow: allLayers`"
+  en: __COPY__
+---
+texts:
+  ja: すべてのレイヤーに対しての依存を禁止する
+  en: __COPY__
+---
+texts:
+  ja: "`disallow: allPackages`"
+  en: __COPY__
+---
+texts:
+  ja: すべてのパッケージへの依存を禁止する
+  en: __COPY__
+---
+texts:
+  ja: "`allow: layers`"
+  en: __COPY__
+---
+texts:
+  ja: "指定したレイヤーへの依存を許可する。（最初の `disallow: allLayers` を上書きする）"
+  en: __COPY__
+---
+texts:
+  ja: ここでは `entity` レイヤーへの依存を許可している
+  en: __COPY__
+---
+texts:
+  ja: 依存の許可とは import 文 (と require 関数) が許可されるかどうかです。各レイヤーのルールを要約すると以下のとおりです。
+  en: __COPY__
+---
+texts:
+  ja: "`entity` レイヤー: すべての import を禁止する"
+  en: __COPY__
+---
+texts:
+  ja: "`controller` レイヤー: `entity` レイヤーの import だけを許可します"
+  en: __COPY__
+---
+texts:
+  ja: "`main` レイヤー: すべての import を許可します"
+  en: __COPY__
+---
+texts:
+  ja: これで `dlint-rules.yml` が用意できました。コードがこの依存関係ルールに一致しているかどうかを確認するには、`dlint` コマンドを使います。
+  en: __COPY__
+---
+texts:
+  ja: 何も出力されなければ、valid な状態です。ルール違反があればエラーメッセージで教えてくれます。
+  en: __COPY__
+---
+texts:
+  ja: Rule file syntax
+  en: __COPY__
+---
+texts:
+  ja: TODO
+  en: __COPY__
+---
+texts:
+  ja: Usage
+  en: __COPY__
+---
+texts:
+  ja: TODO
+  en: __COPY__
+---
+texts:
+  ja: Example
+  en: __COPY__
+---
+texts:
+  ja: See [example/](./example).
+  en: __COPY__

@@ -20,6 +20,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "fast-glob": "^3.1.1",
     "husky": "^3.1.0",
+    "inalz": "^0.12.1",
     "jest": "^24.9.0",
     "js-yaml": "^3.13.1",
     "minimatch": "^3.0.4",
@@ -55,6 +56,8 @@
     "prepare": "yarn build",
     "test": "jest --silent false",
     "test:coverage": "jest --coverage",
+    "doc:sync": "(cd doc; inalz sync)",
+    "doc:build": "(cd doc; inalz build)",
     "yaml": "./scripts/sortYaml.js packages/**/*.{yml,yaml}"
   },
   "workspaces": [
