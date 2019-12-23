@@ -1,3 +1,10 @@
+<p align="right">
+  <strong>
+    <a href="README.md">English</a> |
+    <a href="README_ja.md">日本語</a>
+  </strong>
+</p>
+
 # DLint
 
 ![](https://github.com/fujiharuka/dlint/workflows/all%20packages/badge.svg)

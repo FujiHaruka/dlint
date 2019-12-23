@@ -1,4 +1,14 @@
 texts:
+  ja: >-
+    <p align="right">
+      <strong>
+        <a href="README.md">English</a> |
+        <a href="README_ja.md">日本語</a>
+      </strong>
+    </p>
+  en: __COPY__
+---
+texts:
   ja: DLint
   en: __COPY__
 ---
@@ -240,7 +250,7 @@ texts:
 ---
 texts:
   ja: "`on` で指定したレイヤー"
-  en: "layers specified by `on` field"
+  en: layers specified by `on` field
 ---
 texts:
   ja: packages
@@ -252,7 +262,7 @@ texts:
 ---
 texts:
   ja: "`on` で指定したパッケージ"
-  en: "layers specified by `on` field"
+  en: layers specified by `on` field
 ---
 texts:
   ja: "`.defaultRules`"
