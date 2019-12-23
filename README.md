@@ -6,11 +6,11 @@ Linter about inter-layer dependencies for JavaScript / TypeScript projects.
 
 ## Motivation
 
-If you want to keep your codebase maintenable, it's important to split the code into modules by concerns and keep dependencies clean. Layered Architecture and other variations in DDD (Domain-Driven Design) say the same thing when viewed as a whole. They group modules by layer. Modules representing domain knowledge are gathered into a single domain layer. The domain layer doesn't depend on other layers, but other layers depend on it.
+If you want to keep your codebase maintenable, it's important to split the code into modules by concerns and keep dependency structure clean. Layered Architecture and other variation architectures in DDD (Domain-Driven Design) say the same thing when viewed as a whole. They group modules by layer. Modules representing domain knowledge are gathered into a single domain layer. The domain layer doesn't depend on other layers, but other layers depend on it.
 
 That's a great idea. I love it. But there's one problem. Developers have to take care of inter-layer dependencies to keep them clean. Otherwise one day you may commit a small patch which unintentionally breaks the layer dependency structure.
 
-You might want to ensure inter-layer dependecies to avoid such an accident. That's why I made DLint. DLint ensures inter-layer dependency with static code analysis. It enables to define layers and inter-layer dependency rules, and checks that the codebase follow the rules.
+You might want to ensure inter-layer dependecies to avoid such an accident. That's why I made DLint. DLint ensures inter-layer dependency with static code analysis. It enables to define layers and inter-layer dependency rules, and checks that codes follow the rules.
 
 ## Installation
 
@@ -20,7 +20,7 @@ $ npm install dlint -g
 
 ## Usage
 
-DLint provides CLI. The `dlint` command is used with rule config file called `dlint-rules.yml`. This defines inter-layer dependency rules.
+DLint provides CLI. The `dlint` command is used with a rule config file called `dlint-rules.yml`. This defines inter-layer dependency rules.
 
 Show me an example. Here is a project with a directory structure as follows.
 
@@ -64,26 +64,26 @@ rules:
 - `disallow: allPackages`
   - Disallow dependencies on all packages
 - `allow: layers`
-  - Allow dependencies on the specific layers. (Overrides previous `disallow: allLayers` rule)
-  - In this case, it alllows dependencies on `entity` layer.
+  - Allow dependencies on the specific layers. (Overrides the previous `disallow: allLayers` rule)
+  - In this case, it alllows dependencies on the `entity` layer.
 
-Allowance of dependencies means whether "import" statements (and "require()" functions) are allowed. In short all layers says as follows.
+Allowance of dependencies means whether "import" statements (and "require()" functions) are allowed. In short each layer insists as follows.
 
-- `entity` layers: Disallow all import statements
+- `entity` layer: Disallow all import statements
 - `controller` layer: Allow import statements only from `entity` layer
 - `main` layer: Allow all import statements
 
-Now `dlint-rules.yml` is ready. Use `dlint` command to check that codes follows the dependency rules.
+Now `dlint-rules.yml` is ready. Use `dlint` command to check that codes follow the dependency rules.
 
 ```
 $ dlint
 ```
 
-If the terminal prints nothing, it's OK. If there are any errors, the command will show error messages.
+If the terminal outputs nothing, it's no problem. The command will show error messages when there are any errors.
 
 ## Rule file syntax
 
-A dependency rule file (default is `dlitn-rules.yml`) uses YAML syntax.
+Dependency rule files (default is `dlitn-rules.yml`) use YAML syntax.
 
 ### `.layers`
 
@@ -101,7 +101,7 @@ Set array of strings of file path [glob pattern](https://github.com/mrmlnc/fast-
 
 ### `.rules.<layer_name>`
 
-Set array of dependency rules applied to the layer specified by the name. The rule form is `allow: <target>` or `disallow: <target>`. Some targets needs `on` field. A next rule overrides previous rule.
+Set array of dependency rules applied to the layer specified by the name. The rule form is `allow: <target>` or `disallow: <target>`. Some targets requires `on` field. A next rule overrides previous rules.
 
 Example:
 
@@ -126,7 +126,7 @@ Here is the rule targets list.
 
 ### `.defaultRules`
 
-Optional. Set array of rules applied all layers default.
+Optional. Set array of rules applied all layers by default.
 
 ### `.ignorePatterns`
 
@@ -134,7 +134,7 @@ Optional. Set array of strings of glob pattern by which files should be ignored 
 
 ### `.parser`
 
-Optional. Set parser package name to use. Supported packages are [acorn](https://github.com/acornjs/acorn) and [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/typescript-estree). By default `acorn` is used. Use  `@typescript-eslint/typescript-estree` for TypeScript.
+Optional. Set parser package name to use. Supported packages are [acorn](https://github.com/acornjs/acorn) and [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/typescript-estree). By default `acorn` is used. Use  `@typescript-eslint/typescript-estree` for TypeScript files.
 
 Example
 
@@ -144,7 +144,7 @@ parser: '@typescript-eslint/typescript-estree'
 
 ### `.rootDir`
 
-Optional. Set root directory of layer file patterns. By default root directory is the directory where the rule file is.
+Optional. Set root directory of layer file patterns. By default root directory is where the rule file is.
 
 ## Example
 

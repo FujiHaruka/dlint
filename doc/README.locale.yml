@@ -16,7 +16,7 @@ texts:
 ---
 texts:
   ja: 保守性の高いコードを書くには、モジュールを関心ごとに分割して、クリーンな依存関係を保つことが大切です。レイヤードアーキテクチャを始めとした DDD のさまざまなアーキテクチャは、細かい違いを無視すれば、同じことを言っています。モジュールをレイヤーで区切り、ドメイン知識を一つのレイヤーにまとめるということです。ドメイン知識を凝集したレイヤーは他のレイヤーに依存せず、逆に他のレイヤーがそのレイヤーに依存します。
-  en: If you want to keep your codebase maintenable, it's important to split the code into modules by concerns and keep dependencies clean. Layered Architecture and other variations in DDD (Domain-Driven Design) say the same thing when viewed as a whole. They group modules by layer. Modules representing domain knowledge are gathered into a single domain layer. The domain layer doesn't depend on other layers, but other layers depend on it.
+  en: If you want to keep your codebase maintenable, it's important to split the code into modules by concerns and keep dependency structure clean. Layered Architecture and other variation architectures in DDD (Domain-Driven Design) say the same thing when viewed as a whole. They group modules by layer. Modules representing domain knowledge are gathered into a single domain layer. The domain layer doesn't depend on other layers, but other layers depend on it.
 ---
 texts:
   ja: これは素晴らしいアイデアだし、うまくいきそうな気がします。しかし、レイヤー間の依存関係をクリーンに保つには実装者が気遣ってあげなければなりません。ある日、ちょっとしたコード変更のつもりでコードベースにコミットしたら、意図せずレイヤーの依存関係が壊れてしまうかもしれません。
@@ -24,7 +24,7 @@ texts:
 ---
 texts:
   ja: そうした事故を防ぐために、レイヤー間の依存関係ルールをあらかじめ設定しておいて、コードの静的解析によってレイヤー間の依存関係を保証すると便利です。これが DLint のモチベーションです。DLint を使えば、コードベース内のモジュールをレイヤーでまとめ、レイヤー間の依存関係ルールを定義し、コードの依存関係がルール通りになっているかどうかをチェックできます。
-  en: You might want to ensure inter-layer dependecies to avoid such an accident. That's why I made DLint. DLint ensures inter-layer dependency with static code analysis. It enables to define layers and inter-layer dependency rules, and checks that the codebase follow the rules.
+  en: You might want to ensure inter-layer dependecies to avoid such an accident. That's why I made DLint. DLint ensures inter-layer dependency with static code analysis. It enables to define layers and inter-layer dependency rules, and checks that codes follow the rules.
 ---
 texts:
   ja: Installation
@@ -36,7 +36,7 @@ texts:
 ---
 texts:
   ja: DLint は CLI を提供しています。`dlint` コマンドは、設定ファイル `dlint-rules.yml` と一緒に使います。これはレイヤーとレイヤー間の依存関係ルールを定義した設定ファイルです。
-  en: DLint provides CLI. The `dlint` command is used with rule config file called `dlint-rules.yml`. This defines inter-layer dependency rules.
+  en: DLint provides CLI. The `dlint` command is used with a rule config file called `dlint-rules.yml`. This defines inter-layer dependency rules.
 ---
 texts:
   ja: 例を見ましょう。今、以下のようなディレクトリ構成のプロジェクトを考えます。
@@ -76,19 +76,19 @@ texts:
 ---
 texts:
   ja: "指定したレイヤーへの依存を許可する。（最初の `disallow: allLayers` を上書きする）"
-  en: "Allow dependencies on the specific layers. (Overrides previous `disallow: allLayers` rule)"
+  en: "Allow dependencies on the specific layers. (Overrides the previous `disallow: allLayers` rule)"
 ---
 texts:
   ja: ここでは `entity` レイヤーへの依存を許可している
-  en: In this case, it alllows dependencies on `entity` layer.
+  en: In this case, it alllows dependencies on the `entity` layer.
 ---
 texts:
   ja: 依存の許可とは import 文 (と require 関数) が許可されるかどうかです。各レイヤーのルールを要約すると以下のとおりです。
-  en: Allowance of dependencies means whether "import" statements (and "require()" functions) are allowed. In short all layers says as follows.
+  en: Allowance of dependencies means whether "import" statements (and "require()" functions) are allowed. In short each layer insists as follows.
 ---
 texts:
   ja: "`entity` レイヤー: すべての import を禁止する"
-  en: "`entity` layers: Disallow all import statements"
+  en: "`entity` layer: Disallow all import statements"
 ---
 texts:
   ja: "`controller` レイヤー: `entity` レイヤーの import だけを許可します"
@@ -100,11 +100,11 @@ texts:
 ---
 texts:
   ja: これで `dlint-rules.yml` が用意できました。コードがこの依存関係ルールに一致しているかどうかを確認するには、`dlint` コマンドを使います。
-  en: Now `dlint-rules.yml` is ready. Use `dlint` command to check that codes follows the dependency rules.
+  en: Now `dlint-rules.yml` is ready. Use `dlint` command to check that codes follow the dependency rules.
 ---
 texts:
   ja: 何も出力されなければ、valid な状態です。ルール違反があればエラーメッセージで教えてくれます。
-  en: If the terminal prints nothing, it's OK. If there are any errors, the command will show error messages.
+  en: If the terminal outputs nothing, it's no problem. The command will show error messages when there are any errors.
 ---
 texts:
   ja: Rule file syntax
@@ -112,7 +112,7 @@ texts:
 ---
 texts:
   ja: 依存関係ルールファイル (デフォルトでは `dlint-rules.yml`) は構文に YAML を使います。
-  en: A dependency rule file (default is `dlitn-rules.yml`) uses YAML syntax.
+  en: Dependency rule files (default is `dlitn-rules.yml`) use YAML syntax.
 ---
 texts:
   ja: "`.layers`"
@@ -148,7 +148,7 @@ texts:
 ---
 texts:
   ja: "名前で参照されたレイヤーに適用する依存関係ルールを配列でセットします。ルールは `allow: <target>` または `disallow: <target>` という形で、target によっては `on:` が必要な場合があります。後のルールが前のルールを上書きします。"
-  en: "Set array of dependency rules applied to the layer specified by the name. The rule form is `allow: <target>` or `disallow: <target>`. Some targets needs `on` field. A next rule overrides previous rule."
+  en: "Set array of dependency rules applied to the layer specified by the name. The rule form is `allow: <target>` or `disallow: <target>`. Some targets requires `on` field. A next rule overrides previous rules."
 ---
 texts:
   ja: "例:"
@@ -260,7 +260,7 @@ texts:
 ---
 texts:
   ja: 任意。すべてのレイヤーに規定で適用されるルールを配列で指定します。
-  en: Optional. Set array of rules applied all layers default.
+  en: Optional. Set array of rules applied all layers by default.
 ---
 texts:
   ja: "`.ignorePatterns`"
@@ -276,7 +276,7 @@ texts:
 ---
 texts:
   ja: 任意。使用するパーサーのパッケージ名を指定します。サポートしているパッケージは [acorn](https://github.com/acornjs/acorn) と [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/typescript-estree) です。デフォルトでは `acorn` が使用されます。TypeScript には `@typescript-eslint/typescript-estree` を使用してください。
-  en: Optional. Set parser package name to use. Supported packages are [acorn](https://github.com/acornjs/acorn) and [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/typescript-estree). By default `acorn` is used. Use  `@typescript-eslint/typescript-estree` for TypeScript.
+  en: Optional. Set parser package name to use. Supported packages are [acorn](https://github.com/acornjs/acorn) and [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/typescript-estree). By default `acorn` is used. Use  `@typescript-eslint/typescript-estree` for TypeScript files.
 ---
 texts:
   ja: 例
@@ -288,7 +288,7 @@ texts:
 ---
 texts:
   ja: 任意。レイヤーのファイルパターンのルートディレクトリを指定します。デフォルトではルールファイルのあるディレクトリになります。
-  en: Optional. Set root directory of layer file patterns. By default root directory is the directory where the rule file is.
+  en: Optional. Set root directory of layer file patterns. By default root directory is where the rule file is.
 ---
 texts:
   ja: Example
