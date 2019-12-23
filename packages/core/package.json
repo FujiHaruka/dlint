@@ -1,7 +1,7 @@
 {
   "name": "@dlint/core",
   "description": "DLint core module",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "FujiHaruka <fizzyjohn1427@gmail.com>",
   "bugs": {
     "url": "https://github.com/FujiHaruka/dlint/issues"
