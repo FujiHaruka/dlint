@@ -100,27 +100,195 @@ texts:
 ---
 texts:
   ja: これで `dlint-rules.yml` が用意できました。コードがこの依存関係ルールに一致しているかどうかを確認するには、`dlint` コマンドを使います。
-  en: "Now `dlint-rules.yml` is ready. Use `dlint` command to check that codes follows the dependency rules."
+  en: Now `dlint-rules.yml` is ready. Use `dlint` command to check that codes follows the dependency rules.
 ---
 texts:
   ja: 何も出力されなければ、valid な状態です。ルール違反があればエラーメッセージで教えてくれます。
-  en: "If the terminal prints nothing, it's OK. If there are any errors, the command will show error messages."
+  en: If the terminal prints nothing, it's OK. If there are any errors, the command will show error messages.
 ---
 texts:
   ja: Rule file syntax
   en: __COPY__
 ---
 texts:
-  ja: TODO
+  ja: 依存関係ルールファイル (デフォルトでは `dlint-rules.yml`) は構文に YAML を使います。
+  en: A dependency rule file (default is `dlitn-rules.yml`) uses YAML syntax.
+---
+texts:
+  ja: "`.layers`"
   en: __COPY__
 ---
 texts:
-  ja: Usage
+  ja: "**必須**。プロジェクト内をレイヤーで分割します。レイヤーごとに依存関係ルールを定義することになります。"
+  en: "**Required**. Set layers in the project. Each layer has own dependency rule."
+---
+texts:
+  ja: "`.layers.<layer_name>`"
   en: __COPY__
 ---
 texts:
-  ja: TODO
+  ja: 各レイヤーに名前を与えます。レイヤー名は `rules` フィールドでレイヤーを指定するために使います。
+  en: Each layer has its name. The layer name is used to identify it in `rules` field.
+---
+texts:
+  ja: 値にはレイヤーに属するファイルパスの[glob パターン](https://github.com/mrmlnc/fast-glob#pattern-syntax) を文字の配列でセットします。ファイルパスはルールファイルからの相対パス、または `rootDir` からの相対パスです。
+  en: Set array of strings of file path [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax) which belong to the layer. File paths is relative paths from the rule file or `rootDir`.
+---
+texts:
+  ja: "`.rules`"
   en: __COPY__
+---
+texts:
+  ja: "**必須**。各レイヤーに適用する依存関係ルールをここに書きます。"
+  en: "**Required**. Dependency rules applied to layers."
+---
+texts:
+  ja: "`.rules.<layer_name>`"
+  en: __COPY__
+---
+texts:
+  ja: "名前で参照されたレイヤーに適用する依存関係ルールを配列でセットします。ルールは `allow: <target>` または `disallow: <target>` という形で、target によっては `on:` が必要な場合があります。後のルールが前のルールを上書きします。"
+  en: "Set array of dependency rules applied to the layer specified by the name. The rule form is `allow: <target>` or `disallow: <target>`. Some targets needs `on` field. A next rule overrides previous rule."
+---
+texts:
+  ja: "例:"
+  en: "Example:"
+---
+texts:
+  ja: 以下がルール対象の一覧です。
+  en: Here is the rule targets list.
+---
+texts:
+  ja: target
+  en: __COPY__
+---
+texts:
+  ja: on
+  en: __COPY__
+---
+texts:
+  ja: 説明
+  en: description
+---
+texts:
+  ja: all
+  en: __COPY__
+---
+texts:
+  ja: "-"
+  en: __COPY__
+---
+texts:
+  ja: すべてのレイヤーとパッケージ
+  en: all layers and all packages
+---
+texts:
+  ja: allLayers
+  en: __COPY__
+---
+texts:
+  ja: "-"
+  en: __COPY__
+---
+texts:
+  ja: すべてのレイヤー
+  en: all layers
+---
+texts:
+  ja: allPackages
+  en: __COPY__
+---
+texts:
+  ja: "-"
+  en: __COPY__
+---
+texts:
+  ja: すべてのパッケージ
+  en: all packages
+---
+texts:
+  ja: allNodejs
+  en: __COPY__
+---
+texts:
+  ja: "-"
+  en: __COPY__
+---
+texts:
+  ja: すべての Node.js ビルトインパッケージ
+  en: all Node.js builtin packages
+---
+texts:
+  ja: allJson
+  en: __COPY__
+---
+texts:
+  ja: "-"
+  en: __COPY__
+---
+texts:
+  ja: すべての JSON ファイル
+  en: all JSON files
+---
+texts:
+  ja: layers
+  en: __COPY__
+---
+texts:
+  ja: "**required**"
+  en: __COPY__
+---
+texts:
+  ja: "`on` で指定したレイヤー"
+  en: "layers specified by `on` field"
+---
+texts:
+  ja: packages
+  en: __COPY__
+---
+texts:
+  ja: "**required**"
+  en: __COPY__
+---
+texts:
+  ja: "`on` で指定したパッケージ"
+  en: "layers specified by `on` field"
+---
+texts:
+  ja: "`.defaultRules`"
+  en: __COPY__
+---
+texts:
+  ja: 任意。すべてのレイヤーに規定で適用されるルールを配列で指定します。
+  en: Optional. Set array of rules applied all layers default.
+---
+texts:
+  ja: "`.ignorePatterns`"
+  en: __COPY__
+---
+texts:
+  ja: 任意。レイヤーのファイルパターンで無視すべきものを glob パターンで指定します。
+  en: Optional. Set array of strings of glob pattern by which files should be ignored in the layers definition.
+---
+texts:
+  ja: "`.parser`"
+  en: __COPY__
+---
+texts:
+  ja: 任意。使用するパーサーのパッケージ名を指定します。サポートしているパッケージは [acorn](https://github.com/acornjs/acorn) と [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/typescript-estree) です。デフォルトでは `acorn` が使用されます。TypeScript には `@typescript-eslint/typescript-estree` を使用してください。
+  en: Optional. Set parser package name to use. Supported packages are [acorn](https://github.com/acornjs/acorn) and [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/typescript-estree). By default `acorn` is used. Use  `@typescript-eslint/typescript-estree` for TypeScript.
+---
+texts:
+  ja: 例
+  en: Example
+---
+texts:
+  ja: "`.rootDir`"
+  en: __COPY__
+---
+texts:
+  ja: 任意。レイヤーのファイルパターンのルートディレクトリを指定します。デフォルトではルールファイルのあるディレクトリになります。
+  en: Optional. Set root directory of layer file patterns. By default root directory is the directory where the rule file is.
 ---
 texts:
   ja: Example

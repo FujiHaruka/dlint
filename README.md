@@ -83,11 +83,68 @@ If the terminal prints nothing, it's OK. If there are any errors, the command wi
 
 ## Rule file syntax
 
-TODO
+A dependency rule file (default is `dlitn-rules.yml`) uses YAML syntax.
 
-## Usage
+### `.layers`
 
-TODO
+**Required**. Set layers in the project. Each layer has own dependency rule.
+
+### `.layers.<layer_name>`
+
+Each layer has its name. The layer name is used to identify it in `rules` field.
+
+Set array of strings of file path [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax) which belong to the layer. File paths is relative paths from the rule file or `rootDir`.
+
+### `.rules`
+
+**Required**. Dependency rules applied to layers.
+
+### `.rules.<layer_name>`
+
+Set array of dependency rules applied to the layer specified by the name. The rule form is `allow: <target>` or `disallow: <target>`. Some targets needs `on` field. A next rule overrides previous rule.
+
+Example:
+
+```yaml
+- disallow: allLayers
+- allow: layers
+  on:
+    - layer01
+```
+
+Here is the rule targets list.
+
+|    target   |      on      | description                    |
+| :---------: | :----------: | :----------------------------- |
+|     all     |       -      | all layers and all packages    |
+|  allLayers  |       -      | all layers                     |
+| allPackages |       -      | all packages                   |
+|  allNodejs  |       -      | all Node.js builtin packages   |
+|   allJson   |       -      | all JSON files                 |
+|    layers   | **required** | layers specified by `on` field |
+|   packages  | **required** | layers specified by `on` field |
+
+### `.defaultRules`
+
+Optional. Set array of rules applied all layers default.
+
+### `.ignorePatterns`
+
+Optional. Set array of strings of glob pattern by which files should be ignored in the layers definition.
+
+### `.parser`
+
+Optional. Set parser package name to use. Supported packages are [acorn](https://github.com/acornjs/acorn) and [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/typescript-estree). By default `acorn` is used. Use  `@typescript-eslint/typescript-estree` for TypeScript.
+
+Example
+
+```yaml
+parser: '@typescript-eslint/typescript-estree'
+```
+
+### `.rootDir`
+
+Optional. Set root directory of layer file patterns. By default root directory is the directory where the rule file is.
 
 ## Example
 
