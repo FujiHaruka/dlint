@@ -265,6 +265,18 @@ texts:
   en: layers specified by `on` field
 ---
 texts:
+  ja: selfLayer
+  en: __COPY__
+---
+texts:
+  ja: "-"
+  en: __COPY__
+---
+texts:
+  ja: レイヤー自身
+  en: layer itself
+---
+texts:
   ja: "`.defaultRules`"
   en: __COPY__
 ---

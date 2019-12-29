@@ -130,6 +130,7 @@ $ dlint
 |allJson| - |すべての JSON ファイル|
 |layers| **required** | `on` で指定したレイヤー |
 |packages| **required** | `on` で指定したパッケージ |
+|selfLayer| - |レイヤー自身|
 
 ### `.defaultRules`
 

@@ -130,6 +130,7 @@ Here is the rule targets list.
 |   allJson   |       -      | all JSON files                 |
 |    layers   | **required** | layers specified by `on` field |
 |   packages  | **required** | layers specified by `on` field |
+|  selfLayer  |       -      | layer itself                   |
 
 ### `.defaultRules`
 
