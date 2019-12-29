@@ -13,7 +13,10 @@ texts:
   en: __COPY__
 ---
 texts:
-  ja: "![](https://github.com/fujiharuka/dlint/workflows/all%20packages/badge.svg)"
+  ja: >-
+    ![buil status](https://github.com/fujiharuka/dlint/workflows/all%20packages/badge.svg)
+
+    ![npm version](https://img.shields.io/npm/v/dlint.svg)
   en: __COPY__
 ---
 texts:

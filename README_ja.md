@@ -7,7 +7,8 @@
 
 # DLint
 
-![](https://github.com/fujiharuka/dlint/workflows/all%20packages/badge.svg)
+![buil status](https://github.com/fujiharuka/dlint/workflows/all%20packages/badge.svg)
+![npm version](https://img.shields.io/npm/v/dlint.svg)
 
 JavaScript / TypeScript プロジェクトのためのレイヤー間依存関係を管理する Linter。
 
