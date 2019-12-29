@@ -40,7 +40,7 @@ main({ configPath, verbose }).catch((e) => {
     console.error(e)
   } else {
     console.error(chalk.red('Error:'))
-    console.error('  ' + e.message)
+    console.error(e.message)
   }
   process.exit(1)
 })

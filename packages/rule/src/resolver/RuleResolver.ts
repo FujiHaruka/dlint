@@ -110,7 +110,13 @@ export class RuleResolver {
       ? (expression as AllowingExpression).allow
       : (expression as DisallowingExpression).disallow
     if (!RuleTargets.has(target)) {
-      throw new Error(`Invalid rule target name: ${target}`)
+      throw new Error(
+        `Invalid rule target name: "${target}"\nRule target must be one of ${Object.values(
+          RuleTarget,
+        )
+          .map((target) => `"${target}"`)
+          .join(', ')}`,
+      )
     }
     return {
       positive: isAllowing,
