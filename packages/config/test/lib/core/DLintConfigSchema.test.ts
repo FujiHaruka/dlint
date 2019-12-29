@@ -83,6 +83,12 @@ it('invalid 04: every layer has at least one rule', async () => {
   })
 })
 
+it('invalid 05', async () => {
+  await testInvalidConfig('invalid05.yml', {
+    dataPath: '.defaultRules',
+  })
+})
+
 it('fills default fields', () => {
   const config: Partial<DLintConfigFields> = {
     layers: {},

@@ -163,7 +163,7 @@ export class DLintConfigSchema {
     const rules = fields.rules || {}
     let valid = true
     for (const [layer, ruleExpressions] of Object.entries(rules)) {
-      if (ruleExpressions.length === 0) {
+      if ((ruleExpressions || []).length === 0) {
         valid = false
         this.customErrors.push({
           dataPath: `.rules['${layer}']`,

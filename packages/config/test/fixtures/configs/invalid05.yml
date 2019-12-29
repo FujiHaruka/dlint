@@ -1,0 +1,8 @@
+defaultRules:
+  # should be array
+  allow: all
+layers:
+  layer1:
+    - layer1/**/*.ts
+rules:
+  layer1: null
