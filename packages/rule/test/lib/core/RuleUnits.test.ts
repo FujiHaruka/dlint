@@ -5,6 +5,7 @@ import {
   AllowLayers,
   DisallowLayers,
   AllowAllJson,
+  AllowSelfLayer,
 } from '../../../src/core/RuleUnits'
 import { RuleAllowanceStatus } from '../../../src/core/RuleAppliedResult'
 import { MockNode, MockLayer } from '../../tools/Mocks'
@@ -62,4 +63,15 @@ it('units', () => {
     status: RuleAllowanceStatus.ALLOWED,
     module: MockNode.json().fanout.locals[0],
   })
+  expect(
+    new AllowSelfLayer(MockLayer.layer1())
+      .apply(MockNode.multiple())
+      .statuses(),
+  ).toEqual([
+    {
+      ruleUnitName: RuleUnitName.AllowSelfLayer,
+      status: RuleAllowanceStatus.ALLOWED,
+      module: MockNode.multiple().fanout.locals[1],
+    },
+  ])
 })

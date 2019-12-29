@@ -21,7 +21,7 @@ export class DLintRule {
     }
     const expressions = bindings.expressionFor(layer)
     const units = expressions.map((exp) =>
-      new RuleResolver(layers).resolve(exp),
+      new RuleResolver(layer, layers).resolve(exp),
     )
     const disallowed = layer.nodes
       .map((node) => {

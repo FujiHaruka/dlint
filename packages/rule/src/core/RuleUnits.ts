@@ -117,6 +117,25 @@ export class AllowPackages extends RuleUnitBase {
   }
 }
 
+export class AllowSelfLayer extends RuleUnitBase {
+  name = RuleUnitName.AllowSelfLayer
+  selfLayer: DLintLayer
+  protected positive = true
+
+  constructor(selfLayer: DLintLayer) {
+    super()
+    this.selfLayer = selfLayer
+  }
+
+  protected target(fanout: Fanout) {
+    return [...fanout.locals]
+  }
+
+  protected judge(module: LocalModule) {
+    return this.selfLayer.has(module)
+  }
+}
+
 // --- disallowing rule units
 
 export class DisallowAll extends AllowAll {
@@ -151,5 +170,10 @@ export class DisallowAllNodejs extends AllowAllNodejs {
 
 export class DisallowAllJson extends AllowAllJson {
   name = RuleUnitName.DisallowAllJson
+  protected positive = false
+}
+
+export class DisallowSelfLayer extends AllowSelfLayer {
+  name = RuleUnitName.DisallowSelfLayer
   protected positive = false
 }

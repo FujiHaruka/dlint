@@ -15,6 +15,7 @@ import {
   AllowAllJson,
   AllowLayers,
   AllowPackages,
+  AllowSelfLayer,
   DisallowAll,
   DisallowAllLayers,
   DisallowAllPackages,
@@ -22,6 +23,7 @@ import {
   DisallowAllJson,
   DisallowLayers,
   DisallowPackages,
+  DisallowSelfLayer,
 } from '../core/RuleUnits'
 import { RuleUnit } from '../core/RuleUnitBase'
 
@@ -42,9 +44,11 @@ function warnIfArgs(target: RuleTarget, args?: string[]) {
 }
 
 export class RuleResolver {
+  selfLayer: DLintLayer
   layers: Map<string, DLintLayer>
 
-  constructor(layers: Map<string, DLintLayer>) {
+  constructor(selfLayer: DLintLayer, layers: Map<string, DLintLayer>) {
+    this.selfLayer = selfLayer
     this.layers = layers
   }
 
@@ -85,6 +89,13 @@ export class RuleResolver {
       case RuleTarget.PACKAGES: {
         assertArgs(target, args)
         return positive ? new AllowPackages(args) : new DisallowPackages(args)
+      }
+      case RuleTarget.SELF_LAYER: {
+        warnIfArgs(target, args)
+        const { selfLayer } = this
+        return positive
+          ? new AllowSelfLayer(selfLayer)
+          : new DisallowSelfLayer(selfLayer)
       }
       default:
         throw new Error('never')

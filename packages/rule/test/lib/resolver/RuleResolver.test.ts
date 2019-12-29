@@ -19,7 +19,7 @@ import {
 
 it('validate()', () => {
   const layers = new Map([['layer1', MockLayer.layer1()]])
-  const resolver = new RuleResolver(layers)
+  const resolver = new RuleResolver(MockLayer.layer1(), layers)
 
   expect(
     resolver.validate({
@@ -56,7 +56,7 @@ it('validate()', () => {
 
 it('resolve()', () => {
   const layers = new Map([['layer1', MockLayer.layer1()]])
-  const resolver = new RuleResolver(layers)
+  const resolver = new RuleResolver(MockLayer.layer1(), layers)
 
   expect(resolver.resolve({ allow: RuleTarget.ALL })).toBeInstanceOf(AllowAll)
   expect(resolver.resolve({ allow: RuleTarget.ALL_PACKAGES })).toBeInstanceOf(

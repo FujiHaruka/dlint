@@ -6,4 +6,5 @@ export enum RuleTarget {
   ALL_JSON = 'allJson',
   LAYERS = 'layers',
   PACKAGES = 'packages',
+  SELF_LAYER = 'selfLayer',
 }
