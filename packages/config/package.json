@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@dlint/core": "0.3.0",
-    "ajv": "^6.10.2",
+    "ajv": "^6.12.3",
     "chalk": "^3.0.0",
     "js-yaml": "^3.13.1"
   },
